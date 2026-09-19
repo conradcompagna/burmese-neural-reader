@@ -23,7 +23,6 @@ I built this reader to make Burmese texts easier to investigate at the level of 
 | Language-model scoring and fuzzy search | [lmbrain.py](lmbrain.py) |
 | Grammar and pronunciation | [dict_pos_override.py](dict_pos_override.py), [ud_overlay.py](ud_overlay.py), [burmese_transliteration.py](burmese_transliteration.py) |
 | Reading interface | [static/reader.js](static/reader.js), [templates/reader.html](templates/reader.html) |
-| Deployed parser architecture | [Model configuration](training/deployed_spacy_config.cfg) |
 | Model-free regressions | [tests/](tests/) |
 
 ## Run the lightweight checks

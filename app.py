@@ -183,7 +183,6 @@ _DEBUG_PATHS = {
     "/debug/pos",
     "/debug/spell",
     "/debug/unknowns_summary",
-    "/dep_tree_view.js",
     "/whitespace_boundaries.js",
     "/myudtree.conllu",
     "/myudtree.meta",
@@ -9998,7 +9997,6 @@ def ping():
     return jsonify({"ok": True, "msg": "burmese_dict_server alive"})
 
 
-DEP_TREE_VIEW_PATH = Path(__file__).with_name("dep_tree_view.js")
 WHITESPACE_BOUNDARY_JS_PATH = Path(__file__).with_name("whitespace_boundaries.js")
 MYUDTREE_CONLLU_PATH = Path(__file__).with_name("randomdata") / "myUDTree_ver1.0.conllu.pred"
 _MYUDTREE_INDEX = None
@@ -10034,15 +10032,6 @@ def _get_myudtree_index():
         if _MYUDTREE_INDEX is None:
             _MYUDTREE_INDEX = _build_myudtree_index()
     return _MYUDTREE_INDEX
-
-
-@app.route("/dep_tree_view.js", methods=["GET"])
-def dep_tree_view_js():
-    try:
-        js = DEP_TREE_VIEW_PATH.read_text(encoding="utf-8")
-    except Exception:
-        js = "// dep_tree_view.js not found"
-    return Response(js, mimetype="application/javascript; charset=utf-8")
 
 
 @app.route("/whitespace_boundaries.js", methods=["GET"])

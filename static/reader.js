@@ -3672,7 +3672,7 @@ function handlePagerScrollStop() {
   }
 
   // Context Window algorithm - computes tokens to highlight based on tree-contiguous spans
-  // This is a direct port from dep_tree_view.js _applyContextWindowHighlight
+  // Highlight the dependency context around the selected token.
   function computeContextWindowTokens(segIdx) {
     // Use canonical segment index (first segment if part of collapsed NER span)
     var canonicalIdx = getCanonicalSegIdx(segIdx);
@@ -11030,7 +11030,7 @@ if (isOriginalView && currentFileType === 'docx') {
     thresholdValue.textContent = thresholdSlider.value;
   }
 
-  // Expose functions for dep_tree_view.js click handling
+  // Expose dictionary popup helpers for the reader interface.
   window.togglePanel = togglePanel;
   window.displayDictEntry = displayDictEntry;
   window.lookupAndDisplay = lookupAndDisplay;
@@ -11058,4 +11058,3 @@ if (isOriginalView && currentFileType === 'docx') {
     renderInitialExampleDemoIfAvailable();
   }, 100);
 })();
-
