@@ -40,9 +40,23 @@ DICT_POS_JSONL_PATH = Path(__file__).parent / "mmd_head_pos.ud.jsonl"
 
 # Valid UD POS tags from the treebank
 VALID_UPOS = {
-    "ADJ", "ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ",
-    "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT",
-    "SCONJ", "SYM", "VERB", "X"
+    "ADJ",
+    "ADP",
+    "ADV",
+    "AUX",
+    "CCONJ",
+    "DET",
+    "INTJ",
+    "NOUN",
+    "NUM",
+    "PART",
+    "PRON",
+    "PROPN",
+    "PUNCT",
+    "SCONJ",
+    "SYM",
+    "VERB",
+    "X",
 }
 
 # POS equivalence groups for allowed-set expansion
@@ -101,7 +115,9 @@ def _get_spacy_weight(certainty: float) -> float:
         return 0.5
     else:
         # Linear interpolation between 0.5 and 1.0
-        t = (certainty - LOW_CERTAINTY_THRESHOLD) / (HIGH_CERTAINTY_THRESHOLD - LOW_CERTAINTY_THRESHOLD)
+        t = (certainty - LOW_CERTAINTY_THRESHOLD) / (
+            HIGH_CERTAINTY_THRESHOLD - LOW_CERTAINTY_THRESHOLD
+        )
         return 0.5 + 0.5 * t
 
 
@@ -134,6 +150,7 @@ def _load_dict_pos_lookup(path: Path) -> Dict[str, List[str]]:
                 if head and upos:
                     # Normalize to NFC if needed
                     import unicodedata
+
                     head = unicodedata.normalize("NFC", head)
                     lookup[head] = upos if isinstance(upos, list) else [upos]
             except json.JSONDecodeError:
@@ -238,7 +255,8 @@ DecomposeFunc = Callable[[str], List[Dict[str, Any]]]
 def _default_decompose_func() -> Optional[DecomposeFunc]:
     """Try to import the decompose function from newserver."""
     try:
-        from newserver import _decompose_known_head_into_subwords
+        from app import _decompose_known_head_into_subwords
+
         return _decompose_known_head_into_subwords
     except ImportError:
         return None
@@ -255,6 +273,7 @@ def _has_valid_pos(pos_field: str) -> bool:
 def _normalize_text(text: str) -> str:
     """Normalize text to NFC for dictionary lookup."""
     import unicodedata
+
     return unicodedata.normalize("NFC", text)
 
 
@@ -269,30 +288,46 @@ def _extract_upos_from_pos_field(pos_field: str) -> Set[str]:
 
     # myPOS -> UD mapping
     MYPOS_TO_UD = {
-        'n': 'NOUN', 'noun': 'NOUN',
-        'v': 'VERB', 'verb': 'VERB',
-        'adj': 'ADJ', 'adjective': 'ADJ',
-        'adv': 'ADV', 'adverb': 'ADV',
-        'pron': 'PRON', 'pronoun': 'PRON',
-        'conj': 'SCONJ', 'conjunction': 'SCONJ',
-        'ppm': 'ADP', 'postposition': 'ADP', 'postp': 'ADP',
-        'part': 'PART', 'particle': 'PART',
-        'num': 'NUM', 'number': 'NUM', 'numeral': 'NUM',
-        'tn': 'NOUN',  # classifier -> noun
-        'fw': 'X',  # foreign word
-        'punc': 'PUNCT', 'punctuation': 'PUNCT',
-        'int': 'INTJ', 'interjection': 'INTJ', 'intj': 'INTJ',
-        'name': 'PROPN', 'prop': 'PROPN',
-        'det': 'DET', 'determiner': 'DET',
-        'aux': 'AUX',
-        'classifier': 'NOUN',
-        'prep': 'ADP',
-        'prefix': 'PART',
-        'symbol': 'SYM',
-        'character': 'SYM',
-        'phrase': 'X',
-        'proverb': 'X',
-        'exp': 'X',
+        "n": "NOUN",
+        "noun": "NOUN",
+        "v": "VERB",
+        "verb": "VERB",
+        "adj": "ADJ",
+        "adjective": "ADJ",
+        "adv": "ADV",
+        "adverb": "ADV",
+        "pron": "PRON",
+        "pronoun": "PRON",
+        "conj": "SCONJ",
+        "conjunction": "SCONJ",
+        "ppm": "ADP",
+        "postposition": "ADP",
+        "postp": "ADP",
+        "part": "PART",
+        "particle": "PART",
+        "num": "NUM",
+        "number": "NUM",
+        "numeral": "NUM",
+        "tn": "NOUN",  # classifier -> noun
+        "fw": "X",  # foreign word
+        "punc": "PUNCT",
+        "punctuation": "PUNCT",
+        "int": "INTJ",
+        "interjection": "INTJ",
+        "intj": "INTJ",
+        "name": "PROPN",
+        "prop": "PROPN",
+        "det": "DET",
+        "determiner": "DET",
+        "aux": "AUX",
+        "classifier": "NOUN",
+        "prep": "ADP",
+        "prefix": "PART",
+        "symbol": "SYM",
+        "character": "SYM",
+        "phrase": "X",
+        "proverb": "X",
+        "exp": "X",
     }
 
     result: Set[str] = set()
@@ -314,7 +349,7 @@ def _extract_upos_from_pos_field(pos_field: str) -> Set[str]:
 
     # Parse as myPOS format (e.g., "n|v", "noun; verb")
     pos_lower = pos_field.lower()
-    for delim in ['|', ';', ',', '/']:
+    for delim in ["|", ";", ",", "/"]:
         if delim in pos_lower:
             parts = pos_lower.split(delim)
             for part in parts:
@@ -486,7 +521,9 @@ class DictPosOverride:
             self._tok2vec = self.nlp.get_pipe("tok2vec")
 
         if not self._labels:
-            print("[dict_pos_override] Warning: morphologizer has no labels; will use simple override")
+            print(
+                "[dict_pos_override] Warning: morphologizer has no labels; will use simple override"
+            )
 
     def _ensure_tok2vec(self, doc: Doc) -> None:
         """Ensure doc.tensor is populated for tok2vec-based morphologizer scoring."""
@@ -541,7 +578,9 @@ class DictPosOverride:
 
         # Only include subword scores/context for multi-component tokens
         if is_multi_component:
-            info["subword_scores"] = {k: float(v) for k, v in subword_scores.items()} if subword_scores else {}
+            info["subword_scores"] = (
+                {k: float(v) for k, v in subword_scores.items()} if subword_scores else {}
+            )
             info["subword_context"] = {"prev": context_prev, "next": context_next}
         else:
             info["subword_scores"] = {}
@@ -557,7 +596,9 @@ class DictPosOverride:
                 try:
                     if "morphologizer" in self.nlp.pipe_names and sub_list:
                         morph = self.nlp.get_pipe("morphologizer")
-                        subword_heads = [sw.get("head", "") for sw in sub_list if sw.get("head", "")]
+                        subword_heads = [
+                            sw.get("head", "") for sw in sub_list if sw.get("head", "")
+                        ]
 
                         if subword_heads:
                             # Create Doc with context tokens around subwords
@@ -602,7 +643,11 @@ class DictPosOverride:
                                     subword_pos_scores = {}
                                     scores_row = scores_array[score_idx]
                                     for label_idx in range(len(self._labels)):
-                                        pos = self._label_pos[label_idx] if label_idx < len(self._label_pos) else ""
+                                        pos = (
+                                            self._label_pos[label_idx]
+                                            if label_idx < len(self._label_pos)
+                                            else ""
+                                        )
                                         if pos and (not tags or pos in tags):
                                             subword_pos_scores[pos] = float(scores_row[label_idx])
 
@@ -610,20 +655,30 @@ class DictPosOverride:
                                         only_pos = next(iter(subword_pos_scores.keys()))
                                         subword_pos_scores = {only_pos: 1.0}
                                     else:
-                                        min_val = min(subword_pos_scores.values()) if subword_pos_scores else 0.0
+                                        min_val = (
+                                            min(subword_pos_scores.values())
+                                            if subword_pos_scores
+                                            else 0.0
+                                        )
                                         if min_val < 0:
                                             for pos in list(subword_pos_scores.keys()):
-                                                subword_pos_scores[pos] = subword_pos_scores[pos] - min_val
+                                                subword_pos_scores[pos] = (
+                                                    subword_pos_scores[pos] - min_val
+                                                )
                                         row_sum = sum(subword_pos_scores.values())
                                         if row_sum <= 0:
                                             row_sum = 1.0
                                         for pos in list(subword_pos_scores.keys()):
-                                            subword_pos_scores[pos] = subword_pos_scores[pos] / row_sum
+                                            subword_pos_scores[pos] = (
+                                                subword_pos_scores[pos] / row_sum
+                                            )
 
                                     info["subword_debug"].append(
                                         {
                                             "text": head,
-                                            "allowed": sorted(_expand_to_allowed_set(list(tags))) if tags else [],
+                                            "allowed": sorted(_expand_to_allowed_set(list(tags)))
+                                            if tags
+                                            else [],
                                             "pos_scores": subword_pos_scores,  # Individual morphologizer scores
                                         }
                                     )
@@ -676,26 +731,36 @@ class DictPosOverride:
                     if all_spacy_scores:
                         spacy_min = min(all_spacy_scores.values())
                         if spacy_min < 0:
-                            all_spacy_scores = {pos: score - spacy_min for pos, score in all_spacy_scores.items()}
+                            all_spacy_scores = {
+                                pos: score - spacy_min for pos, score in all_spacy_scores.items()
+                            }
 
                     # Scale by max (ONCE, before filtering) - now guaranteed non-negative
                     spacy_max = max(all_spacy_scores.values()) if all_spacy_scores else 0.0
                     if spacy_max > 0:
-                        all_spacy_scores = {pos: score / spacy_max for pos, score in all_spacy_scores.items()}
+                        all_spacy_scores = {
+                            pos: score / spacy_max for pos, score in all_spacy_scores.items()
+                        }
 
                     # Store for debugging (shows ALL POS with initial scaling)
                     info["spacy_raw_scaled"] = all_spacy_scores
 
                     # STEP 2: Filter to allowed POS (keep original scaled values, NO second scaling)
-                    info["spacy_scaled_scores"] = {pos: all_spacy_scores[pos] for pos in allowed if pos in all_spacy_scores}
+                    info["spacy_scaled_scores"] = {
+                        pos: all_spacy_scores[pos] for pos in allowed if pos in all_spacy_scores
+                    }
 
                     if is_multi_component:
                         # Multi-component: fixed 50/50 blend with subword scores
                         # Scale subword scores: max=1.0, others proportional
-                        allowed_subword = {pos: subword_scores.get(pos, 0.0) for pos in subword_scores}
+                        allowed_subword = {
+                            pos: subword_scores.get(pos, 0.0) for pos in subword_scores
+                        }
                         sub_max = max(allowed_subword.values()) if allowed_subword else 0.0
                         if sub_max > 0:
-                            allowed_subword = {pos: v / sub_max for pos, v in allowed_subword.items()}
+                            allowed_subword = {
+                                pos: v / sub_max for pos, v in allowed_subword.items()
+                            }
 
                         # Fixed 50/50 blend (NO normalization after blending)
                         for pos in allowed:
@@ -775,29 +840,39 @@ class DictPosOverride:
                     continue
 
                 # If current POS is allowed, we still might change it based on blended scores
-                self._log_debug(f"  -> MULTI-COMPONENT: hard constraints + 50/50 blend, allowed={allowed}")
+                self._log_debug(
+                    f"  -> MULTI-COMPONENT: hard constraints + 50/50 blend, allowed={allowed}"
+                )
 
                 # STEP 1: Build ALL spaCy raw logit scores (NO softmax)
                 all_spacy_scores: Dict[str, float] = {}
                 for j in range(len(self._labels)):
                     pos = self._label_pos[j] if j < len(self._label_pos) else ""
                     if pos:
-                        all_spacy_scores[pos] = all_spacy_scores.get(pos, 0.0) + float(original_logits[j])
+                        all_spacy_scores[pos] = all_spacy_scores.get(pos, 0.0) + float(
+                            original_logits[j]
+                        )
 
                 # STEP 2: Shift by min to handle negative logits (so all become >= 0)
                 if all_spacy_scores:
                     spacy_min = min(all_spacy_scores.values())
                     if spacy_min < 0:
-                        all_spacy_scores = {pos: score - spacy_min for pos, score in all_spacy_scores.items()}
+                        all_spacy_scores = {
+                            pos: score - spacy_min for pos, score in all_spacy_scores.items()
+                        }
 
                 # STEP 3: Scale ALL scores by max (ONCE, before filtering) - now guaranteed non-negative
                 spacy_max = max(all_spacy_scores.values()) if all_spacy_scores else 0.0
                 if spacy_max > 0:
-                    all_spacy_scores = {pos: score / spacy_max for pos, score in all_spacy_scores.items()}
+                    all_spacy_scores = {
+                        pos: score / spacy_max for pos, score in all_spacy_scores.items()
+                    }
                 all_spacy_scores = _expand_equivalent_scores(all_spacy_scores)
 
                 # STEP 4: Filter to allowed POS (keep original scaled values, NO second scaling)
-                spacy_pos_probs = {pos: all_spacy_scores[pos] for pos in allowed if pos in all_spacy_scores}
+                spacy_pos_probs = {
+                    pos: all_spacy_scores[pos] for pos in allowed if pos in all_spacy_scores
+                }
 
                 # Build subword scores (from subword aggregation)
                 subword_scores: Dict[str, float] = {}
@@ -807,7 +882,9 @@ class DictPosOverride:
                 # Scale subword scores: max=1.0, others proportional
                 subword_max = max(subword_scores.values()) if subword_scores else 0.0
                 if subword_max > 0:
-                    subword_scores = {pos: score / subword_max for pos, score in subword_scores.items()}
+                    subword_scores = {
+                        pos: score / subword_max for pos, score in subword_scores.items()
+                    }
                 subword_scores = _expand_equivalent_scores(subword_scores)
 
                 # Fixed 50/50 blend (NO normalization after blending)
@@ -819,14 +896,16 @@ class DictPosOverride:
 
                 # Find best POS from blended scores (must be in allowed set)
                 best_pos = None
-                best_score = float('-inf')
+                best_score = float("-inf")
                 for pos, score in blended_scores.items():
                     if score > best_score:
                         best_score = score
                         best_pos = pos
 
                 if best_pos is not None and best_pos != current_pos:
-                    self._log_debug(f"  -> CHANGED (multi): {current_pos} -> {best_pos} (score={best_score:.4f})")
+                    self._log_debug(
+                        f"  -> CHANGED (multi): {current_pos} -> {best_pos} (score={best_score:.4f})"
+                    )
                     tok.pos_ = best_pos
                 else:
                     self._log_debug(f"  -> KEEP (multi-component, best={best_pos})")
@@ -847,7 +926,7 @@ class DictPosOverride:
 
                 # Find best allowed POS from morphologizer probabilities
                 best_pos = None
-                best_prob = float('-inf')
+                best_prob = float("-inf")
 
                 for j in range(len(self._labels)):
                     pos = self._label_pos[j] if j < len(self._label_pos) else ""
@@ -860,7 +939,9 @@ class DictPosOverride:
                         best_pos = pos
 
                 if best_pos is not None and best_pos != current_pos:
-                    self._log_debug(f"  -> CHANGED (single): {current_pos} -> {best_pos} (prob={best_prob:.4f})")
+                    self._log_debug(
+                        f"  -> CHANGED (single): {current_pos} -> {best_pos} (prob={best_prob:.4f})"
+                    )
                     tok.pos_ = best_pos
                 else:
                     self._log_debug(f"  -> KEEP (single component)")
@@ -934,7 +1015,11 @@ class DictPosOverride:
                 mode = tok._.dict_fills.get("mode", "")
                 debug["source"] = f"pre-assigned:{mode or 'unknown'}"
                 debug["fills"] = [
-                    {"head": f.get("head", ""), "pos": f.get("pos", ""), "source": f.get("source", "")}
+                    {
+                        "head": f.get("head", ""),
+                        "pos": f.get("pos", ""),
+                        "source": f.get("source", ""),
+                    }
                     for f in fills
                 ]
 
@@ -964,7 +1049,9 @@ class DictPosOverride:
                         allowed_strict, _ = _collect_upos_from_fills_strict(fills)
                         if allowed_strict is None:
                             # At least one fill has no valid POS - no constraints
-                            self._log_debug(f"Token '{text}': multi-fill but some lack POS, no constraints")
+                            self._log_debug(
+                                f"Token '{text}': multi-fill but some lack POS, no constraints"
+                            )
                             debug["source"] = f"pre-assigned:{mode or 'unknown'}:partial_pos"
                             debug["subwords"] = [
                                 {"head": f.get("head", ""), "pos": f.get("pos", "")} for f in fills
@@ -1028,6 +1115,7 @@ class DictPosOverride:
 
         try:
             from spacy.tokens import Doc  # type: ignore
+
             morph = self.nlp.get_pipe("morphologizer")
 
             # Extract subword heads and get dictionary constraints for each
@@ -1108,7 +1196,9 @@ class DictPosOverride:
                     per_pos: Dict[str, float] = {}
                     for label_idx in range(len(self._labels)):
                         pos = self._label_pos[label_idx] if label_idx < len(self._label_pos) else ""
-                        if not constraints or pos in constraints:  # Allow if no constraints or if constrained POS
+                        if (
+                            not constraints or pos in constraints
+                        ):  # Allow if no constraints or if constrained POS
                             per_pos[pos] = per_pos.get(pos, 0.0) + float(scores_row[label_idx])
 
                     # Expand any configured score equivalences BEFORE normalizing.
@@ -1145,9 +1235,16 @@ class DictPosOverride:
                 if subword_pos_scores:
                     max_subword_score = max(subword_pos_scores.values())
                     if max_subword_score > 0:
-                        subword_pos_scores = Counter({pos: score / max_subword_score for pos, score in subword_pos_scores.items()})
+                        subword_pos_scores = Counter(
+                            {
+                                pos: score / max_subword_score
+                                for pos, score in subword_pos_scores.items()
+                            }
+                        )
                 if subword_pos_scores:
-                    subword_pos_scores = Counter(_expand_equivalent_scores(dict(subword_pos_scores)))
+                    subword_pos_scores = Counter(
+                        _expand_equivalent_scores(dict(subword_pos_scores))
+                    )
 
             # For now, just return the subword scores
             # (The original token score blending happens in the caller)
@@ -1233,7 +1330,9 @@ def set_dict_fills_on_doc(doc: Doc, fills_list: List[Dict[str, Any]]) -> None:
         set_dict_fills_on_doc(doc, fills)
     """
     if len(fills_list) != len(doc):
-        raise ValueError(f"fills_list length ({len(fills_list)}) must match doc length ({len(doc)})")
+        raise ValueError(
+            f"fills_list length ({len(fills_list)}) must match doc length ({len(doc)})"
+        )
 
     for token, fill_data in zip(doc, fills_list):
         token._.dict_fills = fill_data

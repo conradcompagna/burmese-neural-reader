@@ -1,5 +1,5 @@
 """
-advanced_segmenter.py
+lmbrain.py
 
 Language-model 'brain' for the Burmese hover dictionary.
 
@@ -10,7 +10,7 @@ This module:
     token sequences -> phrase keys
   - exposes an AdvancedSegmenter class that:
         * delegates segmentation to a base dp_segmenter
-        * provides LM scoring helpers that newserver.py can call
+        * provides LM scoring helpers that app.py can call
           from inside its segmentation pipeline
         * exposes a spell-check / fuzzy-match engine powered by the LMs
         * exposes phrase detection over segmented word tokens
@@ -20,7 +20,7 @@ It does NOT:
   - build clusters
   - run its own DP segmentation
 
-All orthographic / segmentation logic stays in newserver.py.
+All orthographic / segmentation logic stays in app.py.
 """
 
 from __future__ import annotations
@@ -36,6 +36,7 @@ import ast
 # ============================================================================
 # LEVENSHTEIN (EDIT DISTANCE) HELPER
 # ============================================================================
+
 
 def levenshtein_distance(a: str, b: str) -> int:
     """
@@ -65,8 +66,8 @@ def levenshtein_distance(a: str, b: str) -> int:
             cb = b[j - 1]
             cost_sub = 0 if ca == cb else 1
             curr_row[j] = min(
-                prev_row[j] + 1,          # deletion
-                curr_row[j - 1] + 1,      # insertion
+                prev_row[j] + 1,  # deletion
+                curr_row[j - 1] + 1,  # insertion
                 prev_row[j - 1] + cost_sub,  # substitution
             )
         prev_row, curr_row = curr_row, prev_row
@@ -78,9 +79,11 @@ def levenshtein_distance(a: str, b: str) -> int:
 # BK-TREE FOR EFFICIENT FUZZY MATCHING
 # ============================================================================
 
+
 @dataclass
 class BKNode:
     """Node in a BK-tree."""
+
     term: str
     children: Dict[int, "BKNode"] = field(default_factory=dict)
 
@@ -189,7 +192,7 @@ UNIGRAM_COUNTS: dict[str, int] = {}
 UNIGRAM_TOTAL: int = 0
 UNIGRAM_COST: dict[str, float] = {}
 
-UNIGRAM_ALPHA: float = 1.0          # Laplace smoothing
+UNIGRAM_ALPHA: float = 1.0  # Laplace smoothing
 UNIGRAM_DEFAULT_COST: float = 12.0  # fallback cost for unseen words
 
 
@@ -286,8 +289,8 @@ BIGRAM_COST: dict[tuple[str, str], float] = {}
 BIGRAM_LEFT_DEFAULT_COST: dict[str, float] = {}
 BIGRAM_GLOBAL_DEFAULT_COST: float = 10.0
 
-BIGRAM_ALPHA: float = 0.1             # smoothing
-BIGRAM_BACKOFF_WEIGHT: float = 0.5     # how strongly to mix in unigram backoff
+BIGRAM_ALPHA: float = 0.1  # smoothing
+BIGRAM_BACKOFF_WEIGHT: float = 0.5  # how strongly to mix in unigram backoff
 
 
 def load_bigram_lm(path: str | Path) -> None:
@@ -373,9 +376,8 @@ def load_bigram_lm(path: str | Path) -> None:
 
     # Global default for completely unseen left words
     if BIGRAM_LEFT_DEFAULT_COST:
-        BIGRAM_GLOBAL_DEFAULT_COST = (
-            sum(BIGRAM_LEFT_DEFAULT_COST.values()) /
-            len(BIGRAM_LEFT_DEFAULT_COST)
+        BIGRAM_GLOBAL_DEFAULT_COST = sum(BIGRAM_LEFT_DEFAULT_COST.values()) / len(
+            BIGRAM_LEFT_DEFAULT_COST
         )
     else:
         BIGRAM_GLOBAL_DEFAULT_COST = 10.0
@@ -637,9 +639,8 @@ def load_phrase_bigram_lm(path: str | Path) -> None:
 
     # Global default for unseen left phrases
     if PHRASE_BIGRAM_LEFT_DEFAULT_COST:
-        PHRASE_BIGRAM_GLOBAL_DEFAULT_COST = (
-            sum(PHRASE_BIGRAM_LEFT_DEFAULT_COST.values()) /
-            len(PHRASE_BIGRAM_LEFT_DEFAULT_COST)
+        PHRASE_BIGRAM_GLOBAL_DEFAULT_COST = sum(PHRASE_BIGRAM_LEFT_DEFAULT_COST.values()) / len(
+            PHRASE_BIGRAM_LEFT_DEFAULT_COST
         )
     else:
         PHRASE_BIGRAM_GLOBAL_DEFAULT_COST = 10.0
@@ -666,9 +667,7 @@ def get_phrase_bigram_cost(p1: str, p2: str) -> float:
     if key in PHRASE_BIGRAM_COST:
         return PHRASE_BIGRAM_COST[key]
 
-    left_default = PHRASE_BIGRAM_LEFT_DEFAULT_COST.get(
-        p1, PHRASE_BIGRAM_GLOBAL_DEFAULT_COST
-    )
+    left_default = PHRASE_BIGRAM_LEFT_DEFAULT_COST.get(p1, PHRASE_BIGRAM_GLOBAL_DEFAULT_COST)
 
     if PHRASE_UNIGRAM_COST:
         uni = get_phrase_unigram_cost(p2)
@@ -682,9 +681,7 @@ def get_phrase_bigram_cost(p1: str, p2: str) -> float:
 # Myanmar consonant utilities for onset-based spell indexing
 # ----------------------------------------------------------------------
 
-MYANMAR_CONSONANTS: set[str] = set(
-    "ကခဂဃငစဆဇဈဉဋဌဍဎဏတထဒဓနပဖဗဘမယရလဝသဟဠအ"
-)
+MYANMAR_CONSONANTS: set[str] = set("ကခဂဃငစဆဇဈဉဋဌဍဎဏတထဒဓနပဖဗဘမယရလဝသဟဠအ")
 
 # Also treat independent vowels as valid onsets for spell checking
 MYANMAR_CONSONANTS.update("ဣဤဥဦဧဩဪ")
@@ -722,6 +719,7 @@ def _is_myanmar_token(token: str) -> bool:
 # CONFIG + WRAPPER CLASS
 # ============================================================================
 
+
 @dataclass
 class LMConfig:
     """
@@ -730,6 +728,7 @@ class LMConfig:
     Paths are optional. If a path is None, that LM is simply not loaded.
     The lambdas control how strongly each LM contributes to total cost.
     """
+
     word_unigram_path: Optional[Path] = None
     word_bigram_path: Optional[Path] = None
     phrase_unigram_path: Optional[Path] = None
@@ -748,20 +747,20 @@ class LMConfig:
     enable_phrase_bigram: bool = True
 
     # Phrase inventory parameters (for unigram-phrase.txt)
-    phrase_min_count: int = 2          # ignore super-rare phrases
+    phrase_min_count: int = 2  # ignore super-rare phrases
     phrase_max_tokens: int | None = 4  # cap phrase length for inventory
     enable_phrase_inventory: bool = True
 
     # Spell-check / fuzzy-match parameters
-    spell_max_edit_distance: int = 3       # max Levenshtein distance (tight for OCR)
-    spell_max_candidates: int = 5          # how many to return in the final list
-    spell_edit_weight: float = 1.0         # weight of edit distance in total cost
-    spell_lm_weight: float = 0.3           # downweight LM inside the spell checker
-    spell_min_similarity: float = 0.0      # optional floor on edit similarity
-    spell_stage1_pool_size: int = 50       # top-N by morphology before LM rerank
+    spell_max_edit_distance: int = 3  # max Levenshtein distance (tight for OCR)
+    spell_max_candidates: int = 5  # how many to return in the final list
+    spell_edit_weight: float = 1.0  # weight of edit distance in total cost
+    spell_lm_weight: float = 0.3  # downweight LM inside the spell checker
+    spell_min_similarity: float = 0.0  # optional floor on edit similarity
+    spell_stage1_pool_size: int = 50  # top-N by morphology before LM rerank
 
     # Unused in the new global search, kept for compatibility
-    spell_max_bucket_size: int = 0         # 0 = no cap
+    spell_max_bucket_size: int = 0  # 0 = no cap
 
 
 @dataclass
@@ -792,7 +791,7 @@ class AdvancedSegmenter:
     Responsibilities:
       - load word/phrase LMs according to LMConfig
       - optionally delegate segmentation to a base dp_segmenter
-      - expose LM scoring helpers for newserver.py to call from its DP
+      - expose LM scoring helpers for app.py to call from its DP
       - provide a spell-check / fuzzy-match engine using edit distance
         plus the same LMs
       - provide phrase detection over segmented tokens using the
@@ -834,10 +833,7 @@ class AdvancedSegmenter:
 
         # Cache for spell-checking: map (word, max_edit_distance, min_similarity)
         # -> list of (candidate, edit_distance, edit_similarity)
-        self._spell_morph_cache: dict[
-            tuple[str, int, float],
-            list[tuple[str, int, float]]
-        ] = {}
+        self._spell_morph_cache: dict[tuple[str, int, float], list[tuple[str, int, float]]] = {}
 
     # ------------------------------------------------------------------
     # 1) Compatibility shim: delegate segmentation to base DP
@@ -849,7 +845,7 @@ class AdvancedSegmenter:
         ADVANCED_SEGMENTER.segment(q) for now.
 
         In this LM-only design, we simply delegate to the injected
-        dp_segmenter (which lives in newserver.py).
+        dp_segmenter (which lives in app.py).
 
         Later, you can remove this shim and call dp_segmenter directly
         once you've threaded LM scoring into the DP itself.
@@ -866,7 +862,6 @@ class AdvancedSegmenter:
     # INTERNAL: spell vocab
     # ------------------------------------------------------------------
 
-
     def _build_spell_vocab(self) -> None:
         """
         Dictionary-driven spell vocabulary.
@@ -877,7 +872,7 @@ class AdvancedSegmenter:
         vocab: set[str] = set()
 
         # From dictionary only
-        for w in (self.dict or {}):
+        for w in self.dict or {}:
             if w and not w.isspace() and _is_myanmar_token(w):
                 vocab.add(w)
 
@@ -886,7 +881,6 @@ class AdvancedSegmenter:
         self._bk_tree.build(vocab)
         # Keep only a lightweight size marker (no parallel lists/sets retained)
         self._spell_vocab_size = len(vocab)
-
 
     # ------------------------------------------------------------------
     # 2) Word-level LM scoring
@@ -906,11 +900,7 @@ class AdvancedSegmenter:
         if cfg.enable_word_unigram and cfg.lambda_unigram:
             cost += cfg.lambda_unigram * get_unigram_cost(word)
 
-        if (
-            prev_word
-            and cfg.enable_word_bigram
-            and cfg.lambda_bigram
-        ):
+        if prev_word and cfg.enable_word_bigram and cfg.lambda_bigram:
             cost += cfg.lambda_bigram * get_bigram_cost(prev_word, word)
 
         return cost
@@ -962,14 +952,8 @@ class AdvancedSegmenter:
         if cfg.enable_phrase_unigram and cfg.lambda_phrase_unigram:
             cost += cfg.lambda_phrase_unigram * get_phrase_unigram_cost(phrase)
 
-        if (
-            prev_phrase
-            and cfg.enable_phrase_bigram
-            and cfg.lambda_phrase_bigram
-        ):
-            cost += cfg.lambda_phrase_bigram * get_phrase_bigram_cost(
-                prev_phrase, phrase
-            )
+        if prev_phrase and cfg.enable_phrase_bigram and cfg.lambda_phrase_bigram:
+            cost += cfg.lambda_phrase_bigram * get_phrase_bigram_cost(prev_phrase, phrase)
 
         return cost
 
@@ -996,9 +980,7 @@ class AdvancedSegmenter:
             phrase_key = self.phrase_from_tokens(phrase_tokens)
 
             if cfg.enable_phrase_unigram and cfg.lambda_phrase_unigram:
-                total += cfg.lambda_phrase_unigram * get_phrase_unigram_cost(
-                    phrase_key
-                )
+                total += cfg.lambda_phrase_unigram * get_phrase_unigram_cost(phrase_key)
 
             if (
                 prev_phrase_key is not None
@@ -1053,7 +1035,7 @@ class AdvancedSegmenter:
             # Don't go past end, only consider multiword phrases
             limit = min(max_len, n - i)
             for L in range(limit, 1, -1):
-                tup = tuple(tokens[i:i + L])
+                tup = tuple(tokens[i : i + L])
                 if tup in PHRASE_BY_TOKENS:
                     best_match = tup
                     best_len = L
@@ -1065,11 +1047,7 @@ class AdvancedSegmenter:
 
             phrase_key = PHRASE_BY_TOKENS[best_match]
             count = PHRASE_TOKEN_COUNTS.get(best_match, 0)
-            unigram_cost = (
-                get_phrase_unigram_cost(phrase_key)
-                if PHRASE_UNIGRAM_COST
-                else 0.0
-            )
+            unigram_cost = get_phrase_unigram_cost(phrase_key) if PHRASE_UNIGRAM_COST else 0.0
 
             result.append(
                 {
@@ -1179,8 +1157,12 @@ class AdvancedSegmenter:
         # ---------------- STAGE 2: LM + edit distance reranking on small pool ---------------
         for cand, d, edit_sim in stage1_candidates:
             # Pure bigram score (no unigram): split across available sides
-            lm_prev = get_bigram_cost(prev_word, cand) if (cfg.enable_word_bigram and prev_word) else None
-            lm_next = get_bigram_cost(cand, next_word) if (cfg.enable_word_bigram and next_word) else None
+            lm_prev = (
+                get_bigram_cost(prev_word, cand) if (cfg.enable_word_bigram and prev_word) else None
+            )
+            lm_next = (
+                get_bigram_cost(cand, next_word) if (cfg.enable_word_bigram and next_word) else None
+            )
 
             if lm_prev is None and lm_next is None:
                 # No context available: fall back to unigram if enabled
@@ -1210,9 +1192,7 @@ class AdvancedSegmenter:
             return []
 
         # Sort by LM cost; tie-break by edit distance, then similarity
-        candidates.sort(
-            key=lambda c: (c.total_cost, c.edit_distance, -c.edit_similarity)
-        )
+        candidates.sort(key=lambda c: (c.total_cost, c.edit_distance, -c.edit_similarity))
         candidates = candidates[:max_candidates]
 
         # Softmax normalization over negative total costs
@@ -1227,7 +1207,6 @@ class AdvancedSegmenter:
             c.probability = w / Z
 
         return candidates
-
 
     def suggest_spellings_dict(
         self,
@@ -1281,7 +1260,9 @@ class AdvancedSegmenter:
         # Use BK-tree query - much faster!
         bk_hits = bk.query(word, max_edit_distance)  # [(cand, d)]
         pool: list[tuple[str, int]] = [
-            (cand, d) for cand, d in bk_hits if d > 0  # Skip exact matches
+            (cand, d)
+            for cand, d in bk_hits
+            if d > 0  # Skip exact matches
         ]
 
         if not pool:
@@ -1310,12 +1291,14 @@ class AdvancedSegmenter:
         for uni_cost, cand in top:
             max_len = max(len_word, len(cand))
             edit_sim = 1.0 - (best_d / max_len) if max_len > 0 else 0.0
-            results.append({
-                "candidate": cand,
-                "edit_distance": best_d,
-                "edit_similarity": edit_sim,
-                "lm_cost": uni_cost,
-            })
+            results.append(
+                {
+                    "candidate": cand,
+                    "edit_distance": best_d,
+                    "edit_similarity": edit_sim,
+                    "lm_cost": uni_cost,
+                }
+            )
 
         return results
 
@@ -1428,15 +1411,17 @@ class AdvancedSegmenter:
                 max_len = max(len_word, len(cand))
                 edit_sim = 1.0 - (dist / max_len) if max_len > 0 else 0.0
 
-                results.append({
-                    "candidate": cand,
-                    "edit_distance": dist,
-                    "edit_similarity": edit_sim,
-                    "unigram_cost": uni_cost,
-                    "bigram_cost": bigram_cost,
-                    "has_bigram": has_bigram,
-                    "combined_score": combined_score,
-                })
+                results.append(
+                    {
+                        "candidate": cand,
+                        "edit_distance": dist,
+                        "edit_similarity": edit_sim,
+                        "unigram_cost": uni_cost,
+                        "bigram_cost": bigram_cost,
+                        "has_bigram": has_bigram,
+                        "combined_score": combined_score,
+                    }
+                )
 
             if len(results) >= max_candidates:
                 break

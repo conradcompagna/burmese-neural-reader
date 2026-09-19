@@ -84,12 +84,5 @@ stanza_resources/
 dict_sqlite/
 sandbox_adapter_bank_deps/
 
-# Preserve architecture configurations without including trained model artifacts.
-!research/out_caps/model-best/
-research/out_caps/model-best/**
-!research/out_caps/model-best/**/
-!research/out_caps/model-best/**/*.cfg
-!research/out_caps/model-last/
-research/out_caps/model-last/**
-!research/out_caps/model-last/**/
-!research/out_caps/model-last/**/*.cfg
+
+.ruff_cache/

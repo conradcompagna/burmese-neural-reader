@@ -4,7 +4,7 @@ Use Python 3.12. Create and activate a virtual environment, then install `requir
 
 The application requires separately provisioned resources:
 
-- The layered dictionary files named in `newserverPDF21split.py`: Burmese Wiktionary, `MMD_clean.tsv`, `peu.tsv`, and the grammar dictionary.
+- The layered dictionary files named in `app.py`: Burmese Wiktionary, `MMD_clean.tsv`, `peu.tsv`, and the grammar dictionary.
 - The `myWord-main` frequency resources used by the lexical engine.
 - The custom spaCy pipeline under `model-best/`.
 - Stanza's Burmese resources under `stanza_resources/`.
@@ -19,10 +19,8 @@ gunicorn wsgi:app --bind 127.0.0.1:5000 --workers 1 --threads 1 --timeout 120
 
 Open `/reader`. `wsgi.py` initializes the dictionaries, grammar lexicon, parser, and NER pipeline.
 
-## Research tools
+## Training and checks
 
-`research/` contains the original corpus preparation, segmentation experiments, boundary models, and evaluations. Its spaCy configuration files describe training architecture without distributing model weights. Research tools have individual CLI and corpus requirements; they do not all share the deployed runtime environment.
+`training/corpus/` and `training/boundaries/` contain preparation and training code. `training/configs/` holds the named spaCy architectures; `training/deployed_spacy_config.cfg` records the deployed parser architecture. Training inputs and weights must be supplied separately. See the [training guide](../training/README.md).
 
-`training/deployed_spacy_config.cfg` preserves the deployed parser configuration. The root `requirements.txt` describes the reader runtime, not every historical experiment.
-
-No dictionaries, trained models, source corpora, personal annotations, or reading-review records are bundled. Source-only validation checks syntax and packaging. Full reader and NLP evaluation require those external resources.
+Run `python -m unittest discover -s tests -v` for the model-free lexical regressions. Install `ruff==0.16.8` and run `ruff check .` and `ruff format --check .` for the authored Python checks used in CI. Full neural parsing and document integration require the external resources above.

@@ -1,39 +1,38 @@
 # Burmese Neural Reader
 
-**A deployed reading and linguistic-analysis application for Burmese, with infrastructure for working on a low-resource historical language.**
+**A deployed Burmese reading application integrating neural parsing, dictionary segmentation, and source-document exploration.**
 
-I built this reader to make Burmese texts easier to investigate at the level of words, grammatical structure, and source documents. It connects language-specific lexical engineering with neural analysis and an interactive reading interface.
+I built this reader to make Burmese texts easier to investigate at the level of words, grammatical structure, and source passages. The project combines language-specific lexical engineering with training infrastructure for a low-resource language.
 
-[Live reader](https://burmeseneuralreader.com/reader) · [Portfolio](https://github.com/conradcompagna) · [Setup and external resources](docs/SETUP.md)
+[Live reader](https://burmeseneuralreader.com/reader) · [Setup](docs/SETUP.md) · [Architecture](docs/ARCHITECTURE.md) · [Portfolio](https://github.com/conradcompagna)
+
+[![Checks](https://github.com/conradcompagna/burmese-neural-reader/actions/workflows/checks.yml/badge.svg)](https://github.com/conradcompagna/burmese-neural-reader/actions/workflows/checks.yml)
 
 ## Engineering highlights
 
-- **Burmese lexical processing:** layered dictionaries, dynamic-programming segmentation, language-model scoring, and fuzzy lookup with BK-tree/edit-distance search.
-- **Neural analysis in context:** a custom spaCy parsing pipeline and Stanza named-entity recognition integrated with dictionary segmentation and visible document spans.
-- **A usable research interface:** document import, hover dictionaries, dependency visualization, pronunciation/transliteration, annotations, and reading-review state.
-- **Training and evaluation infrastructure:** corpus conversion, spaCy configurations, CRF boundary training, segmentation comparison, and inspection tools retained alongside the deployed application.
+- **Language-specific lexical search:** layered dictionaries, dynamic-programming segmentation, language-model scoring, and BK-tree fuzzy matching over edit distance.
+- **Neural analysis in context:** a custom spaCy parsing pipeline and Stanza named-entity recognition integrated with dictionary segmentation and document spans.
+- **Interactive close reading:** document import, hover definitions, dependency visualization, pronunciation/transliteration, annotations, and reading-review state.
+- **Training infrastructure:** corpus conversion, tokenizer and parser configurations, CRF boundary models, segmentation evaluation, and inspection tools.
 
-## Architecture and code guide
+## Explore the code
 
-```mermaid
-flowchart LR
-    A[Document / selected Burmese text] --> B[Flask reader]
-    B --> C[Lexical segmentation and dictionaries]
-    B --> D[spaCy / Stanza analysis]
-    C --> E[Aligned reader overlays]
-    D --> E
+| Area | Starting point |
+|---|---|
+| Application lifecycle and routes | [wsgi.py](wsgi.py), [app.py](app.py) |
+| Language-model scoring and fuzzy search | [lmbrain.py](lmbrain.py) |
+| Grammar and pronunciation | [dict_pos_override.py](dict_pos_override.py), [ud_overlay.py](ud_overlay.py), [burmese_transliteration.py](burmese_transliteration.py) |
+| Reading interface | [static/reader.js](static/reader.js), [templates/reader.html](templates/reader.html) |
+| Corpus and model preparation | [training/](training/) |
+| Dictionary preparation and inspection | [tools/](tools/) |
+| Model-free regressions | [tests/](tests/) |
+
+## Run the lightweight checks
+
+```sh
+python -m unittest discover -s tests -v
 ```
 
-| Area | Starting points |
-|---|---|
-| Production entrypoint | `wsgi.py`, `newserverPDF21split.py` |
-| Lexical scoring and search | `lmbrain.py` |
-| Grammatical and pronunciation processing | `dict_pos_override.py`, `ud_overlay.py`, `burmese_transliteration.py` |
-| Reading interface | `static/reader.js`, `templates/reader.html`, `dep_tree_view.js` |
-| Model and corpus research | `research/`, `training/deployed_spacy_config.cfg` |
+The tests compare fuzzy search with exhaustive edit-distance search and exercise the reader's spelling suggestions using in-memory Burmese fixtures. Full neural reading requires the external dictionaries and models described in [setup](docs/SETUP.md).
 
-The runtime source was taken from the deployed application. `research/` preserves separate preparation and experimental tools from the development workspace; it is not loaded by the production WSGI entrypoint. Those tools include earlier approaches and dataset-specific paths, so they should be read as research infrastructure rather than a single end-to-end training command.
-
-Dictionary files, corpus documents, trained weights, and reading/user state are excluded. The [Konbaung project](https://github.com/conradcompagna/konbaung-knowledge-graph) reuses this reader's lexical stack through an explicit local adapter.
-
-See [publication contents](docs/PUBLICATION.md) and [third-party notices](THIRD_PARTY_NOTICES.md).
+The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowledge-graph) reuses this reader's lexical stack through an explicit local adapter. See [publication contents](docs/PUBLICATION.md) for excluded data.

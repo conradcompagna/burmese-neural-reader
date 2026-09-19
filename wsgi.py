@@ -4,7 +4,7 @@ Usage:
     gunicorn wsgi:app --bind 0.0.0.0:8000 --workers 1 --timeout 120
 """
 
-from newserverPDF21split import (
+from app import (
     app,
     load_dictionary,
     load_grammar_lexicon_tsv,

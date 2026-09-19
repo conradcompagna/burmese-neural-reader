@@ -30,12 +30,12 @@ MYANMAR_MEDIALS = {"ျ", "ြ", "ွ", "ှ"}
 MYANMAR_VOWEL_SIGNS = {"ါ", "ာ", "ိ", "ီ", "ု", "ူ", "ေ", "ဲ"}
 
 # Special marks
-ANUSVARA = "\u1036"      # ံ (nasalization)
-ASAT = "\u103A"          # ် (kills inherent vowel)
-TONE_LOW = "\u1037"      # ့ (creaky tone)
-TONE_HIGH = "\u1038"     # း (high tone)
-VIRAMA = "\u1039"        # ္ (stacker for conjuncts)
-GREAT_SA = "\u103F"      # ဿ (Pali ssa)
+ANUSVARA = "\u1036"  # ံ (nasalization)
+ASAT = "\u103a"  # ် (kills inherent vowel)
+TONE_LOW = "\u1037"  # ့ (creaky tone)
+TONE_HIGH = "\u1038"  # း (high tone)
+VIRAMA = "\u1039"  # ္ (stacker for conjuncts)
+GREAT_SA = "\u103f"  # ဿ (Pali ssa)
 
 # Pre-base vowel (appears before consonant in orthography)
 PRE_BASE_VOWELS = {"ေ"}
@@ -88,15 +88,15 @@ CONSONANT_ROMAN = {
     "မ": "m",
     # Semi-vowels and approximants
     "ယ": "y",
-    "ရ": "y",      # Standard Burmese; Rakhine uses "r"
+    "ရ": "y",  # Standard Burmese; Rakhine uses "r"
     "လ": "l",
     "ဝ": "w",
     # Fricatives
-    "သ": "th",     # dental fricative θ
+    "သ": "th",  # dental fricative θ
     "ဟ": "h",
     # Other
     "ဠ": "l",
-    "အ": "",       # glottal stop, usually unmarked
+    "အ": "",  # glottal stop, usually unmarked
 }
 
 # --- Consonants as codas (final position, before asat) ---
@@ -107,7 +107,7 @@ CODA_ROMAN = {
     "ခ": "k",
     "ဂ": "k",
     "ဃ": "k",
-    "စ": "t",      # -စ် rare, but exists
+    "စ": "t",  # -စ် rare, but exists
     "ဆ": "t",
     "ဇ": "t",
     "ဈ": "t",
@@ -125,8 +125,8 @@ CODA_ROMAN = {
     "ဘ": "p",
     # Nasals
     "င": "ng",
-    "ဏ": "n",      # archaic, rare
-    "ည": "ny",     # or just "i/e" depending on context
+    "ဏ": "n",  # archaic, rare
+    "ည": "ny",  # or just "i/e" depending on context
     "န": "n",
     "မ": "m",
     # Approximants (rare as finals)
@@ -140,10 +140,10 @@ CODA_ROMAN = {
 
 # --- Medials ---
 MEDIAL_ROMAN = {
-    "ျ": "y",      # palatal glide
-    "ြ": "y",      # historically "r", now "y" in standard Burmese
-    "ွ": "w",      # labial glide
-    "ှ": "h",      # aspiration/breathiness (position varies)
+    "ျ": "y",  # palatal glide
+    "ြ": "y",  # historically "r", now "y" in standard Burmese
+    "ွ": "w",  # labial glide
+    "ှ": "h",  # aspiration/breathiness (position varies)
 }
 
 # =============================================================================
@@ -156,7 +156,7 @@ VELAR_PALATAL_MAP = {
     # ကျ/ကြ → tɕ (romanized as "c")
     ("က", "ျ"): "c",
     ("က", "ြ"): "c",
-    # ချ/ခြ → tɕʰ (romanized as "ch")  
+    # ချ/ခြ → tɕʰ (romanized as "ch")
     ("ခ", "ျ"): "ch",
     ("ခ", "ြ"): "ch",
     # ဂျ/ဂြ → dʑ (romanized as "j")
@@ -191,38 +191,57 @@ MISC_CODAS = {"ယ", "ရ", "လ", "ဝ", "ဟ", "ဠ"}
 # Non-standard coda mappings: Pali/Sanskrit codas → standard coda class
 # These letters in coda position reduce to the standard coda sound
 CODA_CLASS_K = {"က", "ခ", "ဂ", "ဃ"}  # all → /k/
-CODA_CLASS_T = {"စ", "ဆ", "ဇ", "ဈ",  # palatal series → /t/
-                "ဋ", "ဌ", "ဍ", "ဎ",  # retroflex series → /t/
-                "တ", "ထ", "ဒ", "ဓ",  # dental series → /t/
-                "သ"}                  # thh → /t/
+CODA_CLASS_T = {
+    "စ",
+    "ဆ",
+    "ဇ",
+    "ဈ",  # palatal series → /t/
+    "ဋ",
+    "ဌ",
+    "ဍ",
+    "ဎ",  # retroflex series → /t/
+    "တ",
+    "ထ",
+    "ဒ",
+    "ဓ",  # dental series → /t/
+    "သ",
+}  # thh → /t/
 CODA_CLASS_P = {"ပ", "ဖ", "ဗ", "ဘ"}  # all → /p/
 CODA_CLASS_NASAL = {"င", "ဉ", "ည", "ဏ", "န", "မ"}  # all → /n/
 
 # --- Independent vowels ---
 INDEPENDENT_VOWEL_ROMAN = {
-    "ဣ": "i",      # short i (creaky)
-    "ဤ": "i",      # long i
-    "ဥ": "u",      # short u (creaky)
-    "ဦ": "u",      # long u
-    "ဧ": "e",      # e
-    "ဩ": "aw",     # open-o (high tone)
-    "ဪ": "aw",     # open-o (low tone)
+    "ဣ": "i",  # short i (creaky)
+    "ဤ": "i",  # long i
+    "ဥ": "u",  # short u (creaky)
+    "ဦ": "u",  # long u
+    "ဧ": "e",  # e
+    "ဩ": "aw",  # open-o (high tone)
+    "ဪ": "aw",  # open-o (low tone)
 }
 
 # --- Abbreviations ---
 ABBREVIATION_ROMAN = {
-    "၌": "ywe",        # conjunction (ရွေ့အ်)
-    "၍": "hnaik",      # locative "at, in" (ဟနိုက်)
+    "၌": "ywe",  # conjunction (ရွေ့အ်)
+    "၍": "hnaik",  # locative "at, in" (ဟနိုက်)
     "၎": "lanykaung",  # "that, as well as" (လည်းကောင်း) - short form
-    "၏": "i",          # genitive particle (ဧအ်)
+    "၏": "i",  # genitive particle (ဧအ်)
 }
 # Extended form with ၎င်း
 ABBREVIATION_EXTENDED = "၎င်း"
 
 # --- Numerals ---
 NUMERAL_ROMAN = {
-    "၀": "0", "၁": "1", "၂": "2", "၃": "3", "၄": "4",
-    "၅": "5", "၆": "6", "၇": "7", "၈": "8", "၉": "9",
+    "၀": "0",
+    "၁": "1",
+    "၂": "2",
+    "၃": "3",
+    "၄": "4",
+    "၅": "5",
+    "၆": "6",
+    "၇": "7",
+    "၈": "8",
+    "၉": "9",
 }
 
 # --- Great Sa (ဿ) ---
@@ -241,6 +260,7 @@ GREAT_SA_ROMAN = "ss"
 #
 # We handle this more systematically below, but these are the critical
 # irregular mappings where orthography ≠ pronunciation.
+
 
 # Vowel sign combinations mapped to base vowel (before considering coda)
 def _vowel_signs_to_base(signs: set[str], has_anusvara: bool) -> str:
@@ -296,7 +316,6 @@ RHYME_MUTATIONS = {
     ("a", "မ"): ("a", "n"),
     # -ac series: inherent a + c-coda → "it" sound
     ("a", "စ"): ("i", "t"),
-
     # -ik series: i + k/t/p-coda → "eik" (diphthong)
     ("i", "က"): ("ei", "k"),
     ("i", "တ"): ("ei", "t"),
@@ -307,7 +326,6 @@ RHYME_MUTATIONS = {
     ("i", "န"): ("ei", "n"),
     ("i", "ည"): ("ei", "n"),
     ("i", "င"): ("ei", "n"),
-
     # -uk series: u + k/t/p-coda → "ouk" (diphthong)
     ("u", "က"): ("ou", "k"),
     ("u", "တ"): ("ou", "t"),
@@ -317,16 +335,13 @@ RHYME_MUTATIONS = {
     # -un series: u + n-coda → "oun"
     ("u", "န"): ("ou", "n"),
     ("u", "င"): ("ou", "n"),
-
     # -ok series (ို + coda)
     ("o", "က"): ("ai", "k"),  # ိုက် → /aik/
     ("o", "န"): ("ai", "n"),  # ိုန် → /ain/
-    ("o", "င"): ("o", "n"),   # ိုင် → /on/
-
+    ("o", "င"): ("o", "n"),  # ိုင် → /on/
     # -auk series (ော + coda)
     ("aw", "က"): ("au", "k"),  # ောက် → /auk/
     ("aw", "င"): ("au", "n"),  # ောင် → /aun/
-
     # -e series (ေ + coda)
     ("ei", "က"): ("ei", "k"),
     ("ei", "င"): ("ei", "n"),
@@ -341,22 +356,44 @@ WA_VOWEL_SHIFT_CODAS = {"က", "တ", "ပ", "န", "င", "မ"}
 # TONE MARKERS
 # =============================================================================
 
+
 @dataclass
 class ToneInfo:
     """Represents tone marking for a syllable."""
+
     level: str  # "low", "high", "creaky", "checked"
     marker: str  # the diacritic that indicated it, if any
 
 
 # Stop consonants that produce checked tone
-STOP_CODAS = {"က", "ခ", "ဂ", "ဃ", "စ", "ဆ", "ဇ", "ဈ", "ဋ", "ဌ", "ဍ",
-              "ဎ", "တ", "ထ", "ဒ", "ဓ", "ပ", "ဖ", "ဗ", "ဘ"}
+STOP_CODAS = {
+    "က",
+    "ခ",
+    "ဂ",
+    "ဃ",
+    "စ",
+    "ဆ",
+    "ဇ",
+    "ဈ",
+    "ဋ",
+    "ဌ",
+    "ဍ",
+    "ဎ",
+    "တ",
+    "ထ",
+    "ဒ",
+    "ဓ",
+    "ပ",
+    "ဖ",
+    "ဗ",
+    "ဘ",
+}
 
 
 def _determine_tone(
     coda_consonant: str,
-    has_tone_high: bool,   # း
-    has_tone_low: bool,    # ့
+    has_tone_high: bool,  # း
+    has_tone_low: bool,  # ့
     vowel_signs: set[str],
 ) -> ToneInfo:
     """
@@ -389,9 +426,11 @@ def _determine_tone(
 # SYLLABLE PARSER
 # =============================================================================
 
+
 @dataclass
 class SyllableAnalysis:
     """Complete analysis of a single Burmese syllable."""
+
     # Original orthography
     orth: str
 
@@ -399,28 +438,28 @@ class SyllableAnalysis:
     is_burmese: bool = True
 
     # Components (in orthographic order)
-    pre_vowels: list[str] = field(default_factory=list)   # e.g., ေ
+    pre_vowels: list[str] = field(default_factory=list)  # e.g., ေ
     stacked_consonants: list[str] = field(default_factory=list)  # C္C sequences
-    base: str = ""                                         # main consonant
-    medials: list[str] = field(default_factory=list)      # ျ, ြ, ွ, ှ
+    base: str = ""  # main consonant
+    medials: list[str] = field(default_factory=list)  # ျ, ြ, ွ, ှ
     vowel_signs: list[str] = field(default_factory=list)  # ါ, ာ, ိ, etc.
-    coda_consonant: str = ""                              # consonant before ်
+    coda_consonant: str = ""  # consonant before ်
     final_marks: list[str] = field(default_factory=list)  # ံ, ့, း, ်
 
     # Derived phonetic info
-    has_anusvara: bool = False      # ံ present
-    has_asat: bool = False          # ် present (with coda)
-    has_tone_high: bool = False     # း present
-    has_tone_low: bool = False      # ့ present
-    has_wa_medial: bool = False     # ွ present
-    has_ha_medial: bool = False     # ှ present
+    has_anusvara: bool = False  # ံ present
+    has_asat: bool = False  # ် present (with coda)
+    has_tone_high: bool = False  # း present
+    has_tone_low: bool = False  # ့ present
+    has_wa_medial: bool = False  # ွ present
+    has_ha_medial: bool = False  # ှ present
 
     # Romanization outputs
     onset_roman: str = ""
     vowel_roman: str = ""
     coda_roman: str = ""
     tone_roman: str = ""
-    roman: str = ""                 # full syllable romanization
+    roman: str = ""  # full syllable romanization
 
     # For detailed UI breakdown
     components: list[dict] = field(default_factory=list)
@@ -440,9 +479,11 @@ def is_myanmar_char(ch: str) -> bool:
 
 def is_combining_mark(ch: str) -> bool:
     """Check if character is a combining mark (medial, vowel sign, tone, etc.)."""
-    return ch in MYANMAR_MEDIALS or ch in MYANMAR_VOWEL_SIGNS or ch in {
-        ANUSVARA, ASAT, TONE_LOW, TONE_HIGH, VIRAMA
-    }
+    return (
+        ch in MYANMAR_MEDIALS
+        or ch in MYANMAR_VOWEL_SIGNS
+        or ch in {ANUSVARA, ASAT, TONE_LOW, TONE_HIGH, VIRAMA}
+    )
 
 
 def _split_into_syllables(text: str) -> list[str]:
@@ -502,7 +543,7 @@ def _split_into_syllables(text: str) -> list[str]:
                 syllables.append(pending_prebase)
                 pending_prebase = ""
             # Check for ၎င်း extended form
-            if ch == "၎" and i + 2 < n and text[i+1:i+3] == "င်း":
+            if ch == "၎" and i + 2 < n and text[i + 1 : i + 3] == "င်း":
                 syllables.append("၎င်း")
                 i += 3
                 continue
@@ -749,19 +790,19 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
 
     # --- ONSET CALCULATION ---
     onset_parts = []
-    
+
     # Determine which medials are present
     has_ya_medial = "ျ" in analysis.medials
     has_ra_medial = "ြ" in analysis.medials
     has_wa_med = "ွ" in analysis.medials  # renamed to avoid confusion with has_wa_medial
     has_ha_med = "ှ" in analysis.medials
-    
+
     # Track if we've consumed medials in a special combination
     medials_consumed = set()
-    
+
     # --- Check for special onset combinations ---
     # ORDER MATTERS: wa-dominance must be checked BEFORE palatalization
-    
+
     # 1. Wa-medial dominance: when ွ co-occurs with ျ/ြ, the ya/ra is absorbed
     #    Result is just /w/, e.g., ကျွ → /kw/ not /cw/ (no palatalization)
     #    This check MUST come before palatalization checks
@@ -770,7 +811,7 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
             if medial in analysis.medials:
                 # Ya/ra absorbed by wa - mark as consumed so palatalization won't apply
                 medials_consumed.add(medial)
-    
+
     # 2. Velar palatalization: က/ခ/ဂ/ဃ + ျ/ြ → c/ch/j
     #    Only applies if ya/ra wasn't already absorbed by wa
     velar_palatal_onset = None
@@ -782,17 +823,21 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
                     velar_palatal_onset = VELAR_PALATAL_MAP[key]
                     medials_consumed.add(medial)
                     break
-    
+
     # 3. ငျ/ငြ → ny (NGA + palatal medial = palatalized nasal)
     #    Only applies if ya/ra wasn't already absorbed by wa
     nga_palatal_onset = None
     if analysis.base == "င":
         for medial in ["ျ", "ြ"]:
-            if medial in analysis.medials and medial not in medials_consumed and medial in NGA_PALATAL_MEDIALS:
+            if (
+                medial in analysis.medials
+                and medial not in medials_consumed
+                and medial in NGA_PALATAL_MEDIALS
+            ):
                 nga_palatal_onset = "ny"
                 medials_consumed.add(medial)
                 break
-    
+
     # 4. ʃ (sh) combinations:
     #    - ရှ, ယှ → sh (base + ha-medial only)
     #    - သျှ, လျှ → sh (base + ya-medial + ha-medial)
@@ -807,21 +852,21 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
             sh_onset = "sh"
             medials_consumed.add("ျ")
             medials_consumed.add("ှ")
-    
+
     # 5. Regular ha-medial aspiration for sonorants (if not consumed above)
     ha_prefix = ""
     if has_ha_med and "ှ" not in medials_consumed:
         if analysis.base in {"င", "ဉ", "ည", "န", "ဏ", "မ", "လ", "ဝ", "ဠ"}:
             ha_prefix = "h"
             medials_consumed.add("ှ")
-    
+
     # --- Build the onset ---
-    
+
     # Stacked consonants (conjuncts) come first
     for sc in analysis.stacked_consonants:
         sc_roman = CONSONANT_ROMAN.get(sc, "")
         onset_parts.append(sc_roman)
-    
+
     # Base consonant (with special handling)
     if analysis.base:
         if analysis.base in MYANMAR_INDEPENDENT_VOWELS:
@@ -842,7 +887,7 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
             # Regular consonant with optional ha-prefix
             base_roman = ha_prefix + CONSONANT_ROMAN.get(analysis.base, "")
             onset_parts.append(base_roman)
-    
+
     # Add remaining medials (ျ, ြ, ွ) that weren't consumed
     for m in analysis.medials:
         if m in medials_consumed:
@@ -854,7 +899,7 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
             continue
         m_roman = MEDIAL_ROMAN.get(m, "")
         onset_parts.append(m_roman)
-    
+
     analysis.onset_roman = "".join(onset_parts)
 
     # --- VOWEL CALCULATION ---
@@ -875,7 +920,7 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
     # --- CODA CALCULATION ---
     coda_roman = ""
     misc_coda_silent = False  # Track if misc coda became silent
-    
+
     if analysis.coda_consonant:
         if analysis.coda_consonant == GREAT_SA:
             coda_roman = "th"
@@ -907,7 +952,7 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
         coda_consonant=analysis.coda_consonant,
         has_tone_high=analysis.has_tone_high,
         has_tone_low=analysis.has_tone_low,
-        vowel_signs=vowel_set
+        vowel_signs=vowel_set,
     )
 
     # --- BUILD COMPONENT BREAKDOWN (phonetic roadmap) ---
@@ -922,80 +967,60 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
         if analysis.base in MYANMAR_INDEPENDENT_VOWELS:
             # Independent vowels are their own sound
             base_sound = INDEPENDENT_VOWEL_ROMAN.get(analysis.base, "")
-            components.append({
-                "ch": analysis.base,
-                "label": base_sound,
-                "roman": base_sound
-            })
+            components.append({"ch": analysis.base, "label": base_sound, "roman": base_sound})
             current_sound = base_sound
         elif analysis.base == GREAT_SA:
-            components.append({
-                "ch": analysis.base,
-                "label": "ssa",
-                "roman": GREAT_SA_ROMAN
-            })
+            components.append({"ch": analysis.base, "label": "ssa", "roman": GREAT_SA_ROMAN})
             current_sound = GREAT_SA_ROMAN
         else:
             # Regular consonant: show the onset sound
             # The onset_roman already has the correct value from our calculation
             cons_only = CONSONANT_ROMAN.get(analysis.base, "")
-            
+
             # Determine what label to show based on special combinations
             if sh_onset:
                 # sh combinations (ရှ, ယှ, သျှ, လျှ)
                 medial_chars = "".join(m for m in analysis.medials if m in medials_consumed)
-                components.append({
-                    "ch": analysis.base + medial_chars,
-                    "label": "sha",
-                    "roman": "sh"
-                })
+                components.append(
+                    {"ch": analysis.base + medial_chars, "label": "sha", "roman": "sh"}
+                )
                 current_sound = "sh"
             elif velar_palatal_onset:
                 # Velar palatalization (ကျ/ကြ→c, etc.)
                 palatal_medial = "ျ" if "ျ" in medials_consumed else "ြ"
-                components.append({
-                    "ch": analysis.base + palatal_medial,
-                    "label": velar_palatal_onset + "a",
-                    "roman": velar_palatal_onset
-                })
+                components.append(
+                    {
+                        "ch": analysis.base + palatal_medial,
+                        "label": velar_palatal_onset + "a",
+                        "roman": velar_palatal_onset,
+                    }
+                )
                 current_sound = velar_palatal_onset
             elif nga_palatal_onset:
                 # ငျ/ငြ → ny
                 palatal_medial = "ျ" if "ျ" in medials_consumed else "ြ"
-                components.append({
-                    "ch": analysis.base + palatal_medial,
-                    "label": "nya",
-                    "roman": "ny"
-                })
+                components.append(
+                    {"ch": analysis.base + palatal_medial, "label": "nya", "roman": "ny"}
+                )
                 current_sound = "ny"
             elif ha_prefix:
                 # Aspirated sonorant (hl, hm, hn, hng, etc.)
                 base_with_h = ha_prefix + cons_only + "a"
-                components.append({
-                    "ch": analysis.base + "ှ",
-                    "label": base_with_h,
-                    "roman": ha_prefix + cons_only
-                })
+                components.append(
+                    {"ch": analysis.base + "ှ", "label": base_with_h, "roman": ha_prefix + cons_only}
+                )
                 current_sound = ha_prefix + cons_only
             else:
                 # Plain consonant
                 base_with_a = cons_only + "a"
-                components.append({
-                    "ch": analysis.base,
-                    "label": base_with_a,
-                    "roman": cons_only
-                })
+                components.append({"ch": analysis.base, "label": base_with_a, "roman": cons_only})
                 current_sound = cons_only
 
     # 2. Stacked consonants (conjuncts) - these blend into onset
     for sc in analysis.stacked_consonants:
         sc_roman = CONSONANT_ROMAN.get(sc, "")
         sc_with_a = sc_roman + "a"
-        components.append({
-            "ch": "္" + sc,
-            "label": f"+{sc_roman}",
-            "roman": sc_roman
-        })
+        components.append({"ch": "္" + sc, "label": f"+{sc_roman}", "roman": sc_roman})
         current_sound += sc_roman
 
     # 3. Medials - show the glide they add (only those not consumed)
@@ -1004,127 +1029,77 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
             continue
         if m == "ှ":
             # Ha-medial not consumed - standalone case
-            components.append({
-                "ch": m,
-                "label": "+h",
-                "roman": "h"
-            })
+            components.append({"ch": m, "label": "+h", "roman": "h"})
         elif m == "ျ":
-            components.append({
-                "ch": m,
-                "label": "+y",
-                "roman": "y"
-            })
+            components.append({"ch": m, "label": "+y", "roman": "y"})
         elif m == "ြ":
-            components.append({
-                "ch": m,
-                "label": "+y",
-                "roman": "y"
-            })
+            components.append({"ch": m, "label": "+y", "roman": "y"})
         elif m == "ွ":
             if wa_shift_active:
                 # Wa absorbed into vowel
-                components.append({
-                    "ch": m,
-                    "label": "→ u",
-                    "roman": ""
-                })
+                components.append({"ch": m, "label": "→ u", "roman": ""})
             else:
-                components.append({
-                    "ch": m,
-                    "label": "+w",
-                    "roman": "w"
-                })
+                components.append({"ch": m, "label": "+w", "roman": "w"})
 
     # 4. Vowel signs - show the vowel sound
     all_vowel_chars = analysis.pre_vowels + analysis.vowel_signs
     if all_vowel_chars:
         vowel_str = "".join(all_vowel_chars)
         # Show what vowel this produces
-        components.append({
-            "ch": vowel_str,
-            "label": base_vowel,
-            "roman": base_vowel
-        })
+        components.append({"ch": vowel_str, "label": base_vowel, "roman": base_vowel})
     elif analysis.base and analysis.base not in MYANMAR_INDEPENDENT_VOWELS:
         # No explicit vowel signs - check if we need to show a mutated inherent vowel
         # If the vowel isn't plain "a" (due to rhyme mutation), show what it became
         # But skip if wa-medial already handled the vowel shift
         if base_vowel != "a" and analysis.coda_consonant and not wa_shift_active:
             # Vowel changed due to coda (rhyme mutation) - show the result
-            components.append({
-                "ch": "(a→)",
-                "label": base_vowel,
-                "roman": base_vowel
-            })
+            components.append({"ch": "(a→)", "label": base_vowel, "roman": base_vowel})
 
     # 5. Final consonant (coda)
     if analysis.coda_consonant:
         if analysis.coda_consonant == GREAT_SA:
-            components.append({
-                "ch": analysis.coda_consonant,
-                "label": "-th",
-                "roman": coda_roman
-            })
+            components.append({"ch": analysis.coda_consonant, "label": "-th", "roman": coda_roman})
         elif misc_coda_silent:
             # Miscellaneous coda after ို becomes silent
-            components.append({
-                "ch": analysis.coda_consonant + "်",
-                "label": "(silent)",
-                "roman": ""
-            })
+            components.append(
+                {"ch": analysis.coda_consonant + "်", "label": "(silent)", "roman": ""}
+            )
         else:
             # Show with dash prefix to indicate it's a final
             coda_display = f"-{coda_roman}" if coda_roman else ""
-            components.append({
-                "ch": analysis.coda_consonant + "်",
-                "label": coda_display,
-                "roman": coda_roman
-            })
+            components.append(
+                {"ch": analysis.coda_consonant + "်", "label": coda_display, "roman": coda_roman}
+            )
 
     # 6. Anusvara (nasalization)
     if analysis.has_anusvara:
-        components.append({
-            "ch": ANUSVARA,
-            "label": "-n",
-            "roman": "n"
-        })
+        components.append({"ch": ANUSVARA, "label": "-n", "roman": "n"})
 
     # 7. Asat without coda (pure vowel killer)
     if analysis.has_asat and not analysis.coda_consonant:
-        components.append({
-            "ch": ASAT,
-            "label": "∅",
-            "roman": ""
-        })
+        components.append({"ch": ASAT, "label": "∅", "roman": ""})
 
     # 8. Tone marks (brief but informative)
     if analysis.has_tone_high:
         analysis.tone_roman = ""
-        components.append({
-            "ch": TONE_HIGH,
-            "label": "high",
-            "roman": ""
-        })
+        components.append({"ch": TONE_HIGH, "label": "high", "roman": ""})
     elif analysis.has_tone_low:
         analysis.tone_roman = ""
-        components.append({
-            "ch": TONE_LOW,
-            "label": "creaky",
-            "roman": ""
-        })
+        components.append({"ch": TONE_LOW, "label": "creaky", "roman": ""})
 
     analysis.components = components
 
     # --- MINOR SYLLABLE DETECTION ---
     # A minor syllable typically has: no vowel diacritics, no tone marks,
     # and appears before a major syllable. We can only detect the first two here.
-    if (not analysis.vowel_signs and
-        not analysis.has_anusvara and
-        not analysis.coda_consonant and
-        not analysis.has_tone_high and
-        not analysis.has_tone_low and
-        analysis.base not in MYANMAR_INDEPENDENT_VOWELS):
+    if (
+        not analysis.vowel_signs
+        and not analysis.has_anusvara
+        and not analysis.coda_consonant
+        and not analysis.has_tone_high
+        and not analysis.has_tone_low
+        and analysis.base not in MYANMAR_INDEPENDENT_VOWELS
+    ):
         analysis.is_minor = True
         # Minor syllables have schwa, not full "a"
         analysis.vowel_roman = "ə"
@@ -1134,6 +1109,7 @@ def _romanize_analysis(analysis: SyllableAnalysis) -> None:
 # =============================================================================
 # PUBLIC API
 # =============================================================================
+
 
 def romanize_syllable(syl: str) -> str:
     """
@@ -1187,37 +1163,42 @@ def get_g2p_data(text: str) -> dict:
 
     syllable_data = []
     for a in analyses:
-        syllable_data.append({
-            "orth": a.orth,
-            "roman": a.roman,
-            "is_burmese": a.is_burmese,
-            "is_minor": a.is_minor,
-            "onset_roman": a.onset_roman,
-            "vowel_roman": a.vowel_roman,
-            "coda_roman": a.coda_roman,
-            "tone": a.tone.level if a.tone else None,
-            "base": {
-                "ch": a.base,
-                "roman": CONSONANT_ROMAN.get(a.base, "") if a.base in MYANMAR_CONSONANTS else "",
-                "label": "consonant" if a.base in MYANMAR_CONSONANTS else "vowel"
-            } if a.base else None,
-            "medials": [
-                {"ch": m, "roman": MEDIAL_ROMAN.get(m, ""), "label": f"{m} medial"}
-                for m in a.medials
-            ],
-            "vowels": [
-                {"ch": v, "roman": "", "label": "vowel sign"}
-                for v in (a.pre_vowels + a.vowel_signs)
-            ],
-            "finals": [
-                {"ch": a.coda_consonant + "်", "roman": a.coda_roman, "label": "final"}
-            ] if a.coda_consonant else [],
-            "marks": [
-                {"ch": m, "roman": "", "label": _get_mark_label(m)}
-                for m in a.final_marks
-            ],
-            "components": a.components,
-        })
+        syllable_data.append(
+            {
+                "orth": a.orth,
+                "roman": a.roman,
+                "is_burmese": a.is_burmese,
+                "is_minor": a.is_minor,
+                "onset_roman": a.onset_roman,
+                "vowel_roman": a.vowel_roman,
+                "coda_roman": a.coda_roman,
+                "tone": a.tone.level if a.tone else None,
+                "base": {
+                    "ch": a.base,
+                    "roman": CONSONANT_ROMAN.get(a.base, "")
+                    if a.base in MYANMAR_CONSONANTS
+                    else "",
+                    "label": "consonant" if a.base in MYANMAR_CONSONANTS else "vowel",
+                }
+                if a.base
+                else None,
+                "medials": [
+                    {"ch": m, "roman": MEDIAL_ROMAN.get(m, ""), "label": f"{m} medial"}
+                    for m in a.medials
+                ],
+                "vowels": [
+                    {"ch": v, "roman": "", "label": "vowel sign"}
+                    for v in (a.pre_vowels + a.vowel_signs)
+                ],
+                "finals": [{"ch": a.coda_consonant + "်", "roman": a.coda_roman, "label": "final"}]
+                if a.coda_consonant
+                else [],
+                "marks": [
+                    {"ch": m, "roman": "", "label": _get_mark_label(m)} for m in a.final_marks
+                ],
+                "components": a.components,
+            }
+        )
 
     overall = "-".join(a.roman for a in analyses if a.roman.strip())
 
@@ -1243,6 +1224,7 @@ def _get_mark_label(mark: str) -> str:
 # =============================================================================
 
 # These mirror the interface from the original newserver.py
+
 
 def _romanize_syllable(syl: str) -> str:
     """Legacy API: romanize a single syllable."""
@@ -1319,49 +1301,49 @@ DIACRITIC_LABELS = {
 if __name__ == "__main__":
     # Test cases
     test_words = [
-        "မြန်မာ",        # Myanmar
-        "တက္ကသိုလ်",     # university (with stack)
-        "လောက",         # world (with stack)
-        "အင်္ဂလိပ်",      # English
-        "ပိဿာ",         # viss (with great sa)
-        "ကြောင်",        # cat
-        "လှ",           # beautiful (ha-medial)
-        "ရှင်း",          # clear (sha sound)
-        "ကွက်",          # (wa + stop → u)
-        "ဝန်",           # burden (wa onset + n coda)
-        "ခုနှစ်",        # minor syllable example
-        "ခလုတ်",        # button (minor + major)
-        "၌",            # locative abbreviation
-        "၎င်း",          # demonstrative abbreviation
-        "ကိုက်",         # bite (ို + က် → aik)
-        "ကောက်",        # pick (ော + က် → auk)
+        "မြန်မာ",  # Myanmar
+        "တက္ကသိုလ်",  # university (with stack)
+        "လောက",  # world (with stack)
+        "အင်္ဂလိပ်",  # English
+        "ပိဿာ",  # viss (with great sa)
+        "ကြောင်",  # cat
+        "လှ",  # beautiful (ha-medial)
+        "ရှင်း",  # clear (sha sound)
+        "ကွက်",  # (wa + stop → u)
+        "ဝန်",  # burden (wa onset + n coda)
+        "ခုနှစ်",  # minor syllable example
+        "ခလုတ်",  # button (minor + major)
+        "၌",  # locative abbreviation
+        "၎င်း",  # demonstrative abbreviation
+        "ကိုက်",  # bite (ို + က် → aik)
+        "ကောက်",  # pick (ော + က် → auk)
         # New tests for velar palatalization
-        "ကျ",           # velar + ya → c (ca)
-        "ကြ",           # velar + ra → c (ca)  
-        "ချ",           # aspirated velar + ya → ch (cha)
-        "ခြ",           # aspirated velar + ra → ch (cha)
-        "ဂျ",           # voiced velar + ya → j (ja)
-        "ကျောင်း",       # school (kyaung → caun)
-        "ခြေ",           # foot (khre → chei)
-        "ဂျပန်",         # Japan (gya-pan → ja-pan)
+        "ကျ",  # velar + ya → c (ca)
+        "ကြ",  # velar + ra → c (ca)
+        "ချ",  # aspirated velar + ya → ch (cha)
+        "ခြ",  # aspirated velar + ra → ch (cha)
+        "ဂျ",  # voiced velar + ya → j (ja)
+        "ကျောင်း",  # school (kyaung → caun)
+        "ခြေ",  # foot (khre → chei)
+        "ဂျပန်",  # Japan (gya-pan → ja-pan)
         # NGA + RA palatalization
-        "ငြိမ်",          # quiet (ngri → nyi)
+        "ငြိမ်",  # quiet (ngri → nyi)
         # Additional sh combinations
-        "လျှာ",          # tongue (lhya → sha)
-        "သျှ",           # (thya + ha → sha)
+        "လျှာ",  # tongue (lhya → sha)
+        "သျှ",  # (thya + ha → sha)
         # NEW: NGA + YA palatalization
-        "ငျ",            # NGA + ya → ny
+        "ငျ",  # NGA + ya → ny
         # NEW: Voiced aspirated velar palatalization
-        "ဃျ",            # GHA + ya → j (rare)
-        "ဃြ",            # GHA + ra → j (rare)
+        "ဃျ",  # GHA + ya → j (rare)
+        "ဃြ",  # GHA + ra → j (rare)
         # NEW: Wa-dominance (ya/ra absorbed when wa present)
-        "ကျွ",           # kyw → kw (ya absorbed)
-        "ကြွ",           # krw → kw (ra absorbed)  
-        "ကြွေး",          # kywe → kwe (ra absorbed, then palatalize... wait, complex)
+        "ကျွ",  # kyw → kw (ya absorbed)
+        "ကြွ",  # krw → kw (ra absorbed)
+        "ကြွေး",  # kywe → kwe (ra absorbed, then palatalize... wait, complex)
         # NEW: ို + miscellaneous coda → silent
-        "ကိုလ်",          # ko (l coda silent after ို)
-        "ကိုရ်",          # ko (r coda silent after ို)
-        "ကိုယ်",          # ko (y coda silent after ို) - common word "self"
+        "ကိုလ်",  # ko (l coda silent after ို)
+        "ကိုရ်",  # ko (r coda silent after ို)
+        "ကိုယ်",  # ko (y coda silent after ို) - common word "self"
     ]
 
     print("=" * 60)
@@ -1381,4 +1363,6 @@ if __name__ == "__main__":
                 print(f" ({syl['tone']} tone)", end="")
             print()
             for comp in syl.get("components", []):
-                print(f"      {comp['ch']:4} : {comp.get('label', ''):<30} → {comp.get('roman', '')}")
+                print(
+                    f"      {comp['ch']:4} : {comp.get('label', ''):<30} → {comp.get('roman', '')}"
+                )

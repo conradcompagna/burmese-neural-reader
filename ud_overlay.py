@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Optional, Tuple
 # ----------------------------
 
 _MYANMAR_BLOCK_START = 0x1000
-_MYANMAR_BLOCK_END   = 0x109F
+_MYANMAR_BLOCK_END = 0x109F
 
 # Common Myanmar punctuation in chronicle-style texts / OCR streams.
 # (You can add more if needed.)
@@ -36,18 +36,35 @@ _WHITESPACE_BOUNDARY_JS = Path(__file__).with_name("whitespace_boundaries.js")
 
 # Content POS ranked by "headworthiness" (higher = more likely to be head)
 _CONTENT_POS_ORDER = [
-    "VERB", "NOUN", "PROPN",
-    "ADJ", "ADV", "NUM", "PRON",
-    "SCONJ", "CCONJ",
-    "ADP", "PART",
-    "PUNCT", "SYM"
+    "VERB",
+    "NOUN",
+    "PROPN",
+    "ADJ",
+    "ADV",
+    "NUM",
+    "PRON",
+    "SCONJ",
+    "CCONJ",
+    "ADP",
+    "PART",
+    "PUNCT",
+    "SYM",
 ]
 
 # Dependency relations ranked by "headworthiness"
 _DEP_ORDER = [
-    "root", "acl", "obl", "compound",
-    "nmod", "amod", "advmod", "nummod",
-    "aux", "mark", "case", "punct"
+    "root",
+    "acl",
+    "obl",
+    "compound",
+    "nmod",
+    "amod",
+    "advmod",
+    "nummod",
+    "aux",
+    "mark",
+    "case",
+    "punct",
 ]
 
 _CONTENT_POS_SCORE = {p: len(_CONTENT_POS_ORDER) - i for i, p in enumerate(_CONTENT_POS_ORDER)}
@@ -199,6 +216,7 @@ def default_ud_keep_fn(tok: str) -> bool:
 # UD overlay core
 # ----------------------------
 
+
 @dataclass
 class UDOverlay:
     ok: bool
@@ -242,7 +260,11 @@ class UDParser:
         # Add dictionary POS constraint component after morphologizer
         try:
             import dict_pos_override  # registers the factory
-            if "morphologizer" in self.nlp.pipe_names and "dict_pos_override" not in self.nlp.pipe_names:
+
+            if (
+                "morphologizer" in self.nlp.pipe_names
+                and "dict_pos_override" not in self.nlp.pipe_names
+            ):
                 self.nlp.add_pipe("dict_pos_override", after="morphologizer")
                 print("[INFO] dict_pos_override component added to pipeline")
         except Exception as e:
@@ -254,8 +276,12 @@ class UDParser:
         keep_fn=default_ud_keep_fn,
         allow_ascii_punct: bool = False,
         attach_dropped_to: str = "none",  # "none" | "nearest_left" | "nearest_right"
-        dict_fills: Optional[List[Dict[str, Any]]] = None,  # Optional pre-computed dictionary fills per segment
-        original_text: Optional[str] = None,  # Original text (preserved for compatibility, not used)
+        dict_fills: Optional[
+            List[Dict[str, Any]]
+        ] = None,  # Optional pre-computed dictionary fills per segment
+        original_text: Optional[
+            str
+        ] = None,  # Original text (preserved for compatibility, not used)
         pos_override: bool = True,  # Toggle for dictionary POS override (dict_pos_override pipe)
         precomputed_ner_ents: Optional[List[Dict[str, Any]]] = None,  # NER ents aligned to segments
         collapse_ner_spans: bool = False,  # Collapse NER spans into single tokens for parsing
@@ -433,7 +459,9 @@ class UDParser:
                     first_seg_idx = seg_indices[0]
                     if first_seg_idx < len(dict_fills) and dict_fills[first_seg_idx] is not None:
                         doc[local_idx]._.dict_fills = dict_fills[first_seg_idx]
-                    ner_label = collapsed_ner_labels[local_idx] or _get_precomputed_ner_label(seg_indices)
+                    ner_label = collapsed_ner_labels[local_idx] or _get_precomputed_ner_label(
+                        seg_indices
+                    )
                     if ner_label:
                         doc[local_idx]._.ner_locked = True
 
@@ -451,7 +479,9 @@ class UDParser:
 
             # Apply NER-based POS override for precomputed NER labels
             for local_idx, seg_indices in enumerate(collapsed_to_orig):
-                ner_label = collapsed_ner_labels[local_idx] or _get_precomputed_ner_label(seg_indices)
+                ner_label = collapsed_ner_labels[local_idx] or _get_precomputed_ner_label(
+                    seg_indices
+                )
                 if ner_label:
                     upos_override = _NER_TO_UPOS.get(ner_label)
                     if upos_override and local_idx < len(doc):
@@ -464,7 +494,9 @@ class UDParser:
                     end_doc = int(sent.end)
                     if start_doc < 0 or end_doc <= start_doc:
                         continue
-                    if start_doc >= len(collapsed_to_orig) or (end_doc - 1) >= len(collapsed_to_orig):
+                    if start_doc >= len(collapsed_to_orig) or (end_doc - 1) >= len(
+                        collapsed_to_orig
+                    ):
                         continue
                     start_seg = collapsed_to_orig[start_doc][0]
                     end_seg = collapsed_to_orig[end_doc - 1][-1] + 1
@@ -631,6 +663,7 @@ class UDParser:
 # ----------------------------
 # Convenience wrapper
 # ----------------------------
+
 
 def build_ud_overlay(
     segments: List[str],

@@ -1,18 +1,13 @@
-# Publication contents
+# Repository contents
 
 ## Included
 
-Deployed reader application, lexical/NLP support modules, frontend, research scripts, parser training configurations, and dependency manifests.
+Flask reader, lexical and neural integration code, corpus preparation, model configurations, dictionary tools, tests, and deployment templates.
 
-## Kept outside this repository
+## External resources
 
-Dictionary and frequency data, source corpora, spaCy/Stanza weights, uploaded documents, annotations, and reading-review records.
+Dictionaries, frequency resources, corpora, trained models, personal annotations, and reading-review records.
 
-All projects also exclude live environment files, credentials, private keys,
-logs, local environments, dependency installations, backup copies, and original
-Git history. Configuration examples contain empty credentials or explicit local
-example values. Upstream component notices are preserved.
+Live environment files, credentials, private keys, logs, installed dependencies, local environments, backup copies, and generated outputs are excluded. Configuration examples require your own settings. Third-party notices are preserved in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 
-This is a fresh source snapshot. Publication adjustments remove operational
-defaults and describe external resources; they do not change the deployed sites.
-See [setup](SETUP.md) for requirements and validation limits.
+The GitHub code is maintained separately from the deployed sites and original development workspaces. See [setup](SETUP.md) for inputs, build steps, and validation limits.
