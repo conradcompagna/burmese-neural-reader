@@ -19,6 +19,4 @@ gunicorn wsgi:app --bind 127.0.0.1:5000 --workers 1 --threads 1 --timeout 120
 
 Open `/reader`. `wsgi.py` initializes the dictionaries, grammar lexicon, parser, and NER pipeline.
 
-## Validation
-
-Run `python -m unittest discover -s tests -v` for the model-free lexical regressions. Install `ruff==0.16.8` and run `ruff check .` and `ruff format --check .` for the authored Python checks used in CI. Full neural parsing and document integration require the external resources above.
+Running the full neural reader requires the external resources above.
