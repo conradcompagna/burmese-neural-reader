@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Burmese Neural Reader</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='hero-logo.svg') }}"/>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='reader.css') }}?v=20260821c"/>
+</head>
+<body>
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav-links">
+    <a class="active" aria-current="page" href="/reader">Neural Reader</a>
+    <a href="/chronicles">Konbaung Chronicle Reader</a>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+    <a href="/api/v1/docs">Graph API</a>
+  </div>
+</nav>
+<!-- Left Menu Toggle (mirrors dictionary panel toggle) -->
+<button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M9 5l7 7-7 7"/>
+  </svg>
+</button>
+<!-- Left Sidebar Menu -->
+<div id="left-menu" class="left-menu collapsed">
+  <div class="menu-content">
+    <!-- Settings Section -->
+    <div class="menu-section" data-section="settings">
+      <button type="button" class="menu-section-header">
+        <span class="menu-section-title">Settings</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="menu-section-content">
+        <div class="menu-group">
+          <div class="menu-group-title">Overlays</div>
+          <label class="menu-toggle-label">
+            <input type="checkbox" id="toggleUdOverlay" checked>
+            <span class="menu-toggle-switch"></span>
+            <span>Dependency web</span>
+          </label>
+          <label class="menu-toggle-label">
+            <input type="checkbox" id="toggleChunkHighlight" checked>
+            <span class="menu-toggle-switch"></span>
+            <span>POS shading</span>
+          </label>
+          <label class="menu-toggle-label">
+            <input type="checkbox" id="toggleNerOverlay" checked>
+            <span class="menu-toggle-switch"></span>
+            <span>NER labels</span>
+          </label>
+          <!-- Hidden toggles kept for functionality -->
+          <label class="menu-toggle-label" style="display:none;">
+            <input type="checkbox" id="toggleBottomUpChunk" checked>
+            <span class="menu-toggle-switch"></span>
+            <span>Bottom-Up Chunk</span>
+          </label>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">Phrase Chunking</div>
+          <label class="menu-slider-label">
+            <span>Discontinuity Threshold</span>
+            <div class="menu-slider-row">
+              <input type="range" id="bottomUpChunkThreshold" min="1" max="10" value="5" class="menu-slider">
+              <span class="menu-slider-value">5</span>
+              <button type="button" id="resetThresholdBtn" class="menu-reset-btn" title="Reset to default (5)">Reset</button>
+            </div>
+            <div class="menu-hint">Controls how tightly related words in a phrase must be. Increase for larger phrases, decrease for smaller.</div>
+          </label>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">Popups</div>
+          <label class="menu-toggle-label">
+            <input type="checkbox" id="togglePronunciation" checked>
+            <span class="menu-toggle-switch"></span>
+            <span>Pronunciation</span>
+          </label>
+          <label class="menu-toggle-label">
+            <input type="checkbox" id="toggleGrammarPopup" checked>
+            <span class="menu-toggle-switch"></span>
+            <span>Grammar</span>
+          </label>
+          <label class="menu-toggle-label">
+            <input type="checkbox" id="toggleDictPopup" checked>
+            <span class="menu-toggle-switch"></span>
+            <span>Dictionary</span>
+          </label>
+        </div>
+        <div class="menu-group" id="pdfTextSourceGroup" style="display:none;">
+          <div class="menu-group-title">PDF Text Source</div>
+          <label class="menu-toggle-label">
+            <input type="checkbox" id="togglePdfjsTextLayer">
+            <span class="menu-toggle-switch"></span>
+            <span>Use PDF.js text layer</span>
+          </label>
+          <div class="menu-hint">Extract text from PDF.js text layer instead of backend. Experimental.</div>
+        </div>
+      </div>
+    </div>
+    <!-- Legend Section -->
+    <div class="menu-section" data-section="legend">
+      <button type="button" class="menu-section-header">
+        <span class="menu-section-title">Legend</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="menu-section-content">
+        <div class="menu-group">
+          <div class="menu-group-title">POS Shading</div>
+          <div class="legend-pos-grid">
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#f4f4f5;"></span><span class="legend-pos-label">PART</span><span class="legend-pos-desc">Particle</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#bbf7d0;"></span><span class="legend-pos-label">NOUN</span><span class="legend-pos-desc">Noun</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#e0f2fe;"></span><span class="legend-pos-label">ADP</span><span class="legend-pos-desc">Adposition</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#fda4af;"></span><span class="legend-pos-label">VERB</span><span class="legend-pos-desc">Verb</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#e5e7eb;"></span><span class="legend-pos-label">PUNCT</span><span class="legend-pos-desc">Punctuation</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#e2e8f0;"></span><span class="legend-pos-label">PRON</span><span class="legend-pos-desc">Pronoun</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#fde68a;"></span><span class="legend-pos-label">ADJ</span><span class="legend-pos-desc">Adjective</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#c7d2fe;"></span><span class="legend-pos-label">PROPN</span><span class="legend-pos-desc">Proper noun</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#f5d0fe;"></span><span class="legend-pos-label">NUM</span><span class="legend-pos-desc">Numeral</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#fee2e2;"></span><span class="legend-pos-label">ADV</span><span class="legend-pos-desc">Adverb</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#bae6fd;"></span><span class="legend-pos-label">SCONJ</span><span class="legend-pos-desc">Subordinating conj.</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#cffafe;"></span><span class="legend-pos-label">CCONJ</span><span class="legend-pos-desc">Coordinating conj.</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#fcd34d;"></span><span class="legend-pos-label">INTJ</span><span class="legend-pos-desc">Interjection</span></div>
+            <div class="legend-pos-item"><span class="legend-pos-swatch" style="background:#f3e8ff;"></span><span class="legend-pos-label">SYM</span><span class="legend-pos-desc">Symbol</span></div>
+          </div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">Dependency Lines</div>
+          <div class="legend-ud-grid">
+            <div class="legend-ud-item">
+              <svg class="legend-ud-svg" viewBox="0 0 50 20"><path d="M5 18 Q25 2 45 18" stroke="#6b7280" stroke-width="1.4" fill="none" opacity="0.4"/><polygon points="45,18 40,14 42,18" fill="#6b7280" opacity="0.4"/></svg>
+              <span class="legend-ud-label" style="color:#6b7280;">Gray</span>
+              <span class="legend-ud-desc">Background edges</span>
+            </div>
+            <div class="legend-ud-item">
+              <svg class="legend-ud-svg" viewBox="0 0 50 20"><path d="M5 18 Q25 2 45 18" stroke="#6366f1" stroke-width="1.75" fill="none"/><polygon points="45,18 40,14 42,18" fill="#6366f1"/></svg>
+              <span class="legend-ud-label" style="color:#6366f1;">Indigo</span>
+              <span class="legend-ud-desc">Arc to parent</span>
+            </div>
+            <div class="legend-ud-item">
+              <svg class="legend-ud-svg" viewBox="0 0 50 20"><path d="M5 18 Q25 2 45 18" stroke="#e67e22" stroke-width="1.75" fill="none"/><polygon points="45,18 40,14 42,18" fill="#e67e22"/></svg>
+              <span class="legend-ud-label" style="color:#e67e22;">Orange</span>
+              <span class="legend-ud-desc">Arc from parent to child</span>
+            </div>
+          </div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">Dependency Relations</div>
+          <div class="legend-dep-list">
+            <div class="legend-dep-row"><span class="legend-dep-pill">case</span><span class="legend-dep-desc">Postposition marking grammatical role (က, ကို, မှာ, တွင်, etc.)</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">obl</span><span class="legend-dep-desc">Noun phrase head</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">mark</span><span class="legend-dep-desc">Particle indicating clausal transition</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">punct</span><span class="legend-dep-desc">Punctuation</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">acl</span><span class="legend-dep-desc">Clause head (usually verb or adj)</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">compound</span><span class="legend-dep-desc">Part of a multi-word compound expression</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">root</span><span class="legend-dep-desc">Main predicate of the sentence — everything else connects to this</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">advmod</span><span class="legend-dep-desc">Word modifying a verb, adjective, or another adverb</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">nummod</span><span class="legend-dep-desc">Number modifying a noun (e.g., "three" in "three books")</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">amod</span><span class="legend-dep-desc">Adjective modifying a noun</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">nmod</span><span class="legend-dep-desc">Noun modifying another noun (possession, material, etc.)</span></div>
+            <div class="legend-dep-row"><span class="legend-dep-pill">aux</span><span class="legend-dep-desc">Auxiliary/helper verb supporting the main verb</span></div>
+          </div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">NER Labels</div>
+          <div class="legend-ner-grid">
+            <div class="legend-ner-item"><span class="legend-ner-pill">PNAME</span><span class="legend-ner-desc">Person name</span></div>
+            <div class="legend-ner-item"><span class="legend-ner-pill">LOC</span><span class="legend-ner-desc">Location</span></div>
+            <div class="legend-ner-item"><span class="legend-ner-pill">ORG</span><span class="legend-ner-desc">Organization</span></div>
+            <div class="legend-ner-item"><span class="legend-ner-pill">TIME</span><span class="legend-ner-desc">Time expression</span></div>
+            <div class="legend-ner-item"><span class="legend-ner-pill">RACE</span><span class="legend-ner-desc">Ethnicity/Race</span></div>
+            <div class="legend-ner-item"><span class="legend-ner-pill">NUM</span><span class="legend-ner-desc">Number</span></div>
+            <div class="legend-ner-item"><span class="legend-ner-pill">NE</span><span class="legend-ner-desc">Other entity</span></div>
+          </div>
+        </div>
+        <div class="menu-group">
+          <div class="menu-group-title">Unknown Tokens</div>
+          <div class="legend-broken-item">
+            <span class="legend-broken-token">မြနမာ</span>
+            <span class="legend-broken-desc">Red text = unknown. Click for fuzzy matching.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- About Section -->
+    <div class="menu-section" data-section="about">
+      <button type="button" class="menu-section-header">
+        <span class="menu-section-title">About</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="menu-section-content">
+        <div class="menu-text">
+          <p>This is an experimental reading tool for the Myanmar language, designed to make complex texts more accessible through interactive linguistic annotation. It combines word segmentation, hover pop-ups drawn from multiple dictionaries, a custom-built romanization engine, as well as a full natural language processing pipeline including POS tagging, dependency parsing, and named entity recognition in order to extract semantic and syntactic meaning from a variety of raw inputs. Entire books can be uploaded in PDF form and are parsed page by page using an in-house renderer.</p>
+          <p>Burmese is a notoriously difficult language to process computationally: it is written in an unbroken script without whitespace, making word boundary detection difficult, and suffers from limited high-quality annotated machine-learning corpora.</p>
+          <p>This project addresses those limitations through a statistics-driven, dictionary-aware segmentation process, as well as a suite of specially trained neural networks. Many of the datasets used by these modules were produced by Ye Kyaw Thu, without whose work this project would not be possible.</p>
+          <p>Core lexicons include the Myanmar Language Commission's <em>Myanmar–English Dictionary</em>, the <em>Universal Burmese–English–Pali Dictionary</em> by Hoke Sein, and <em>Burmese/Myanmar Dictionary of Grammatical Forms</em> by Anna J. Allott and John Okell.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Bio Section -->
+    <div class="menu-section" data-section="bio">
+      <button type="button" class="menu-section-header">
+        <span class="menu-section-title">Bio</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="menu-section-content">
+        <div class="menu-text">
+          <p>Conrad Compagna holds a PhD in history from Birkbeck, University of London and is a specialist in the history of the British Empire in South and Southeast Asia as well as Southeast Asian borderlands, in particular the region between northeast India, Myanmar, and Yunnan in China.</p>
+          <p>He also has expertise in digital humanities, including applied natural language processing for text extraction and analysis, text mining, and data visualization.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Contact Section -->
+    <div class="menu-section" data-section="contact">
+      <button type="button" class="menu-section-header">
+        <span class="menu-section-title">Contact</span>
+        <svg class="menu-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="menu-section-content">
+        <div class="menu-text">
+          <p><a href="mailto:contact@example.com">contact@example.com</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="main-container">
+  <div class="hero-banner">
+    <img src="https://images.metmuseum.org/CRDImages/as/original/DP-14374-040.jpg"
+         onerror="this.onerror=function(){this.src='https://images.metmuseum.org/CRDImages/as/web-additional/DP-14374-007.jpg'};this.src='https://collectionapi.metmuseum.org/api/collection/v1/iiif/744940/1749464/main-image'"
+         alt="Royal processions, Court of King Mindon/Thibaw, 1870s-1880s">
+    <div class="hero-overlay"></div>
+    <div class="hero-header">
+      <div class="hero-title">Burmese Neural Reader</div>
+    </div>
+  </div>
+  <div id="reader-app">
+    <div id="dropZone" class="reader-input-container">
+      <textarea id="sourceText" class="reader-textarea" placeholder=""></textarea>
+      <div id="sourcePager" class="reader-pager" style="display:none;"></div>
+      <div class="reader-file-row">
+        <span id="statusText" class="status-inline">Ready.</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button type="button" id="fileButton" class="file-button">Choose file...</button>
+
+          <span id="fileNamePill" class="file-name-pill" style="display:none;">
+            <span id="fileNameText" class="file-name-text"></span>
+            <button type="button" id="clearFileBtn" class="file-clear-btn" title="Clear file">&times;</button>
+          </span>
+
+          <span id="rawTextPill" class="file-name-pill" style="display:none;" title="Clear pasted text">
+            <span id="rawTextText" class="file-name-text"></span>
+            <button type="button" id="clearRawTextBtn" class="file-clear-btn" title="Clear pasted text">&times;</button>
+          </span>
+
+          <label id="origViewToggle" class="orig-view-toggle" style="display:none;" title="Show original document layout with text overlay">
+            <input type="checkbox" id="origViewCheckbox">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Original</span>
+          </label>
+
+          <input type="file"
+                 id="fileInput"
+                 accept=".txt,.pdf,.docx,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                 style="display:none;">
+        </div>
+      </div>
+    </div>
+    <div id="renderedText" class="reader-output"></div>
+    <!-- DISABLED FOR DEPLOYMENT: Dependency tree view container
+    <div id="depTreeView" class="dep-tree-view" style="display:none;"></div>
+    -->
+  </div>
+</div>
+<button id="panel-toggle">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M15 19l-7-7 7-7"/>
+  </svg>
+</button>
+<div id="side-panel">
+  <div id="panel-header">
+    <h3>Dictionary</h3>
+    <div id="search-container">
+      <div class="search-row">
+        <input type="text" id="dict-search" placeholder="">
+        <button id="search-btn">Search</button>
+        <!-- DISABLED FOR DEPLOYMENT: Custom dictionary entries require user accounts
+        <button id="create-btn">Create</button>
+        -->
+      </div>
+      <!-- DISABLED FOR DEPLOYMENT: Custom entries view
+      <button id="view-btn">View Custom Entries</button>
+      -->
+    </div>
+  </div>
+  <div id="panel-content">
+    <div id="panel-placeholder">Click a word in the text or search above. Hover headwords for component breakdowns. Entry body text is also inspectable.</div>
+  </div>
+</div>
+<div id="hoverPopupContainer" class="popup-container">
+  <div id="g2pPopup" class="g2p-popup"></div>
+  <div id="notePopup" class="note-popup"></div>
+  <div id="hoverPopup" class="dict-popup"></div>
+  <div id="udPopup" class="ud-popup"></div>
+  <div id="grammarPopup" class="grammar-popup"></div>
+</div>
+<div id="subsegmentPopupsContainer" class="subsegment-popups-container"></div>
+  <!-- Flashcard overlay -->
+<div id="flashcardOverlay" class="flashcard-overlay" style="display:none;">
+  <div class="flashcard-modal">
+    <div class="flashcard-header">
+      <button type="button" id="flashcardCloseBtn" class="flashcard-close-btn" title="Close">&times;</button>
+    </div>
+    <div id="flashcardWord" class="flashcard-word">...</div>
+    <button type="button" id="flashcardShowAnswerBtn" class="flashcard-show-answer-btn">Show Answer</button>
+    <div id="flashcardAnswer" class="flashcard-answer" style="display:none;">
+      <div id="flashcardPronunciation" class="flashcard-section"></div>
+      <div id="flashcardDictionary" class="flashcard-section"></div>
+      <div id="flashcardGrammar" class="flashcard-section"></div>
+      <div id="flashcardCommentSection" class="flashcard-section">
+        <div class="flashcard-section-title">Comment</div>
+        <textarea id="flashcardAnnotation" class="flashcard-annotation-textarea" rows="2" placeholder="Add your notes..."></textarea>
+      </div>
+    </div>
+    <div id="flashcardGradeButtons" class="flashcard-grade-buttons" style="display:none;">
+      <button type="button" id="flashcardDontKnowBtn" class="flashcard-grade-btn flashcard-grade-unknown">I don't know</button>
+      <button type="button" id="flashcardKnowBtn" class="flashcard-grade-btn flashcard-grade-known">I know this</button>
+    </div>
+    <div id="flashcardMessage" class="flashcard-message"></div>
+    <div id="flashcardStats" class="flashcard-stats"></div>
+  </div>
+</div>
+  <script src="{{ url_for('static', filename='initial_example_cache.js') }}"></script>
+  <script src="{{ url_for('static', filename='reader.js') }}?v=20260209b"></script>
+</body>
+</html>
