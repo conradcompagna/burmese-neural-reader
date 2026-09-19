@@ -2,7 +2,7 @@
 
 ## Included
 
-Flask reader, lexical and neural integration code, corpus preparation, model configurations, dictionary tools, tests, and deployment templates.
+Flask reader, lexical and neural integration code, deployed parser configuration, runtime tests, and application setup documentation.
 
 ## External resources
 

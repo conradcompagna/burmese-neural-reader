@@ -2,7 +2,7 @@
 
 **A deployed Burmese reading application integrating neural parsing, dictionary segmentation, and source-document exploration.**
 
-I built this reader to make Burmese texts easier to investigate at the level of words, grammatical structure, and source passages. The project combines language-specific lexical engineering with training infrastructure for a low-resource language.
+I built this reader to make Burmese texts easier to investigate at the level of words, grammatical structure, and source passages. The project combines language-specific lexical engineering with neural analysis for a low-resource language.
 
 [Live reader](https://burmeseneuralreader.com/reader) · [Setup](docs/SETUP.md) · [Architecture](docs/ARCHITECTURE.md) · [Portfolio](https://github.com/conradcompagna)
 
@@ -13,7 +13,7 @@ I built this reader to make Burmese texts easier to investigate at the level of 
 - **Language-specific lexical search:** layered dictionaries, dynamic-programming segmentation, language-model scoring, and BK-tree fuzzy matching over edit distance.
 - **Neural analysis in context:** a custom spaCy parsing pipeline and Stanza named-entity recognition integrated with dictionary segmentation and document spans.
 - **Interactive close reading:** document import, hover definitions, dependency visualization, pronunciation/transliteration, annotations, and reading-review state.
-- **Training infrastructure:** corpus conversion, tokenizer and parser configurations, CRF boundary models, segmentation evaluation, and inspection tools.
+- **Inspectable lexical behavior:** model-free regressions compare BK-tree results with exhaustive edit-distance search and verify spelling suggestions against Burmese fixtures.
 
 ## Explore the code
 
@@ -23,8 +23,7 @@ I built this reader to make Burmese texts easier to investigate at the level of 
 | Language-model scoring and fuzzy search | [lmbrain.py](lmbrain.py) |
 | Grammar and pronunciation | [dict_pos_override.py](dict_pos_override.py), [ud_overlay.py](ud_overlay.py), [burmese_transliteration.py](burmese_transliteration.py) |
 | Reading interface | [static/reader.js](static/reader.js), [templates/reader.html](templates/reader.html) |
-| Corpus and model preparation | [training/](training/) |
-| Dictionary preparation and inspection | [tools/](tools/) |
+| Deployed parser architecture | [Model configuration](training/deployed_spacy_config.cfg) |
 | Model-free regressions | [tests/](tests/) |
 
 ## Run the lightweight checks
