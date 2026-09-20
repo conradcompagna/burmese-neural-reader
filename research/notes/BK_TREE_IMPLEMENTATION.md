@@ -61,7 +61,7 @@ All methods include a **fallback** to the old brute-force approach if the BK-tre
 - Queries skip ~90-99% of vocabulary depending on max_edit_distance
 
 ### Test Results
-From [test_bktree.py](test_bktree.py):
+From [test_bktree.py](../evaluation/tests/test_bktree.py):
 - ✓ Correctness: BK-tree returns identical results to brute-force
 - ✓ Performance: Massive speedup (>1000x on small vocabulary)
 - Speedup increases with vocabulary size
