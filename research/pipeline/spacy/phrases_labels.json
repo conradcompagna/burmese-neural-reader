@@ -1,0 +1,9 @@
+{
+  "spans_key": "phrases",
+  "labels": [
+    "ADJ",
+    "ADV",
+    "NOUN",
+    "VERB"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "docs_total": 4320,
+  "split": {
+    "train_docs": 4104,
+    "dev_docs": 216,
+    "train_pct": 0.95,
+    "dev_pct": 0.05
+  }
+}

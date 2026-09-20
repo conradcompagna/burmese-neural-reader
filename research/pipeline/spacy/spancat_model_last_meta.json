@@ -1,0 +1,51 @@
+{
+  "lang":"xx",
+  "name":"pipeline",
+  "version":"0.0.0",
+  "spacy_version":">=3.8.11,<3.9.0",
+  "description":"",
+  "author":"",
+  "email":"",
+  "url":"",
+  "license":"",
+  "spacy_git_version":"e7a662a",
+  "vectors":{
+    "width":0,
+    "vectors":0,
+    "keys":0,
+    "name":null,
+    "mode":"default"
+  },
+  "labels":{
+    "tok2vec":[
+
+    ],
+    "spancat":[
+      "NOUN",
+      "VERB",
+      "ADJ",
+      "ADV"
+    ]
+  },
+  "pipeline":[
+    "tok2vec",
+    "spancat"
+  ],
+  "components":[
+    "tok2vec",
+    "spancat"
+  ],
+  "disabled":[
+
+  ],
+  "performance":{
+    "spans_sc_f":0.0,
+    "spans_sc_p":0.0,
+    "spans_sc_r":0.0,
+    "spans_CAPS_f":0.511858956,
+    "spans_CAPS_p":0.6157512953,
+    "spans_CAPS_r":0.4379637364,
+    "tok2vec_loss":834.9909810673,
+    "spancat_loss":11537.5533180237
+  }
+}
