@@ -1,153 +1,43 @@
-# BK-Tree Implementation for Efficient Fuzzy Matching
+# BK-tree fuzzy dictionary search
 
-## Overview
+The reader needs spelling candidates that exist in its Burmese dictionary, with
+contextual ranking applied after candidate retrieval. In
+[`lmbrain.py`](../../lmbrain.py), `AdvancedSegmenter._build_spell_vocab()` builds a
+BK-tree from nonempty Myanmar-script dictionary keys; `suggest_spellings()` then
+uses that index to find nearby forms before scoring them with language-model
+context.
 
-The lmbrain.py fuzzy matching system has been upgraded from brute-force Levenshtein distance scanning to use a **BK-tree** (Burkhard-Keller tree), which dramatically reduces the number of distance calculations needed per query.
+## Candidate retrieval and ranking
 
-## What Changed
+`BKTree` indexes words by Levenshtein distance. For a query at distance `d` from a
+node and an allowed radius `r`, only child edges in `[d - r, d + r]` need searching.
+The triangle inequality makes this pruning exact: it can skip branches without
+discarding candidates inside the requested radius.
 
-### 1. Added BK-Tree Implementation (lmbrain.py:77-181)
+The spelling pipeline filters the returned candidates by edit similarity, caches
+that morphology-dependent shortlist, and applies contextual ranking afterwards.
+Changing the radius does not require rebuilding the tree. Duplicate words do not
+create duplicate nodes, and empty dictionary headwords are ignored. If the tree
+is unavailable, the maintained spelling path returns no candidates.
 
-Two new classes were added:
-- `BKNode`: Represents a node in the BK-tree
-- `BKTree`: The main BK-tree data structure with efficient query capabilities
+Index construction has a startup and memory cost; query work depends on the
+vocabulary, insertion order, and search radius. The index provides a way to prune
+distance calculations, without a fixed speedup or logarithmic-query guarantee.
 
-The BK-tree uses the **triangle inequality property** of edit distance to prune the search space:
-- If `d(query, node) = d`, then any child at distance `k` can only contain terms within distance of the query in range `[d - max_dist, d + max_dist]`
-- This allows the tree to skip entire branches that cannot possibly contain matches
+## Demonstrated behavior
 
-### 2. Automatic BK-Tree Building (lmbrain.py:888-890)
+The [lexical regression suite](../../tests/test_lexical_search.py) compares BK-tree
+results with exhaustive edit-distance search over a seeded vocabulary of distinct
+Burmese strings and multiple queries at radii 0, 1, and 2. It also checks duplicate
+insertion, empty inputs, exact matches, dictionary-backed spelling suggestions,
+and repeated cached lookups. These examples run without private models or corpora.
 
-The BK-tree is automatically built during `AdvancedSegmenter` initialization in the `_build_spell_vocab()` method:
+From the repository root, after installing the
+[development dependencies](../../requirements-dev.txt):
 
-```python
-# Build BK-tree for efficient fuzzy matching
-self._bk_tree = BKTree(levenshtein_distance)
-self._bk_tree.build(self.spell_list)
+```sh
+python -m pytest tests/test_lexical_search.py -q
 ```
 
-This happens once at startup, so there's no runtime overhead.
-
-### 3. Updated All Fuzzy Matching Methods
-
-Three methods were updated to use BK-tree queries:
-
-1. **`suggest_spellings()`** (lines 1133-1184)
-   - Primary spell-checking method
-   - Stage 1 now uses BK-tree query instead of full vocabulary scan
-   - Stage 2 (LM reranking) remains unchanged
-
-2. **`suggest_spellings_distance_first()`** (lines 1313-1337)
-   - Distance-first matching with unigram LM tie-breaker
-   - Uses BK-tree for candidate collection
-
-3. **`suggest_spellings_with_bigram()`** (lines 1412-1443)
-   - Bigram-aware fuzzy matching
-   - Uses BK-tree for efficient candidate grouping by distance
-
-All methods include a **fallback** to the old brute-force approach if the BK-tree is not available (for safety).
-
-## Performance Improvements
-
-### Before (Brute-Force)
-- **Complexity**: O(N × M) per query
-  - N = vocabulary size (tens of thousands of words)
-  - M = average word length
-- Every query scans the entire vocabulary
-
-### After (BK-Tree)
-- **Complexity**: O(log N × M) per query (average case)
-- **Build time**: O(N² × M) one-time cost at startup
-- Queries skip ~90-99% of vocabulary depending on max_edit_distance
-
-### Test Results
-From [test_bktree.py](../evaluation/tests/test_bktree.py):
-- ✓ Correctness: BK-tree returns identical results to brute-force
-- ✓ Performance: Massive speedup (>1000x on small vocabulary)
-- Speedup increases with vocabulary size
-
-## Usage
-
-### No Changes Required!
-
-The BK-tree is a **drop-in replacement** for the old brute-force implementation:
-- Same API
-- Same results (identical candidates, same ranking)
-- Same configuration parameters
-- Automatically enabled when `AdvancedSegmenter` is initialized
-
-### Dynamic max_edit_distance
-
-The `max_edit_distance` parameter can be adjusted per query without rebuilding:
-
-```python
-# Base config value
-suggestions = segmenter.suggest_spellings(
-    word="မန်မာ",
-    max_edit_distance=3  # or any value
-)
-
-# UI can add extra distance dynamically
-ui_extra = 2  # from slider
-suggestions = segmenter.suggest_spellings(
-    word="မန်မာ",
-    max_edit_distance=base_distance + ui_extra
-)
-```
-
-No rebuild needed - the BK-tree supports arbitrary max_dist values at query time.
-
-## Technical Details
-
-### Triangle Inequality
-
-The BK-tree exploits this property of Levenshtein distance:
-
-```
-|d(a,b) - d(b,c)| ≤ d(a,c) ≤ d(a,b) + d(b,c)
-```
-
-This means if:
-- We're at node `n` with term `t_n`
-- Query term is `q` with `d(q, t_n) = d`
-- We want matches within `max_dist`
-
-Then we only need to explore children at edge distances in range `[d - max_dist, d + max_dist]`.
-
-### Memory Overhead
-
-- Each node stores: `term` (string) + `children` (dict of int → BKNode)
-- Total overhead: ~O(N) nodes with O(N) edges
-- Negligible compared to vocabulary storage
-
-### Build Time
-
-- One-time cost during initialization
-- Takes a few seconds for vocabularies of 10K-100K words
-- Happens once at server startup, so not a concern
-
-## Future Enhancements
-
-Possible improvements (not implemented yet):
-
-1. **Incremental Updates**: Add new words to BK-tree without full rebuild
-2. **Serialization**: Save/load BK-tree to disk to skip build on restart
-3. **Configurable Distance Function**: Support other metrics (Damerau-Levenshtein, etc.)
-4. **Multi-threaded Building**: Parallelize tree construction for huge vocabularies
-
-## Validation
-
-Run the test suite to verify correctness and performance:
-
-```bash
-python test_bktree.py
-```
-
-Expected output:
-- ✓ All correctness tests passed (BK-tree matches brute-force exactly)
-- ✓ Performance tests show significant speedup
-
-## References
-
-- Burkhard, W. A.; Keller, R. M. (1973). "Some approaches to best-match file searching"
-- BK-trees are also used in spell checkers, DNA sequence matching, and duplicate detection
+For the larger reader flow, continue with the
+[runtime module map](../../docs/architecture/modules.md).
