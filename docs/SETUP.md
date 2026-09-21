@@ -2,6 +2,10 @@
 
 Use Python 3.12. Create and activate a virtual environment, then install `requirements.txt`. The deployment dependencies target Linux and include a pinned Stanza revision.
 
+Build the browser assets with Node 22+: `npm ci && npm run build`. This writes the
+existing `static/reader.js` and `static/reader.css` URLs from the maintained source
+under `frontend/`; the generated files are not committed.
+
 The application requires separately provisioned resources:
 
 - The layered dictionary files named in `burmese_reader/settings.py`: Burmese Wiktionary, `MMD_clean.tsv`, `peu.tsv`, and the grammar dictionary.
@@ -41,3 +45,10 @@ owns its model handles, dictionaries, NER cache, annotation state and PDF cache.
 Production filesystem paths are configured through the process environment before
 import; separate apps in one process should not use different on-disk corpora.
 The optional `lmbrain` frequency tables remain a process-wide read-only resource.
+
+For an interactive local fixture, build the assets, install `requirements-dev.txt`,
+then run `python tools/fixture_server.py` and open `http://127.0.0.1:8792/reader`.
+The page labels its synthetic annotations; its custom-entry data is temporary.
+`npm test` and `npm run test:browser` exercise the browser contracts and UI.
+On Windows, `BNR_TEST_PYTHON` may be set to the full path of the Python executable
+inside your virtual environment before running the browser suite.

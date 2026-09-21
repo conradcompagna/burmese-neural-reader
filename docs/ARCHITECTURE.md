@@ -23,4 +23,8 @@ See the [module map](architecture/modules.md) for code ownership.
 `burmese_transliteration.py`, `dict_pos_override.py`, and `ud_overlay.py` provide
 language-specific display and grammatical processing.
 
-`templates/reader.html` and `static/reader.js` form the reading interface. The spaCy model package, including its configuration, and dictionary resources are provisioned separately.
+`templates/reader.html` and the modules under `frontend/reader/` form the reading
+interface. `npm run build` produces the original `static/reader.js` URL. The
+[browser map](../frontend/README.md) explains feature ownership, stylesheet order
+and the standalone research viewer. Model packages and dictionaries are
+provisioned separately.

@@ -1,0 +1,10 @@
+// ==UserScript==
+// @name         Burmese Hover Dictionary (Unlimited Nesting)
+// @namespace    http://tampermonkey.net/
+// @version      0.99m-grammar
+// @description  Unlimited nested dictionary popups + POS grammar overlay
+// @match        http*://*/*
+// @match        file://*/*
+// @grant        GM_xmlhttpRequest
+// @connect      127.0.0.1
+// ==/UserScript==

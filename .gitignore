@@ -86,3 +86,16 @@ sandbox_adapter_bank_deps/
 
 
 .ruff_cache/
+
+# Reproducible browser bundles (edit their module entrypoints).
+node_modules/
+playwright-report/
+test-results/
+/static/reader.js
+/static/reader.js.map
+/research/components/dep_tree_view.js
+/research/components/dep_tree_view.js.map
+/research/experiments/userscript-era/Burmese Hover Dictionary (Unlimited Nesting)-0.99m-grammar (bells ans whisltes version).user.js
+/research/experiments/userscript-era/Burmese Hover Dictionary (Unlimited Nesting)-0.99m-grammar (bells ans whisltes version).user.js.map
+/static/reader.css
+/static/reader.css.map

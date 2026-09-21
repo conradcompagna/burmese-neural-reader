@@ -6,6 +6,8 @@ I built this reader to make Burmese texts easier to investigate at the level of 
 
 [Live reader](https://burmeseneuralreader.com/reader) · [Setup](docs/SETUP.md) · [Architecture](docs/ARCHITECTURE.md) · [Portfolio](https://github.com/conradcompagna)
 
+![Reader interface in the local fixture demo](docs/images/reader-fixture.png)
+
 ---
 
 ## Application
@@ -28,7 +30,7 @@ deployment.
 | Graphemes, dictionary DP and neural merge | [graphemes.py](burmese_reader/graphemes.py), [segmentation.py](burmese_reader/segmentation.py), [pipeline.py](burmese_reader/pipeline.py) |
 | Language-model scoring and fuzzy search | [lmbrain.py](lmbrain.py) |
 | Grammar and pronunciation | [dict_pos_override.py](dict_pos_override.py), [ud_overlay.py](ud_overlay.py), [burmese_transliteration.py](burmese_transliteration.py) |
-| Reading interface | [static/reader.js](static/reader.js), [templates/reader.html](templates/reader.html) |
+| Reading interface | [browser source](frontend/README.md), [templates/reader.html](templates/reader.html) |
 
 [`docs/architecture/modules.md`](docs/architecture/modules.md) maps the maintained
 feature modules and the lookup pipeline. `app.py` is a compatibility entrypoint

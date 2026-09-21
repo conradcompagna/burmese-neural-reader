@@ -19,4 +19,9 @@ jobs:
       - run: python tools/check_repository.py
       - run: node tools/check_javascript.mjs
       - run: python -m pytest
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
 
