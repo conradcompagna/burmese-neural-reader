@@ -58,3 +58,9 @@ None of this runs in production. It is the offline infrastructure that produced 
 Almost every hard problem in this project is a boundary problem, because Burmese is written without spaces between words and chronicle prose carries no sentence-final punctuation. The clearest example is in the CRF series: a model that scored well by learning that a standalone sentence-final `သည်` sits at the end of its training sequence, and the change that removed the shortcut. That is written up in [research/experiments/sentence-final-particle-crf/OUTCOME.md](research/experiments/sentence-final-particle-crf/OUTCOME.md).
 
 See [publication contents](docs/PUBLICATION.md) for what is excluded and why.
+
+## Development and validation
+
+[Development commands](docs/DEVELOPMENT.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+
+Start the [local fixture demo](docs/SETUP.md) without private models or account data; review the [research evidence index](research/EVIDENCE.md) for supported ML claims.

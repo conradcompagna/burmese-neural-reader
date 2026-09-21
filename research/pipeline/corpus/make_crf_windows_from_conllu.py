@@ -70,6 +70,8 @@ def sentences_to_windows(
     max_len: int,
     source: str,
 ) -> Iterable[dict]:
+    if max_len < 1:
+        raise ValueError("max_len must be positive")
     buf_tokens: list[str] = []
     buf_upos: list[str] = []
     buf_tag: list[str] = []
@@ -154,8 +156,10 @@ def qa_and_write(windows: Iterable[dict], out_path: Path) -> None:
                 raise ValueError("length mismatch")
             if any((t is None) or (not str(t)) for t in tokens):
                 raise ValueError("empty token")
-            if any(p.get("tok") != tokens[p["i"]] for p in pos):
+            if any(p.get("i") != i or p.get("tok") != tokens[i] for i, p in enumerate(pos)):
                 raise ValueError("pos/tokens misalignment")
+            if any(type(value) is not int or value not in (0, 1) for value in y):
+                raise ValueError("sentence boundary labels must be 0 or 1")
             if 1 not in y:
                 raise ValueError("window has no sentence boundary")
 
@@ -189,4 +193,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

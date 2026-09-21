@@ -1,6 +1,7 @@
 # Build chains
 
-What the deployed reader loads, and how each piece was made.
+Historical build chains and their recorded outcomes; see the [evidence index](../EVIDENCE.md)
+for public artifacts, split/seed records and verification limits.
 
 The runtime loads, from `DATA_ROOT`: a spaCy UD model (`model-best`), a standalone NER
 model, a Stanza NER pipeline and tokenizer, four dictionary TSVs, and the myPOS corpus.
@@ -10,7 +11,9 @@ None of those are in this repository. This is how they were produced.
 
 ## 1. Word segmentation
 
-Burmese has no inter-word spaces. Three independent methods run and are reconciled.
+Burmese has no inter-word spaces. The current source uses Stanza tokenization,
+dictionary DP and unknown-token merging. The BILU path below records an earlier
+research approach; it is not an active default lookup stage.
 
 ### 1a. The BILU boundary tagger
 

@@ -12,12 +12,12 @@ service does, stop at the root [README](../README.md).
 |---|---|
 | [`pipeline/`](pipeline/) | Code that produced something the runtime loads. See [pipeline/README.md](pipeline/README.md) for the build chains. |
 | [`evaluation/`](evaluation/) | Tests, scoring harnesses, and the annotation viewers used to inspect model output by hand. |
-| [`components/`](components/) | Algorithm modules that the runtime absorbed into `app.py`, kept separately because they are readable on their own. |
+| [`components/`](components/) | Historical standalone algorithm modules; maintained runtime code is now in `burmese_reader/`. |
 | [`experiments/`](experiments/) | Work that did not ship, each with an `OUTCOME.md`. |
 | [`notes/`](notes/) | Implementation notes. |
 
-[`STATUS.md`](STATUS.md) states which models the deployed reader loads and which build
-chain produced each one.
+Start with the [evidence index](EVIDENCE.md) and [reproduction guide](REPRODUCIBILITY.md).
+[`STATUS.md`](STATUS.md) distinguishes current source wiring from historical build records.
 
 ## Why this project is mostly about boundaries
 
@@ -25,9 +25,9 @@ Burmese is written without spaces between words, and chronicle prose has no
 sentence-final punctuation of the kind a tokenizer can key on. Almost every hard
 problem here is a boundary problem:
 
-- **Word boundaries** — solved three ways at once and reconciled: dictionary-driven
-  dynamic programming, a neural BILU tagger over grapheme clusters, and language-model
-  scoring over the candidates.
+- **Word boundaries** — the current pipeline combines Stanza tokenization, dictionary
+  dynamic programming and unknown-token merging; the BILU tagger is a historical
+  research path, and optional language-model tables score dictionary candidates.
 - **Sentence boundaries** — a sequence of CRFs, described in
   [pipeline/README.md](pipeline/README.md#2-sentence-boundary-crfs). The recurring
   design problem is preventing the model from learning a shortcut.
@@ -40,5 +40,7 @@ Model weights, dictionary TSVs, and training corpora. The myPOS, myNER and myUDT
 datasets, the Burmese UD treebank and the Judson and chronicle texts are third-party
 resources under their own terms and are not redistributed. Scripts name their inputs.
 
-Two scripts in `pipeline/corpus/` import `newserver`, the name the server module had
-when they were written. The module is now `app.py`. They are published unmodified.
+Two archival scripts, `pipeline/corpus/build_chronicle_ngrams.py` and
+`retokenize_conll_for_app.py`, still depend on the retired `newserver` startup contract.
+They are method records and do not run against this clone unchanged; use the
+maintained package and explicit resource initialization for any future port.

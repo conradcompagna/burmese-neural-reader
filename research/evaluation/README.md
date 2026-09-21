@@ -4,8 +4,8 @@
 
 `tests/test_bktree.py`, `tests/test_lmbrain_bktree.py` — the BK-tree fuzzy search over
 edit distance, which is what makes a lookup succeed when the segmenter produces a form
-that is one or two characters away from a dictionary headword. `tests/test_pos_simple.py`
-is a POS smoke test.
+that is one or two characters away from a dictionary headword. the retired POS smoke test is archived under
+[`../experiments/legacy-pos/`](../experiments/legacy-pos/).
 
 ## Scoring
 
@@ -18,7 +18,9 @@ is a POS smoke test.
 | `inspect_jsonl_boundaries.py`, `inspect_upos.py`, `inspect_ud_span.py` | inspect corpus and model output |
 | `stanza_test.py` | Stanza NER harness |
 
-`dep_v3.postpass_v1.report.json` is a scored dependency post-pass run.
+`dep_v3.postpass_v1.report.json` records a dependency post-pass against its reference
+alignment proxy; its near-100% match figures are not held-out parser accuracy.
+See the [evidence index](../EVIDENCE.md) before comparing model results.
 
 ## Viewers
 

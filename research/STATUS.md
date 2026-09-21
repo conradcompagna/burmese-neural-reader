@@ -1,14 +1,18 @@
-# What the deployed reader loads
+# Runtime wiring and historical build records
 
-Unlike Language Engine, this project's models are few and each has one build chain, so
-there is no ambiguity to resolve about which run shipped. What follows is the mapping
-from each loaded artefact to the code that produced it.
+The maintained [lookup pipeline](../burmese_reader/pipeline.py) uses Stanza
+tokenization, dictionary DP and unknown-token merging, with optional spaCy UD and
+Stanza NER adapters. BILU and standalone spaCy NER are historical research paths,
+not all simultaneous stages of the current default lookup. The table preserves
+recorded artifact/build associations, not a SHA-256-verified live deployment
+inventory: weights and original run manifests are not published. See the
+[evidence index](EVIDENCE.md) for the reproducibility limits.
 
-| Loaded at runtime | Kind | Built by |
+| Recorded artifact | Kind | Built by |
 |---|---|---|
 | `model-best` | spaCy joint UD pipeline: tok2vec, tagger, morphologiser, parser, NER | [`pipeline/spacy/deployed_pipeline/joint_ud_morph_parser_ner_filled.cfg`](pipeline/spacy/deployed_pipeline/joint_ud_morph_parser_ner_filled.cfg) over DocBins from [`pipeline/corpus/`](pipeline/corpus/) |
-| BILU boundary tagger | spaCy tagger over grapheme clusters | [`pipeline/spacy/bilu/bilu.cfg`](pipeline/spacy/bilu/) over [`pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py`](pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py) |
-| standalone NER model | spaCy NER | [`pipeline/spacy/deployed_pipeline/nerconfig.cfg`](pipeline/spacy/deployed_pipeline/) over the retokenised myNER 7-tag corpus |
+| BILU boundary tagger | spaCy tagger over grapheme clusters | [`pipeline/spacy/bilu/bilu.cfg`](pipeline/spacy/bilu/bilu.cfg) over [`pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py`](pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py) |
+| standalone NER model | spaCy NER | [`pipeline/spacy/deployed_pipeline/nerconfig.cfg`](pipeline/spacy/deployed_pipeline/nerconfig.cfg) over the retokenised myNER 7-tag corpus |
 | Stanza NER + tokenizer | Stanza | upstream; harness in [`evaluation/stanza_test.py`](evaluation/stanza_test.py) |
 | chronicle n-gram tables | counts | [`pipeline/corpus/build_chronicle_ngrams.py`](pipeline/corpus/build_chronicle_ngrams.py) |
 | Burmese–English Wiktionary TSV | dictionary | [`pipeline/dictionaries/kaikki_to_tsv.py`](pipeline/dictionaries/kaikki_to_tsv.py) |

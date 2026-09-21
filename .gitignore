@@ -99,3 +99,5 @@ test-results/
 /research/experiments/userscript-era/Burmese Hover Dictionary (Unlimited Nesting)-0.99m-grammar (bells ans whisltes version).user.js.map
 /static/reader.css
 /static/reader.css.map
+
+/.cache/
