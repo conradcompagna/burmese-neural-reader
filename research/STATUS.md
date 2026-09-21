@@ -13,7 +13,7 @@ from each loaded artefact to the code that produced it.
 | chronicle n-gram tables | counts | [`pipeline/corpus/build_chronicle_ngrams.py`](pipeline/corpus/build_chronicle_ngrams.py) |
 | Burmese–English Wiktionary TSV | dictionary | [`pipeline/dictionaries/kaikki_to_tsv.py`](pipeline/dictionaries/kaikki_to_tsv.py) |
 | MMD TSV | dictionary | [`pipeline/dictionaries/clean_mmd.py`](pipeline/dictionaries/clean_mmd.py) |
-| grammar TSV | hand-built | published: [`pipeline/dictionaries/burmese_grammar_dictionary.tsv`](pipeline/dictionaries/burmese_grammar_dictionary.tsv) |
+| grammar TSV | hand-built | not redistributed; supply an authorized local copy for the full reader |
 | myPOS corpus | third-party | not redistributed |
 
 ## Sentence-boundary CRFs
@@ -35,7 +35,9 @@ two superseded generations are in
 ## Tests
 
 [`evaluation/tests/`](evaluation/tests/) holds the BK-tree fuzzy-search tests
-(`test_bktree.py`, `test_lmbrain_bktree.py`) and a POS smoke test. The BK-tree tests
+(`test_bktree.py`, `test_lmbrain_bktree.py`), which delegate to the maintained
+fixture suite in [`../tests/`](../tests/). The retired POS diagnostic is documented
+under [`experiments/legacy-pos/`](experiments/legacy-pos/). The BK-tree tests
 cover the edit-distance search that the root README names as an engineering highlight.
 
 Two test files from the development workspace are **not** published because they import
