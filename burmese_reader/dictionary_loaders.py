@@ -8,7 +8,7 @@ from pathlib import Path
 from . import (
     dictionary_types as dictionary_types_service,
     normalization as normalization_service,
-    pos as pos_service,
+    pos_labels as pos_service,
     pronunciation as pronunciation_service,
 )
 
