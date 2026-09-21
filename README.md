@@ -8,26 +8,31 @@ I built this reader to make Burmese texts easier to investigate at the level of 
 
 ---
 
-## What runs in production
+## Application
 
-The repository root is the deployed application.
+This repository contains the reader source and its offline research. The modular
+source preserves the deployed reader's contracts; GitHub changes are not a live
+deployment.
 
 ### Engineering highlights
 
 - **Language-specific lexical search:** layered dictionaries, dynamic-programming segmentation, language-model scoring, and BK-tree fuzzy matching over edit distance.
 - **Neural analysis in context:** a custom spaCy parsing pipeline and Stanza named-entity recognition integrated with dictionary segmentation and document spans.
-- **Interactive close reading:** document import, hover definitions, dependency visualization, pronunciation/transliteration, annotations, and reading-review state.
+- **Interactive close reading:** document import, hover definitions, dependency visualization and pronunciation/transliteration; annotation and review services remain in the code but their public write/review routes are disabled.
 
 ### Explore the runtime
 
 | Area | Starting point |
 |---|---|
-| Application lifecycle and routes | [wsgi.py](wsgi.py), [app.py](app.py) |
+| Application lifecycle and routes | [application.py](burmese_reader/application.py), [HTTP registration](burmese_reader/http.py), [wsgi.py](wsgi.py) |
+| Graphemes, dictionary DP and neural merge | [graphemes.py](burmese_reader/graphemes.py), [segmentation.py](burmese_reader/segmentation.py), [pipeline.py](burmese_reader/pipeline.py) |
 | Language-model scoring and fuzzy search | [lmbrain.py](lmbrain.py) |
 | Grammar and pronunciation | [dict_pos_override.py](dict_pos_override.py), [ud_overlay.py](ud_overlay.py), [burmese_transliteration.py](burmese_transliteration.py) |
 | Reading interface | [static/reader.js](static/reader.js), [templates/reader.html](templates/reader.html) |
 
-`app.py` is one 372 KB module by design. [**docs/architecture/modules.md**](docs/architecture/modules.md) maps it: eighteen backend sections and a ten-part reader template, with line counts and a suggested reading order. Start there rather than at the top of the file.
+[`docs/architecture/modules.md`](docs/architecture/modules.md) maps the maintained
+feature modules and the lookup pipeline. `app.py` is a compatibility entrypoint
+for existing server and research imports.
 
 The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowledge-graph) reuses this reader's lexical stack through an explicit local adapter.
 

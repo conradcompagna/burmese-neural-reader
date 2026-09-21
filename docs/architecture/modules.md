@@ -1,64 +1,40 @@
-# Module map for `app.py`
+# Maintained module map
 
-`app.py` is a single 372 KB Flask module. That is a deliberate deployment choice — one
-file, no import graph to get wrong on a small VPS — but it is not readable top to
-bottom.
+The current server is split by responsibility under `burmese_reader/`; this map
+replaces the historical numbered-section map of an earlier server snapshot.
 
-During development the same server was maintained in a decomposed form: eighteen
-numbered backend sections plus a ten-part reader template, reassembled into the single
-file at build time. That decomposition is the best available map of what is inside
-`app.py`, and it is reproduced below with the line counts of each section.
+| Responsibility | Modules |
+|---|---|
+| App construction, explicit startup, feature-owned state | `application.py`, `runtime.py`, `http.py`, `settings.py` |
+| Input preservation and grapheme/syllable boundaries | `normalization.py`, `graphemes.py` |
+| Layer priority and dictionary storage | `dictionary_types.py`, `dictionary_loaders.py`, `lexicon.py`, `custom_entries.py` |
+| Dictionary DP, costs and traces | `segmentation_config.py`, `segmentation.py`, `dictionary_dp.py`, `fill.py` |
+| Current Stanza → DP → merge pipeline | `ner.py`, `pipeline.py`, `ud.py`, `lookup.py` |
+| POS and grammar overlays | `pos.py`, `grammar.py`, `pos_statistics.py` |
+| Optional lexical language model | `language_model.py`, `lm_runtime.py`, `lm_overlay.py`; root `lmbrain.py` |
+| Pronunciation | `pronunciation.py`; root `burmese_transliteration.py` |
+| Documents | `document_conversion.py`, `pdf_extraction.py`, `pdf_geometry.py`, `pdf_cache.py`, `text_extraction.py`, `document_routes.py` |
+| Annotation/SRS persistence | `annotations.py`, `srs.py`; their public routes retain the existing disabled behavior |
+| HTTP policy and diagnostics | `policy.py`, `memory.py`, `logs.py`, `debug_*.py`, `templates/debug/` |
 
-Sections are listed in the order they appear. The names are the original ones.
+Start with `pipeline.py`, then `segmentation.py` and `dictionary_types.py`; follow
+`lookup.py` to see how surface spans and overlays become the HTTP payload.
+`ner.py` reuses the Stanza document from tokenization for entity extraction.
+`pos.py` contains the effective final overlay implementation; the overwritten
+predecessor and duplicate POS normalizer were consolidated during extraction.
 
-## Backend
+`runtime.py` resolves each feature's state against the active application's
+extensions. State factories are lazy and do not read model files. The legacy
+`app.py` entrypoint deliberately shares the command-line fallback runtime so
+existing `from app import load_dictionary, segment_with_pipeline` adapters retain
+their contract. New integrations should import the owning feature module and
+operate inside their application's context. Configuration is process-level;
+model/dictionary handles and mutable caches belong to an app.
 
-| # | Section | Lines | What it holds |
-|---:|---|---:|---|
-| 01 | core framework | 281 | paths, configuration, dictionary and corpus locations, Flask app construction |
-| 02 | reading SRS backend | 238 | the spaced-repetition flashcard engine; `TokenStats` and review scheduling |
-| 03 | UD parser backend | 493 | loads the spaCy UD model (`model-best`), produces dependency parses |
-| 04 | BILU and normalization backend | 292 | the neural token-boundary segmenter: a **separate** spaCy model that predicts B/I/L/U labels over grapheme clusters, which is how word boundaries are recovered from unspaced Burmese |
-| 05 | embedded segmenter core | 880 | the segmenter proper, merged in from what was once a standalone module |
-| 06 | dictionary sources backend | 576 | loading and indexing of the Wiktionary, MMD, Pali, grammar and user dictionaries |
-| 07 | segmentation without ML, and DP | 720 | grapheme-cluster construction and dictionary-driven dynamic-programming segmentation |
-| 08 | DP resegmentation backend | 356 | full bigram/unigram DP resegmentation per island; DP is allowed to cross NER spans rather than treating them as hard boundaries |
-| 09 | neural segmentation merge | 852 | reconciles the BILU model's boundaries with greedy dictionary matching |
-| 10 | POS disambiguation overlay | 418 | myPOS-driven part-of-speech disambiguation and grammar hinting |
-| 11 | LM overlay backend | 758 | language-model scoring over candidate segmentations, surfaced to the UI |
-| 12 | HTTP API backend | 991 | the routes; `merge_token_overlays` combines the overlays above into one token stream |
-| 13 | document import (PDF/DOCX) | 308 | document ingestion |
-| 14 | simplified text extraction | 500 | Word and plain-text pages with 500-word breaks |
-| 15 | debug: UD and displaCy | 774 | `/debug_ud_parser` and dependency visualisation |
-| 16 | debug tools and assets | 1248 | `/segment_text` and the rest of the developer endpoints |
-| 18 | reader route and main | 15 | `/reader` and the entry point |
+The published default keeps debug routes blocked. Several historical diagnostic
+views also return `debug_disabled` inside their handlers; changing the outer flag
+does not turn them into supported production features. Their code is retained for
+research inspection, and extracted template fixtures preserve the rendered bytes.
 
-## Reader template
-
-Section 17 is the reader page, held as ten string parts and concatenated by
-`17_reader_html_assemble.py`.
-
-| Part | Lines | Contents |
-|---|---:|---|
-| 01 template and CSS | 1898 | document shell and styling |
-| 02 JS bootstrap | 1106 | grammar type colours, initialisation |
-| 03 UD visualisation | 1734 | the dependency-tree SVG overlay |
-| 04 UI state init | 79 | display toggles, localStorage defaults |
-| 05 chunk highlighting | 963 | POS-coloured chunk rendering |
-| 06 post-chunk UI | 1484 | settings, persistence, controls |
-| 07 original view A | 1520 | the original-page (PDF image) view |
-| 08 original view B | — | continuation of the original view; present in the development snapshot only |
-| 09 side panel | 894 | `lookupAndDisplay` and the dictionary panel |
-| 10 flashcard and close | 277 | the SRS flashcard overlay |
-
-## Reading order
-
-To understand how a lookup works, read 07 → 08 → 04 → 09 → 10 → 11 → 12: dictionary DP,
-resegmentation, neural boundaries, the merge, POS disambiguation, LM scoring, then the
-route that assembles them.
-
-The decomposed source in the development workspace is a snapshot of an earlier revision
-of the server (`newserverpdf21.py`, 20,829 lines) and is not byte-identical to the
-current `app.py`; the section boundaries and responsibilities are unchanged. It is not
-published as runnable code, because maintaining two copies of a server is worse than
-maintaining one.
+The earlier BILU model, retired POS tagger and sentence-boundary experiments are
+under `research/`. They do not replace the maintained Stanza/DP path.

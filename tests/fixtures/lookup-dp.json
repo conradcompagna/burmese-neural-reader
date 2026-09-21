@@ -1,0 +1,702 @@
+{
+  "display_text": "မြန်မာစာဖတ်",
+  "island_spans": [
+    [
+      0,
+      3
+    ]
+  ],
+  "ok": true,
+  "q": "မြန်မာစာဖတ်",
+  "results": [
+    {
+      "dict_fill": [
+        {
+          "g2p": {
+            "overall_roman": "myan-ma",
+            "syllables": [
+              {
+                "base": {
+                  "ch": "မ",
+                  "label": "consonant",
+                  "roman": "m"
+                },
+                "coda_roman": "n",
+                "components": [
+                  {
+                    "ch": "မ",
+                    "label": "ma",
+                    "roman": "m"
+                  },
+                  {
+                    "ch": "ြ",
+                    "label": "+y",
+                    "roman": "y"
+                  },
+                  {
+                    "ch": "န်",
+                    "label": "-n",
+                    "roman": "n"
+                  }
+                ],
+                "finals": [
+                  {
+                    "ch": "န်",
+                    "label": "final",
+                    "roman": "n"
+                  }
+                ],
+                "is_burmese": true,
+                "is_minor": false,
+                "marks": [
+                  {
+                    "ch": "်",
+                    "label": "asat (vowel killer)",
+                    "roman": ""
+                  }
+                ],
+                "medials": [
+                  {
+                    "ch": "ြ",
+                    "label": "ြ medial",
+                    "roman": "y"
+                  }
+                ],
+                "onset_roman": "my",
+                "orth": "မြန်",
+                "roman": "myan",
+                "tone": "creaky",
+                "vowel_roman": "a",
+                "vowels": []
+              },
+              {
+                "base": {
+                  "ch": "မ",
+                  "label": "consonant",
+                  "roman": "m"
+                },
+                "coda_roman": "",
+                "components": [
+                  {
+                    "ch": "မ",
+                    "label": "ma",
+                    "roman": "m"
+                  },
+                  {
+                    "ch": "ာ",
+                    "label": "a",
+                    "roman": "a"
+                  }
+                ],
+                "finals": [],
+                "is_burmese": true,
+                "is_minor": false,
+                "marks": [],
+                "medials": [],
+                "onset_roman": "m",
+                "orth": "မာ",
+                "roman": "ma",
+                "tone": "low",
+                "vowel_roman": "a",
+                "vowels": [
+                  {
+                    "ch": "ာ",
+                    "label": "vowel sign",
+                    "roman": ""
+                  }
+                ]
+              }
+            ]
+          },
+          "head": "မြန်မာ",
+          "meta_pos": "",
+          "pos": "n",
+          "roman": "",
+          "senses": [
+            "Burmese"
+          ],
+          "source": "WIKI"
+        }
+      ],
+      "dict_fill_has_known": true,
+      "dict_fill_has_unknown": false,
+      "dict_fill_mode": "dp_only",
+      "g2p": {
+        "overall_roman": "myan-ma",
+        "syllables": [
+          {
+            "base": {
+              "ch": "မ",
+              "label": "consonant",
+              "roman": "m"
+            },
+            "coda_roman": "n",
+            "components": [
+              {
+                "ch": "မ",
+                "label": "ma",
+                "roman": "m"
+              },
+              {
+                "ch": "ြ",
+                "label": "+y",
+                "roman": "y"
+              },
+              {
+                "ch": "န်",
+                "label": "-n",
+                "roman": "n"
+              }
+            ],
+            "finals": [
+              {
+                "ch": "န်",
+                "label": "final",
+                "roman": "n"
+              }
+            ],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [
+              {
+                "ch": "်",
+                "label": "asat (vowel killer)",
+                "roman": ""
+              }
+            ],
+            "medials": [
+              {
+                "ch": "ြ",
+                "label": "ြ medial",
+                "roman": "y"
+              }
+            ],
+            "onset_roman": "my",
+            "orth": "မြန်",
+            "roman": "myan",
+            "tone": "creaky",
+            "vowel_roman": "a",
+            "vowels": []
+          },
+          {
+            "base": {
+              "ch": "မ",
+              "label": "consonant",
+              "roman": "m"
+            },
+            "coda_roman": "",
+            "components": [
+              {
+                "ch": "မ",
+                "label": "ma",
+                "roman": "m"
+              },
+              {
+                "ch": "ာ",
+                "label": "a",
+                "roman": "a"
+              }
+            ],
+            "finals": [],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [],
+            "medials": [],
+            "onset_roman": "m",
+            "orth": "မာ",
+            "roman": "ma",
+            "tone": "low",
+            "vowel_roman": "a",
+            "vowels": [
+              {
+                "ch": "ာ",
+                "label": "vowel sign",
+                "roman": ""
+              }
+            ]
+          }
+        ]
+      },
+      "head": "မြန်မာ",
+      "meta_pos": "",
+      "pos": "n",
+      "roman": "",
+      "seg_i": 0,
+      "senses": [
+        "Burmese"
+      ],
+      "source": "WIKI"
+    }
+  ],
+  "results_by_seg": [
+    {
+      "dict_fill": [
+        {
+          "g2p": {
+            "overall_roman": "myan-ma",
+            "syllables": [
+              {
+                "base": {
+                  "ch": "မ",
+                  "label": "consonant",
+                  "roman": "m"
+                },
+                "coda_roman": "n",
+                "components": [
+                  {
+                    "ch": "မ",
+                    "label": "ma",
+                    "roman": "m"
+                  },
+                  {
+                    "ch": "ြ",
+                    "label": "+y",
+                    "roman": "y"
+                  },
+                  {
+                    "ch": "န်",
+                    "label": "-n",
+                    "roman": "n"
+                  }
+                ],
+                "finals": [
+                  {
+                    "ch": "န်",
+                    "label": "final",
+                    "roman": "n"
+                  }
+                ],
+                "is_burmese": true,
+                "is_minor": false,
+                "marks": [
+                  {
+                    "ch": "်",
+                    "label": "asat (vowel killer)",
+                    "roman": ""
+                  }
+                ],
+                "medials": [
+                  {
+                    "ch": "ြ",
+                    "label": "ြ medial",
+                    "roman": "y"
+                  }
+                ],
+                "onset_roman": "my",
+                "orth": "မြန်",
+                "roman": "myan",
+                "tone": "creaky",
+                "vowel_roman": "a",
+                "vowels": []
+              },
+              {
+                "base": {
+                  "ch": "မ",
+                  "label": "consonant",
+                  "roman": "m"
+                },
+                "coda_roman": "",
+                "components": [
+                  {
+                    "ch": "မ",
+                    "label": "ma",
+                    "roman": "m"
+                  },
+                  {
+                    "ch": "ာ",
+                    "label": "a",
+                    "roman": "a"
+                  }
+                ],
+                "finals": [],
+                "is_burmese": true,
+                "is_minor": false,
+                "marks": [],
+                "medials": [],
+                "onset_roman": "m",
+                "orth": "မာ",
+                "roman": "ma",
+                "tone": "low",
+                "vowel_roman": "a",
+                "vowels": [
+                  {
+                    "ch": "ာ",
+                    "label": "vowel sign",
+                    "roman": ""
+                  }
+                ]
+              }
+            ]
+          },
+          "head": "မြန်မာ",
+          "meta_pos": "",
+          "pos": "n",
+          "roman": "",
+          "senses": [
+            "Burmese"
+          ],
+          "source": "WIKI"
+        }
+      ],
+      "dict_fill_has_known": true,
+      "dict_fill_has_unknown": false,
+      "dict_fill_mode": "dp_only",
+      "g2p": {
+        "overall_roman": "myan-ma",
+        "syllables": [
+          {
+            "base": {
+              "ch": "မ",
+              "label": "consonant",
+              "roman": "m"
+            },
+            "coda_roman": "n",
+            "components": [
+              {
+                "ch": "မ",
+                "label": "ma",
+                "roman": "m"
+              },
+              {
+                "ch": "ြ",
+                "label": "+y",
+                "roman": "y"
+              },
+              {
+                "ch": "န်",
+                "label": "-n",
+                "roman": "n"
+              }
+            ],
+            "finals": [
+              {
+                "ch": "န်",
+                "label": "final",
+                "roman": "n"
+              }
+            ],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [
+              {
+                "ch": "်",
+                "label": "asat (vowel killer)",
+                "roman": ""
+              }
+            ],
+            "medials": [
+              {
+                "ch": "ြ",
+                "label": "ြ medial",
+                "roman": "y"
+              }
+            ],
+            "onset_roman": "my",
+            "orth": "မြန်",
+            "roman": "myan",
+            "tone": "creaky",
+            "vowel_roman": "a",
+            "vowels": []
+          },
+          {
+            "base": {
+              "ch": "မ",
+              "label": "consonant",
+              "roman": "m"
+            },
+            "coda_roman": "",
+            "components": [
+              {
+                "ch": "မ",
+                "label": "ma",
+                "roman": "m"
+              },
+              {
+                "ch": "ာ",
+                "label": "a",
+                "roman": "a"
+              }
+            ],
+            "finals": [],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [],
+            "medials": [],
+            "onset_roman": "m",
+            "orth": "မာ",
+            "roman": "ma",
+            "tone": "low",
+            "vowel_roman": "a",
+            "vowels": [
+              {
+                "ch": "ာ",
+                "label": "vowel sign",
+                "roman": ""
+              }
+            ]
+          }
+        ]
+      },
+      "head": "မြန်မာ",
+      "meta_pos": "",
+      "pos": "n",
+      "roman": "",
+      "seg_i": 0,
+      "senses": [
+        "Burmese"
+      ],
+      "source": "WIKI"
+    },
+    {
+      "dict_fill": [
+        {
+          "g2p": {
+            "overall_roman": "sa",
+            "syllables": [
+              {
+                "base": {
+                  "ch": "စ",
+                  "label": "consonant",
+                  "roman": "s"
+                },
+                "coda_roman": "",
+                "components": [
+                  {
+                    "ch": "စ",
+                    "label": "sa",
+                    "roman": "s"
+                  },
+                  {
+                    "ch": "ာ",
+                    "label": "a",
+                    "roman": "a"
+                  }
+                ],
+                "finals": [],
+                "is_burmese": true,
+                "is_minor": false,
+                "marks": [],
+                "medials": [],
+                "onset_roman": "s",
+                "orth": "စာ",
+                "roman": "sa",
+                "tone": "low",
+                "vowel_roman": "a",
+                "vowels": [
+                  {
+                    "ch": "ာ",
+                    "label": "vowel sign",
+                    "roman": ""
+                  }
+                ]
+              }
+            ]
+          },
+          "head": "စာ",
+          "meta_pos": "",
+          "pos": "n",
+          "roman": "",
+          "senses": [
+            "custom text"
+          ],
+          "source": "USER"
+        }
+      ],
+      "dict_fill_has_known": true,
+      "dict_fill_has_unknown": false,
+      "dict_fill_mode": "dp_only",
+      "g2p": {
+        "overall_roman": "sa",
+        "syllables": [
+          {
+            "base": {
+              "ch": "စ",
+              "label": "consonant",
+              "roman": "s"
+            },
+            "coda_roman": "",
+            "components": [
+              {
+                "ch": "စ",
+                "label": "sa",
+                "roman": "s"
+              },
+              {
+                "ch": "ာ",
+                "label": "a",
+                "roman": "a"
+              }
+            ],
+            "finals": [],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [],
+            "medials": [],
+            "onset_roman": "s",
+            "orth": "စာ",
+            "roman": "sa",
+            "tone": "low",
+            "vowel_roman": "a",
+            "vowels": [
+              {
+                "ch": "ာ",
+                "label": "vowel sign",
+                "roman": ""
+              }
+            ]
+          }
+        ]
+      },
+      "head": "စာ",
+      "meta_pos": "",
+      "pos": "n",
+      "roman": "",
+      "seg_i": 1,
+      "senses": [
+        "custom text"
+      ],
+      "source": "USER"
+    },
+    {
+      "dict_fill": [
+        {
+          "g2p": {
+            "overall_roman": "hpat",
+            "syllables": [
+              {
+                "base": {
+                  "ch": "ဖ",
+                  "label": "consonant",
+                  "roman": "hp"
+                },
+                "coda_roman": "t",
+                "components": [
+                  {
+                    "ch": "ဖ",
+                    "label": "hpa",
+                    "roman": "hp"
+                  },
+                  {
+                    "ch": "တ်",
+                    "label": "-t",
+                    "roman": "t"
+                  }
+                ],
+                "finals": [
+                  {
+                    "ch": "တ်",
+                    "label": "final",
+                    "roman": "t"
+                  }
+                ],
+                "is_burmese": true,
+                "is_minor": false,
+                "marks": [
+                  {
+                    "ch": "်",
+                    "label": "asat (vowel killer)",
+                    "roman": ""
+                  }
+                ],
+                "medials": [],
+                "onset_roman": "hp",
+                "orth": "ဖတ်",
+                "roman": "hpat",
+                "tone": "checked",
+                "vowel_roman": "a",
+                "vowels": []
+              }
+            ]
+          },
+          "head": "ဖတ်",
+          "meta_pos": "",
+          "pos": "n",
+          "roman": "",
+          "senses": [
+            "read"
+          ],
+          "source": "WIKI"
+        }
+      ],
+      "dict_fill_has_known": true,
+      "dict_fill_has_unknown": false,
+      "dict_fill_mode": "dp_only",
+      "g2p": {
+        "overall_roman": "hpat",
+        "syllables": [
+          {
+            "base": {
+              "ch": "ဖ",
+              "label": "consonant",
+              "roman": "hp"
+            },
+            "coda_roman": "t",
+            "components": [
+              {
+                "ch": "ဖ",
+                "label": "hpa",
+                "roman": "hp"
+              },
+              {
+                "ch": "တ်",
+                "label": "-t",
+                "roman": "t"
+              }
+            ],
+            "finals": [
+              {
+                "ch": "တ်",
+                "label": "final",
+                "roman": "t"
+              }
+            ],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [
+              {
+                "ch": "်",
+                "label": "asat (vowel killer)",
+                "roman": ""
+              }
+            ],
+            "medials": [],
+            "onset_roman": "hp",
+            "orth": "ဖတ်",
+            "roman": "hpat",
+            "tone": "checked",
+            "vowel_roman": "a",
+            "vowels": []
+          }
+        ]
+      },
+      "head": "ဖတ်",
+      "meta_pos": "",
+      "pos": "n",
+      "roman": "",
+      "seg_i": 2,
+      "senses": [
+        "read"
+      ],
+      "source": "WIKI"
+    }
+  ],
+  "segment_offsets": [
+    [
+      0,
+      6
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      8,
+      11
+    ]
+  ],
+  "segments": [
+    "မြန်မာ",
+    "စာ",
+    "ဖတ်"
+  ]
+}

@@ -1,20 +1,7 @@
-"""WSGI entry point for gunicorn.
+"""WSGI entrypoint: gunicorn wsgi:app --bind 127.0.0.1:8000 --workers 1 --timeout 120."""
 
-Usage:
-    gunicorn wsgi:app --bind 0.0.0.0:8000 --workers 1 --timeout 120
-"""
+from app import app
+from burmese_reader.application import initialize_resources
 
-from app import (
-    app,
-    load_dictionary,
-    load_grammar_lexicon_tsv,
-    TSV_GRAMMAR_PATH,
-    init_ud_parser,
-    init_stanza_ner,
-)
-
-# Run all startup initialization that the __main__ block normally handles.
-load_dictionary()
-load_grammar_lexicon_tsv(TSV_GRAMMAR_PATH)
-init_ud_parser()
-init_stanza_ner()
+with app.app_context():
+    initialize_resources()

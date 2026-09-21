@@ -4,7 +4,7 @@ Use Python 3.12. Create and activate a virtual environment, then install `requir
 
 The application requires separately provisioned resources:
 
-- The layered dictionary files named in `app.py`: Burmese Wiktionary, `MMD_clean.tsv`, `peu.tsv`, and the grammar dictionary.
+- The layered dictionary files named in `burmese_reader/settings.py`: Burmese Wiktionary, `MMD_clean.tsv`, `peu.tsv`, and the grammar dictionary.
 - The `myWord-main` frequency resources used by the lexical engine.
 - The custom spaCy pipeline under `model-best/`.
 - Stanza's Burmese resources under `stanza_resources/`.
@@ -20,3 +20,24 @@ gunicorn wsgi:app --bind 127.0.0.1:5000 --workers 1 --threads 1 --timeout 120
 Open `/reader`. `wsgi.py` initializes the dictionaries, grammar lexicon, parser, and NER pipeline.
 
 Running the full neural reader requires the external resources above.
+
+## Fixture checks without neural assets
+
+```sh
+python -m pip install -r requirements-dev.txt
+python -m pytest
+python tools/check_repository.py
+```
+
+The fixtures exercise dictionary priority, grapheme boundaries, DP segmentation,
+Stanza-shaped adapters, Unicode spans, full lookup responses, persistence, DOCX
+text extraction and PDF text/geometry. They do not establish trained model quality.
+Word-to-PDF conversion still requires the original optional `docx2pdf`/Word setup
+and is distinct from the portable DOCX text extraction test.
+
+`create_app(load_resources=False, segmenter=..., stanza_ner=..., ud_parser=...)`
+accepts explicit adapters and prevents lazy neural loading. Each constructed app
+owns its model handles, dictionaries, NER cache, annotation state and PDF cache.
+Production filesystem paths are configured through the process environment before
+import; separate apps in one process should not use different on-disk corpora.
+The optional `lmbrain` frequency tables remain a process-wide read-only resource.
