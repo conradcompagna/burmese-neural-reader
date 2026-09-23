@@ -5,30 +5,28 @@ for development/building; deployed browser assets have no Node runtime dependenc
 `entries.json` maps maintained ES module/CSS entrypoints to the existing public
 URLs. Generated bundles and source maps are ignored by Git.
 
-`reader/index.mjs` initializes features in the same order as the former IIFE.
-Features import named functions and explicit feature state. There is no runtime
-source concatenation or `eval` loader. The compiled classic script preserves
-existing globals such as `lookupAndDisplay`, `getSyntheticLookupText` and
-`latestData`, so the template and integrations keep their contract.
+`reader/index.mjs` initializes the interface through explicit feature imports.
+Each feature uses named functions and shared state modules. The compiled classic
+script exposes the template API, including `lookupAndDisplay`,
+`getSyntheticLookupText`, and `latestData`.
 
 | Feature | Modules to start with |
 |---|---|
-| Text and dictionary display | `reader/text.mjs`, `dictionary-rendering.mjs`, `dictionary-panel.mjs` |
-| Lookup and annotations | `reader/lookup.mjs`, `token-rendering.mjs`, `segment-rendering.mjs`, `source-annotations.mjs` |
-| Documents | `reader/file-import.mjs`, `pdf-pages.mjs`, `docx-selection.mjs`, `document-pagination.mjs` |
-| Syntax/entity interaction | `reader/chunk-model.mjs`, `context-chunks.mjs`, `entity-hover.mjs`, `dependency-highlighting.mjs` |
-| Settings and menus | `reader/preferences.mjs`, `settings-panels.mjs`, `menu-events.mjs` |
-| Standalone research tree viewer | `dependency-tree/index.mjs`, `data.mjs`, `tree-state.mjs`, `rendering.mjs`, `chunks.mjs` |
-| Styles | `styles/reader.css` imports semantic stylesheets in original cascade order |
+| Text and dictionary display | [text](reader/text.mjs), [dictionary rendering](reader/dictionary-rendering.mjs), [dictionary panel](reader/dictionary-panel.mjs) |
+| Lookup and annotations | [lookup](reader/lookup.mjs), [tokens](reader/token-rendering.mjs), [segments](reader/segment-rendering.mjs), [source annotations](reader/source-annotations.mjs) |
+| Documents | [file import](reader/file-import.mjs), [PDF pages](reader/pdf-pages.mjs), [DOCX selection](reader/docx-selection.mjs), [pagination](reader/document-pagination.mjs) |
+| Syntax/entity interaction | [chunk model](reader/chunk-model.mjs), [context chunks](reader/context-chunks.mjs), [entity hover](reader/entity-hover.mjs), [dependency highlighting](reader/dependency-highlighting.mjs) |
+| Settings and menus | [preferences](reader/preferences.mjs), [settings panels](reader/settings-panels.mjs), [menu events](reader/menu-events.mjs) |
+| Standalone research tree viewer | [entrypoint](dependency-tree/index.mjs), [data](dependency-tree/data.mjs), [tree state](dependency-tree/tree-state.mjs), [rendering](dependency-tree/rendering.mjs), [chunks](dependency-tree/chunks.mjs) |
+| Styles | [reader.css](styles/reader.css) imports semantic stylesheets in explicit cascade order |
 
-The userscript entry lives under `research/experiments/userscript-era/source/` and
-builds its historical output filename with the original metadata banner. Building
-does not install or activate it. The research tree viewer also builds to its
-existing filename; the production reader's enabled features remain unchanged.
+The userscript experiment lives under `research/experiments/userscript-era/source/`;
+its build preserves the metadata banner required by userscript managers. The
+standalone research tree viewer has its own entrypoint and output in `entries.json`.
 
 ## Validation
 
-`npm test` checks original Unicode classification, dependency chunk membership,
+`npm test` checks Unicode classification, dependency chunk membership,
 CoNLL-U mappings and userscript metadata. `npm run test:browser` uses the real
 Flask template against `tools/fixture_server.py`, with an injected tokenizer/parser
 and synthetic dictionary in a temporary data directory. It covers lookup, hover,
@@ -36,7 +34,6 @@ side-panel lookup, text import, standalone tree rendering and archived userscrip
 wrapping with mocked transport. Install Chromium once with
 `npx playwright install chromium` (CI uses `--with-deps`).
 
-The local pre/post extraction comparison matched the reader DOM/style contract
-for 558 elements and produced identical 1440×1000 Chromium screenshots (SHA-256
-`739ce0e79517b9890ac2afa4eb0507b3124e38884bba2c97da87f78d542e2a19`). This is a
-same-machine comparison, not a portable pixel baseline or a neural-quality metric.
+Backend and browser fixtures validate the application contracts independently of
+model assets. Neural evaluation and training evidence are documented in the
+[research guide](../research/EVIDENCE.md).

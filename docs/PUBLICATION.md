@@ -2,10 +2,11 @@
 
 ## Included
 
-**Runtime.** The Flask application, language modules, reader interface and deployment
-entry point. This is everything at the repository root.
-[`docs/architecture/modules.md`](architecture/modules.md) maps the sections inside
-`app.py`.
+**Runtime.** The Flask application and feature services in `burmese_reader/`,
+focused language algorithms at the repository root, ES modules and stylesheets in
+`frontend/`, HTML templates, and WSGI entrypoint. The
+[module guide](architecture/modules.md) maps application state, lexical analysis,
+document handling, and HTTP services. Browser bundles are generated during the build.
 
 **Build infrastructure.** Under [`research/`](../research/): corpus construction, CRF
 and spaCy training configurations, dictionary builders, evaluation harnesses,
@@ -21,7 +22,6 @@ language-specific model features.
 | Training corpora (Burmese UD treebank, myNER 7-tag, myUDTree, alt bank, chronicle text, Judson) | Third-party datasets. Scripts name their inputs. |
 | Chronicle n-gram tables | Derived from the chronicle text; the builder is published. |
 | `reading_srs_state.json` | Personal review history. |
-| Versioned development copies | The workspace holds 130+ dated copies of the server and 34 of `reader.js`. One current version of each is published. |
 | Vendored Stanza source | Upstream; install from its own distribution. |
 
 The hand-built `burmese_grammar_dictionary.tsv` supplies the `Stc~`, `V~`, and `N~`

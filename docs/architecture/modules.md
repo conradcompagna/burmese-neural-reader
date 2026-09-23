@@ -1,7 +1,7 @@
 # Maintained module map
 
-The current server is split by responsibility under `burmese_reader/`; this map
-replaces the historical numbered-section map of an earlier server snapshot.
+The Flask server is organized by responsibility under `burmese_reader/`. Each
+feature owns its implementation and uses application-scoped state.
 
 | Responsibility | Modules |
 |---|---|
@@ -20,12 +20,11 @@ replaces the historical numbered-section map of an earlier server snapshot.
 Start with `pipeline.py`, then `segmentation.py` and `dictionary_types.py`; follow
 `lookup.py` to see how surface spans and overlays become the HTTP payload.
 `ner.py` reuses the Stanza document from tokenization for entity extraction.
-`pos.py` contains the effective final overlay implementation; the overwritten
-predecessor and duplicate POS normalizer were consolidated during extraction.
+`pos.py` implements the POS overlay and its normalization rules.
 
 `runtime.py` resolves each feature's state against the active application's
-extensions. State factories are lazy and do not read model files. The legacy
-`app.py` entrypoint deliberately shares the command-line fallback runtime so
+extensions. State factories are lazy and do not read model files. The
+`app.py` facade shares the command-line runtime so
 existing `from app import load_dictionary, segment_with_pipeline` adapters retain
 their contract. New integrations should import the owning feature module and
 operate inside their application's context. Configuration is process-level;
@@ -34,7 +33,7 @@ model/dictionary handles and mutable caches belong to an app.
 The published default keeps debug routes blocked. Several historical diagnostic
 views also return `debug_disabled` inside their handlers; changing the outer flag
 does not turn them into supported production features. Their code is retained for
-research inspection, and extracted template fixtures preserve the rendered bytes.
+research inspection; template fixtures check rendering contracts.
 
 The earlier BILU model, retired POS tagger and sentence-boundary experiments are
 under `research/`. They do not replace the maintained Stanza/DP path.

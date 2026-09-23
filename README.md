@@ -12,9 +12,10 @@ I built this reader to make Burmese texts easier to investigate at the level of 
 
 ## Application
 
-This repository contains the reader source and its offline research. The modular
-source preserves the deployed reader's contracts; GitHub changes are not a live
-deployment.
+This repository connects the reading application to its corpus builders, trained-model
+configurations, lexical algorithms, and evaluation tools. The Flask backend is
+organized by feature under `burmese_reader/`; ES modules under `frontend/` provide
+the reading interface.
 
 ### Engineering highlights
 
@@ -34,8 +35,8 @@ deployment.
 
 The [module guide](docs/architecture/modules.md) maps the backend and reader
 interface by responsibility, with entrypoints for lexical search, neural analysis,
-annotations, document handling, and rendering. The maintained package lives in
-`burmese_reader/`; `app.py` preserves the existing server and research import interface.
+annotations, document handling, and rendering. CI checks module sizes, backend
+contracts, and browser behavior using public fixtures.
 
 The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowledge-graph) reuses this reader's lexical stack through an explicit local adapter.
 
