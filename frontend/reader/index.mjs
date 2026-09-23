@@ -1,0 +1,55 @@
+import { initializeText } from './text.mjs';
+import { initializeDocumentState } from './document-state.mjs';
+import { initializeDocumentLibraries } from './document-libraries.mjs';
+import { initializeDocumentLayout } from './document-layout.mjs';
+import { initializeReaderState } from './reader-state.mjs';
+import { initializeDocumentPagination } from './document-pagination.mjs';
+import { initializeViewportLayout } from './viewport-layout.mjs';
+import { initializeDependencyState } from './dependency-state.mjs';
+import { initializeDependencyGeometry } from './dependency-geometry.mjs';
+import { initializeIslandGroups } from './island-groups.mjs';
+import { initializeContextChunks } from './context-chunks.mjs';
+import { initializeSettingsState } from './settings-state.mjs';
+import { initializeChunkModel } from './chunk-model.mjs';
+import { initializeChunkHighlighting } from './chunk-highlighting.mjs';
+import { initializePreferences } from './preferences.mjs';
+import { initializeSettingsPanels } from './settings-panels.mjs';
+import { initializeMenuEvents } from './menu-events.mjs';
+import { initializeDictionarySearch } from './dictionary-search.mjs';
+import { initializeCustomEntries } from './custom-entries.mjs';
+import { initializeFileImport } from './file-import.mjs';
+import { initializeRawTextSizing } from './raw-text-sizing.mjs';
+import { initializeSegmentRendering } from './segment-rendering.mjs';
+import { initializeHoverInteraction } from './hover-interaction.mjs';
+import { initializePopupPlacement } from './popup-placement.mjs';
+import { initializeFlashcards } from './flashcards.mjs';
+
+/** Initialize features in the original script order. */
+function bootstrap() {
+  if (!initializeText()) return;
+  if (!initializeDocumentState()) return;
+  if (!initializeDocumentLibraries()) return;
+  if (!initializeDocumentLayout()) return;
+  if (!initializeReaderState()) return;
+  if (!initializeDocumentPagination()) return;
+  if (!initializeViewportLayout()) return;
+  if (!initializeDependencyState()) return;
+  if (!initializeDependencyGeometry()) return;
+  if (!initializeIslandGroups()) return;
+  if (!initializeContextChunks()) return;
+  if (!initializeSettingsState()) return;
+  if (!initializeChunkModel()) return;
+  if (!initializeChunkHighlighting()) return;
+  if (!initializePreferences()) return;
+  if (!initializeSettingsPanels()) return;
+  if (!initializeMenuEvents()) return;
+  if (!initializeDictionarySearch()) return;
+  if (!initializeCustomEntries()) return;
+  if (!initializeFileImport()) return;
+  if (!initializeRawTextSizing()) return;
+  if (!initializeSegmentRendering()) return;
+  if (!initializeHoverInteraction()) return;
+  if (!initializePopupPlacement()) return;
+  if (!initializeFlashcards()) return;
+}
+bootstrap();

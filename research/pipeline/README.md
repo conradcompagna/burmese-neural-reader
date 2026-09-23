@@ -1,6 +1,7 @@
 # Build chains
 
-What the deployed reader loads, and how each piece was made.
+Historical build chains and their recorded outcomes; see the [evidence index](../EVIDENCE.md)
+for public artifacts, split/seed records and verification limits.
 
 The runtime loads, from `DATA_ROOT`: a spaCy UD model (`model-best`), a standalone NER
 model, a Stanza NER pipeline and tokenizer, four dictionary TSVs, and the myPOS corpus.
@@ -11,9 +12,10 @@ covered in the [setup guide](../../docs/SETUP.md).
 
 ## 1. Word segmentation
 
-Burmese word segmentation brings together dictionary search, neural tokenization,
-and language-model scoring. The BILU work below records a complementary research
-path for learning boundaries at the grapheme-cluster level.
+The current reader combines Stanza tokenization, dictionary dynamic programming,
+and unknown-token merging, with optional language-model tables for candidate
+scoring. The BILU work below records an earlier research path for learning
+boundaries at the grapheme-cluster level.
 
 ### 1a. The BILU boundary tagger
 

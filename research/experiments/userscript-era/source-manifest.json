@@ -1,0 +1,9 @@
+{
+  "original_path": "research/experiments/userscript-era/Burmese Hover Dictionary (Unlimited Nesting)-0.99m-grammar (bells ans whisltes version).user.js",
+  "original_commit": "509abc45d790ad9c2f8a7e6ec3022b98b931910d",
+  "original_sha256": "e63842288684150ed8a07cdddd77a134cba8cd715be9b12058a9f8e8918af93b",
+  "metadata_sha256": "fe1da4cef118aef14d43fc41c438b7b939acb07b7a1a1cba450f4410fceb287d",
+  "entry": "source/index.mjs",
+  "build": "npm run build",
+  "status": "Archived experiment; not installed or activated by the build."
+}

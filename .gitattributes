@@ -10,3 +10,9 @@
 *.cfg text eol=lf
 
 research/** linguist-documentation
+
+*.training text eol=lf
+
+*.mjs text eol=lf
+*.css text eol=lf
+research/experiments/userscript-era/metadata.txt text eol=lf

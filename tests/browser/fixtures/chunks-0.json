@@ -1,0 +1,10 @@
+{
+  "overlay": null,
+  "expected": {
+    "chunks": [],
+    "tokenToChunks": [],
+    "canonicalChunk": [],
+    "children": [],
+    "tokenMap": []
+  }
+}

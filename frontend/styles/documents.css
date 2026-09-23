@@ -1,0 +1,247 @@
+/* Original/Text view toggle switch */
+.orig-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  font-size: 11px;
+  color: #374151;
+}
+.orig-view-toggle:hover {
+  background: #e5e7eb;
+}
+.orig-view-toggle input[type='checkbox'] {
+  display: none;
+}
+.orig-view-toggle .toggle-slider {
+  width: 28px;
+  height: 16px;
+  background: #d1d5db;
+  border-radius: 8px;
+  position: relative;
+  transition: background 0.2s;
+}
+.orig-view-toggle .toggle-slider::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+.orig-view-toggle input:checked + .toggle-slider {
+  background: #2563eb;
+}
+.orig-view-toggle input:checked + .toggle-slider::after {
+  transform: translateX(12px);
+}
+.orig-view-toggle .toggle-text {
+  font-weight: 500;
+}
+
+.reader-status {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.reader-status span {
+  white-space: nowrap;
+}
+.status-inline {
+  font-size: 11px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+.reader-output {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  min-height: 140px;
+  font-size: 18px;
+  line-height: 2.2;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-family: 'Noto Sans Myanmar', 'Myanmar Text', system-ui, sans-serif;
+  position: relative;
+  color: #111827;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+.reader-output.orig-view-bg {
+  background-color: #f3f4f6;
+  min-height: auto;
+}
+/* Original view positioned layout */
+.orig-view-positioned {
+  padding: 0 !important;
+  background: transparent !important;
+}
+.positioned-segments-container {
+  font-family: 'Noto Sans Myanmar', 'Myanmar Text', system-ui, sans-serif;
+}
+/* Structured flowing text layout (new approach) */
+.orig-view-structured {
+  padding: 0 !important;
+  background: transparent !important;
+}
+.structured-text-container {
+  font-family: 'Noto Sans Myanmar', 'Myanmar Text', system-ui, sans-serif;
+  font-size: 16px;
+  color: #1f2937;
+}
+.structured-text-container .text-block {
+  margin-bottom: 0.5em;
+}
+.structured-text-container .text-line {
+  margin: 0;
+  padding: 0;
+}
+.structured-text-container .pdf-raw-word {
+  display: inline;
+  cursor: default;
+  border-radius: 2px;
+  padding: 1px 0;
+}
+.structured-text-container .pdf-raw-word:hover {
+  background-color: transparent;
+}
+.structured-text-container .reader-token:hover {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+.structured-text-container .pdf-raw-word.seg-known {
+  /* known words get subtle green underline */
+}
+.structured-text-container .pdf-raw-word.seg-unknown {
+  background-color: rgba(251, 191, 36, 0.2);
+  border-bottom: 1px dashed #f59e0b;
+}
+.pdfjs-textlayer-container {
+  position: relative;
+  overflow: auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+}
+.pdfjs-textlayer-host {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+}
+.pdfjs-textlayer-host .textLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 1;
+  line-height: 1;
+}
+.pdfjs-textlayer-host .pdfjs-textlayer-clone > span {
+  position: absolute;
+  white-space: pre;
+  transform-origin: 0 0;
+  line-height: 1;
+}
+.pdfjs-textlayer-host .pdfjs-textlayer-clone > span .reader-token {
+  position: static;
+  transform: none;
+}
+.pdfjs-textlayer-host .pdfjs-textlayer-clone span {
+  color: #111827 !important;
+}
+.positioned-token {
+  font-family: inherit;
+  position: absolute !important;
+  z-index: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+.positioned-token:hover {
+  z-index: 1 !important;
+  transform: none !important;
+}
+.positioned-token .reader-subtoken {
+  position: static !important;
+  display: inline !important;
+}
+.positioned-token .reader-subtoken:hover {
+  z-index: auto !important;
+}
+.dep-tree-view {
+  margin-top: 16px;
+}
+.reader-output-placeholder {
+  color: #9ca3af;
+  font-size: 13px;
+}
+.reader-token {
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+.reader-token:hover {
+  z-index: 20;
+}
+.reader-token.reader-punct {
+  cursor: default;
+}
+.reader-token.reader-punct:hover {
+  background: transparent !important;
+}
+.reader-token.grammar-token {
+  font-weight: inherit;
+}
+.reader-token.unknown-token {
+  color: #b91c1c;
+}
+.docx-preview-host .reader-token.unknown-token {
+  color: #b91c1c !important;
+}
+#renderedText .reader-token.unknown-token {
+  color: #b91c1c !important;
+}
+#renderedText .reader-token.unknown-token * {
+  color: #b91c1c !important;
+}
+.reader-subtoken {
+  display: inline;
+  border-radius: 2px;
+  position: relative;
+}
+.reader-subtoken.chunk-subtoken-active + .reader-subtoken.chunk-subtoken-active {
+  /* Use box-shadow instead of border to avoid layout shifts */
+  box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.35);
+}
+.reader-subtoken:hover {
+  z-index: 20;
+}
+.reader-subtoken.unknown-subtoken {
+  color: #b91c1c;
+}
+.docx-preview-host .reader-subtoken.unknown-subtoken {
+  color: #b91c1c !important;
+}
+#renderedText .reader-subtoken.unknown-subtoken {
+  color: #b91c1c !important;
+}
+#renderedText .reader-subtoken.unknown-subtoken * {
+  color: #b91c1c !important;
+}
+.reader-token.pos-tagged {
+  border-radius: 2px;
+}

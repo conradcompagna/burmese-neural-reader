@@ -1,14 +1,16 @@
-# What the deployed reader loads
+# Runtime wiring and historical build records
 
-The tables connect the reader's language resources to corpus builders, model
-configurations, and evaluation tools. The CRF section records the development of
-sentence-boundary feature design.
+The maintained [lookup pipeline](../burmese_reader/pipeline.py) combines Stanza
+tokenization, dictionary dynamic programming, and unknown-token merging, with
+optional spaCy UD and Stanza NER adapters. BILU and standalone spaCy NER record
+additional research paths. The tables connect these language resources to their
+build records, while the CRF section traces sentence-boundary feature design.
 
-| Loaded at runtime | Kind | Built by |
+| Recorded artifact | Kind | Built by |
 |---|---|---|
 | `model-best` | spaCy joint UD pipeline: tok2vec, tagger, morphologiser, parser, NER | [`pipeline/spacy/deployed_pipeline/joint_ud_morph_parser_ner_filled.cfg`](pipeline/spacy/deployed_pipeline/joint_ud_morph_parser_ner_filled.cfg) over DocBins from [`pipeline/corpus/`](pipeline/corpus/) |
-| BILU boundary tagger | spaCy tagger over grapheme clusters | [`pipeline/spacy/bilu/bilu.cfg`](pipeline/spacy/bilu/) over [`pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py`](pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py) |
-| standalone NER model | spaCy NER | [`pipeline/spacy/deployed_pipeline/nerconfig.cfg`](pipeline/spacy/deployed_pipeline/) over the retokenised myNER 7-tag corpus |
+| BILU boundary tagger | spaCy tagger over grapheme clusters | [`pipeline/spacy/bilu/bilu.cfg`](pipeline/spacy/bilu/bilu.cfg) over [`pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py`](pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py) |
+| standalone NER model | spaCy NER | [`pipeline/spacy/deployed_pipeline/nerconfig.cfg`](pipeline/spacy/deployed_pipeline/nerconfig.cfg) over the retokenised myNER 7-tag corpus |
 | Stanza NER + tokenizer | Stanza | upstream; harness in [`evaluation/stanza_test.py`](evaluation/stanza_test.py) |
 | chronicle n-gram tables | counts | [`pipeline/corpus/build_chronicle_ngrams.py`](pipeline/corpus/build_chronicle_ngrams.py) |
 | Burmese–English Wiktionary TSV | dictionary | [`pipeline/dictionaries/kaikki_to_tsv.py`](pipeline/dictionaries/kaikki_to_tsv.py) |
@@ -35,7 +37,9 @@ two superseded generations are in
 ## Tests
 
 [`evaluation/tests/`](evaluation/tests/) holds the BK-tree fuzzy-search tests
-(`test_bktree.py`, `test_lmbrain_bktree.py`) and a POS smoke test. The BK-tree tests
+(`test_bktree.py`, `test_lmbrain_bktree.py`), which delegate to the maintained
+fixture suite in [`../tests/`](../tests/). The retired POS diagnostic is documented
+under [`experiments/legacy-pos/`](experiments/legacy-pos/). The BK-tree tests
 cover the edit-distance search that the root README names as an engineering highlight.
 
 The published tests focus on retained interfaces; development checks for the retired

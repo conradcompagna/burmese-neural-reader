@@ -1,0 +1,244 @@
+/* UD Dependency Visualization */
+#ud-svg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 30;
+  overflow: visible;
+}
+.ud-dep-line {
+  stroke: #6366f1;
+  stroke-width: 1.4;
+  fill: none;
+  opacity: 0.8;
+}
+.ud-dep-line.root-line {
+  stroke: #dc2626;
+  stroke-width: 1.75;
+}
+.ud-dep-line.child-line {
+  stroke: #e67e22;
+  stroke-width: 1.4;
+  opacity: 0.8;
+}
+.ud-dep-arrow {
+  fill: #6366f1;
+}
+.ud-dep-arrow.root-arrow {
+  fill: #dc2626;
+}
+.ud-dep-arrow.child-arrow {
+  fill: #e67e22;
+}
+.ud-dep-label {
+  font-size: 10px;
+  font-weight: 600;
+  fill: #4f46e5;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.ud-dep-label.root-label {
+  fill: #dc2626;
+}
+#phrase-boundary-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.phrase-boundary {
+  position: absolute;
+  border: none;
+  border-bottom: 5px solid transparent;
+  box-sizing: border-box;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+.hover-reticle {
+  position: absolute;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  box-sizing: border-box;
+  pointer-events: none;
+  z-index: 40;
+}
+.hover-reticle-token {
+  outline: 1px solid #000000;
+  outline-offset: 0;
+  border-radius: 2px;
+}
+/* DOCX original view: Word's inline styles can override outline, so use box-shadow as fallback */
+.docx-preview-host .hover-reticle-token {
+  outline: 1px solid #000000 !important;
+  outline-offset: 0 !important;
+  box-shadow: 0 0 0 1px #000000 !important;
+  border-radius: 2px !important;
+}
+.phrase-boundary-batch {
+  position: absolute;
+  border: none;
+  border-bottom: 5px solid;
+  box-sizing: border-box;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+.reader-token.ud-highlight {
+  outline: 2px solid #6366f1;
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+.reader-token.ud-highlight-parent {
+  outline: 2px solid #e67e22;
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+.reader-token.ud-highlight-child {
+  outline: 2px solid #6366f1;
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+.reader-token.ud-root-highlight {
+  outline: 2px solid #dc2626;
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+.reader-token.ud-tagged {
+  border-bottom: 2px dotted #6366f1;
+}
+/* Chunk highlighting styles */
+.reader-token.chunk-member {
+  position: relative;
+}
+.reader-token.chunk-head::before {
+  content: attr(data-chunk-pos);
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+}
+/* Chunk highlighting - no margin to avoid text position shift */
+.reader-token.chunk-active {
+}
+.chunk-pos-tag {
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  text-transform: lowercase;
+}
+/* UD info badge in popup */
+.ud-info-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 2px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  background: #eef2ff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
+}
+.ud-info-badge.upos {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fcd34d;
+}
+.ud-info-badge.dep {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #93c5fd;
+}
+.ud-info-badge.root {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+.popup-ud-section {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed #e5e7eb;
+}
+.popup-ud-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+/* NER hover overlay */
+#ner-hover-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+  z-index: 6;
+}
+/* NER Label Pills - Modern flat design with single color */
+.ner-label {
+  position: absolute;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #3b82f6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  --ner-tail-x: 50%;
+  --ner-tail-h: 5px;
+}
+.ner-label::after {
+  content: '';
+  position: absolute;
+  left: var(--ner-tail-x, 50%);
+  bottom: calc(-1 * var(--ner-tail-h, 5px));
+  width: 2px;
+  height: var(--ner-tail-h, 5px);
+  background: inherit;
+  border-radius: 1px;
+  transform: translateX(-50%);
+}
+/* Caliper bracket for multi-token NER spans */
+.ner-caliper {
+  position: absolute;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 2px 2px 0 2px;
+  border-color: #3b82f6;
+  border-radius: 2px 2px 0 0;
+  opacity: 0.9;
+}

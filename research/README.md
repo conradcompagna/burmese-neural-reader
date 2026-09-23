@@ -36,3 +36,7 @@ separately; [publication contents](../docs/PUBLICATION.md) records the resource 
 Historical corpus scripts retain their original input conventions. In particular,
 `build_chronicle_ngrams.py` and `retokenize_conll_for_app.py` use the earlier
 `newserver` interface and require adaptation when reused with the current application.
+
+The [evidence index](EVIDENCE.md) connects each research path to its data, training
+configuration, and evaluation record. The [reproduction guide](REPRODUCIBILITY.md)
+provides public checks and commands for preparing new runs.

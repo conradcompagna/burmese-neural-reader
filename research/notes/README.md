@@ -2,6 +2,4 @@
 
 | Document | Subject |
 |---|---|
-| `BK_TREE_IMPLEMENTATION.md` | the BK-tree fuzzy dictionary search |
-| `POS_BIGRAM_IMPLEMENTATION.md` | POS bigram disambiguation |
-| `DEBUG_GUIDE.md` | the developer endpoints and how to use them |
+| [BK_TREE_IMPLEMENTATION.md](BK_TREE_IMPLEMENTATION.md) | candidate indexing, contextual ranking, and correctness checks for fuzzy dictionary search |

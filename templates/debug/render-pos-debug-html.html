@@ -1,0 +1,101 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>POS Debug: {{ values[0] }}</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Arial, sans-serif;
+                margin: 40px;
+                background: #f5f5f5;
+            }
+            .container {
+                max-width: 900px;
+                margin: 0 auto;
+                background: white;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            h1 {
+                color: #1976d2;
+                border-bottom: 3px solid #1976d2;
+                padding-bottom: 10px;
+            }
+            h2 {
+                color: #424242;
+                margin-top: 30px;
+                border-bottom: 1px solid #e0e0e0;
+                padding-bottom: 5px;
+            }
+            .word {
+                font-size: 2em;
+                font-weight: bold;
+                color: #d32f2f;
+            }
+            .context {
+                background: #e3f2fd;
+                padding: 10px 15px;
+                border-left: 4px solid #1976d2;
+                margin: 10px 0;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 15px 0;
+            }
+            th {
+                background: #424242;
+                color: white;
+                padding: 12px;
+                text-align: left;
+            }
+            td {
+                padding: 10px 12px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            .bar {
+                background: #4caf50;
+                height: 20px;
+                border-radius: 3px;
+                display: inline-block;
+            }
+            .winner {
+                background: #fff9c4;
+                font-weight: bold;
+            }
+            .badge {
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: 3px;
+                font-size: 0.9em;
+                font-weight: bold;
+                background: #e0e0e0;
+            }
+            .badge.winner {
+                background: #ffd54f;
+                color: #f57c00;
+            }
+            .formula {
+                background: #f5f5f5;
+                padding: 10px;
+                border-left: 3px solid #9e9e9e;
+                font-family: monospace;
+                margin: 10px 0;
+            }
+            .candidates {
+                background: #e8f5e9;
+                padding: 10px;
+                border-radius: 4px;
+                margin: 10px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🔍 POS Debug Analysis</h1>
+            <div style="margin: 20px 0;">
+                <span class="word">{{ values[1] }}</span>
+            </div>
+    
