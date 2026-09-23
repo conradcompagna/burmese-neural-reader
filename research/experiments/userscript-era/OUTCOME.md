@@ -16,13 +16,11 @@ started, and because the constraint of running entirely in a content script forc
 lookup design that the application still uses: segment locally, look up in batches,
 render progressively.
 
-What ended the approach was the parsing. Dependency trees, POS overlays and
-language-model scoring need a server and real models. The userscript could not carry
-them, and the reader became an application instead.
+The next stage combined that interaction design with server-side parsing, POS
+overlays, and language-model scoring. That integration became the full reading
+application, retaining the userscript's emphasis on responsive lookup in context.
 
-`metadata.txt` retains the exact userscript metadata. `source-manifest.json` records
-the original Git commit, path and SHA-256, so the historical artifact can be
-retrieved and checked independently. The readable bundled output is behaviorally
-equivalent source, not a claim of byte-for-byte identity with the original file.
-The browser fixture mocks `GM_xmlhttpRequest`; it never sends document contents
-to a real dictionary server.
+`metadata.txt` and `source-manifest.json` record the original userscript metadata,
+Git commit, path, and SHA-256. The readable bundle preserves behavior while the
+manifest supports byte-level checks against the original. Browser fixtures use a
+mock dictionary transport for local testing.

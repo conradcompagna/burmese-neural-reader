@@ -1,7 +1,8 @@
 # Components
 
-Historical standalone algorithm modules whose maintained counterparts now live
-under `burmese_reader/`. See the [current module map](../../docs/architecture/modules.md).
+Standalone development records make individual segmentation and visualization
+algorithms easy to explore. The [module guide](../../docs/architecture/modules.md)
+connects them to the maintained application modules in `burmese_reader/`.
 
 | File | What it does |
 |---|---|
@@ -14,6 +15,5 @@ under `burmese_reader/`. See the [current module map](../../docs/architecture/mo
 
 These are reference copies. The runtime does not import them.
 
-The spaced-repetition engine is not reproduced here: the standalone copy in the
-development workspace has drifted from the maintained implementation, which is
+The maintained spaced-repetition implementation is
 [`burmese_reader/srs.py`](../../burmese_reader/srs.py).
