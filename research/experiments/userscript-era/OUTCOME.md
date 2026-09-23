@@ -15,6 +15,6 @@ started, and because the constraint of running entirely in a content script forc
 lookup design that the application still uses: segment locally, look up in batches,
 render progressively.
 
-What ended the approach was the parsing. Dependency trees, POS overlays and
-language-model scoring need a server and real models. The userscript could not carry
-them, and the reader became an application instead.
+The next stage combined that interaction design with server-side parsing, POS
+overlays, and language-model scoring. That integration became the full reading
+application, retaining the userscript's emphasis on responsive lookup in context.

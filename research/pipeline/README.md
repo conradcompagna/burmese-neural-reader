@@ -4,13 +4,16 @@ What the deployed reader loads, and how each piece was made.
 
 The runtime loads, from `DATA_ROOT`: a spaCy UD model (`model-best`), a standalone NER
 model, a Stanza NER pipeline and tokenizer, four dictionary TSVs, and the myPOS corpus.
-None of those are in this repository. This is how they were produced.
+The following build chains document their preparation; resource provisioning is
+covered in the [setup guide](../../docs/SETUP.md).
 
 ---
 
 ## 1. Word segmentation
 
-Burmese has no inter-word spaces. Three independent methods run and are reconciled.
+Burmese word segmentation brings together dictionary search, neural tokenization,
+and language-model scoring. The BILU work below records a complementary research
+path for learning boundaries at the grapheme-cluster level.
 
 ### 1a. The BILU boundary tagger
 
@@ -37,7 +40,7 @@ Inspect a trained tagger with `evaluation/viewers/bilu_query_app.py` or
 
 ### 1b. Dictionary dynamic programming and LM scoring
 
-No training. The DP runs over the dictionary inventory; the language model that scores
+The DP runs directly over the dictionary inventory; the language model that scores
 candidate segmentations is built from chronicle n-grams:
 
 ```
@@ -57,10 +60,9 @@ segmenter used as a baseline and fallback.
 
 ## 2. Sentence-boundary CRFs
 
-The hardest problem in the project. Chronicle Burmese has no full stop; sentences end
-with a grammatical particle, and which particles end a sentence depends on context.
-
-Each generation exists because the previous one learned a shortcut.
+Sentence segmentation requires grammatical context when chronicle prose lacks
+reliable punctuation. The trainer series develops particle features, training-data
+mixes, and token normalization for that setting.
 
 ### Generation 1 — chronicle-only
 
@@ -77,9 +79,7 @@ Each generation exists because the previous one learned a shortcut.
 
 `crf/train_sentence_crf_pooled_strip_punct.py`, then the final-particle series.
 
-Training mix by sequence count: **chronicle 50%, myUDTree 25%, alt 25%**. A
-chronicle-only model over-fits to chronicle style; a modern-Burmese model does not
-transfer to it.
+Training mix by sequence count: **chronicle 50%, myUDTree 25%, alt 25%**. This mixes historical and modern registers in one training representation.
 
 ### Generation 3 — the `သည်` problem
 
@@ -90,7 +90,9 @@ The particle `သည်` appears both attached to the preceding word and standin
 multi-sentence training sequences a standalone sentence-final `သည်` is always the last
 token, so the model can learn "`သည်` at end-of-sequence" — an end-of-sequence shortcut
 that does not generalise. v6 fuses sentence-final standalone `သည်` into the previous
-token (`X` + `သည်` → `Xသည်`) inside multi-sentence sequences, removing the shortcut.
+token (`X` + `သည်` → `Xသည်`) inside multi-sentence sequences to address that cue.
+The [development record](../experiments/sentence-final-particle-crf/OUTCOME.md)
+connects the representation change to the retained trainers and evaluation tools.
 
 Chronicle sentences are also filtered to those whose final token is in an allowed set
 drawn from the grammar TSV plus a short additional list.
@@ -166,22 +168,20 @@ Stanza supplies a second NER opinion; `evaluation/stanza_test.py` is the harness
 
 ## 4. Dictionaries
 
-Four TSVs load at runtime. None are published.
+The reader combines four TSV dictionaries, with source-specific preparation paths:
 
 | Dictionary | Built by |
 |---|---|
 | Burmese–English Wiktionary | `dictionaries/kaikki_to_tsv.py` from the Kaikki Wiktionary dump |
 | MMD (Myanmar–English) | `dictionaries/clean_mmd.py` — strips non-Myanmar suffixes from headwords, drops ASCII-only entries, normalises the rest; emits a JSON report of every change |
 | Pali (`peu.tsv`) | external |
-| Burmese grammar dictionary | hand-built, **published**: `dictionaries/burmese_grammar_dictionary.tsv` |
+| Burmese grammar dictionary | hand-built grammatical lexicon, provisioned as `burmese_grammar_dictionary.tsv` |
 
-`dictionaries/burmese_grammar_dictionary.tsv` is the one lexical resource published
-here, because it is original work rather than a redistribution. It is also a feature
-source for the sentence CRFs above: the `Stc~`, `V~` and `N~` classes are what those
-models key on.
+The grammar dictionary is an original feature source for the sentence CRFs above:
+the `Stc~`, `V~`, and `N~` classes connect lexical knowledge to boundary prediction.
+The trainers expose the feature construction, and the lexicon is supplied with the
+application's language resources.
 
-Supporting analyses, all published: `ambiguous_pos_words_coverage.tsv` (which word
-forms carry more than one POS and how often), `shared_tokens_below_0_8*.tsv` and
-`top1000_shared_pos_similarity.tsv` (POS-distribution similarity between shared tokens
-across corpora), `mypos-ver.3.0.unigram_ud.tsv`, `udtree_mark_tokens.tsv`,
-`chronicle-unknown-words.json`.
+Supporting analysis tools compare ambiguous POS assignments and shared-token
+distributions across corpora. The [evaluation guide](../evaluation/README.md) links
+the retained scoring scripts, inspection tools, and viewers.

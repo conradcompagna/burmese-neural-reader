@@ -1,8 +1,8 @@
 # What the deployed reader loads
 
-Unlike Language Engine, this project's models are few and each has one build chain, so
-there is no ambiguity to resolve about which run shipped. What follows is the mapping
-from each loaded artefact to the code that produced it.
+The tables connect the reader's language resources to corpus builders, model
+configurations, and evaluation tools. The CRF section records the development of
+sentence-boundary feature design.
 
 | Loaded at runtime | Kind | Built by |
 |---|---|---|
@@ -13,7 +13,7 @@ from each loaded artefact to the code that produced it.
 | chronicle n-gram tables | counts | [`pipeline/corpus/build_chronicle_ngrams.py`](pipeline/corpus/build_chronicle_ngrams.py) |
 | Burmese–English Wiktionary TSV | dictionary | [`pipeline/dictionaries/kaikki_to_tsv.py`](pipeline/dictionaries/kaikki_to_tsv.py) |
 | MMD TSV | dictionary | [`pipeline/dictionaries/clean_mmd.py`](pipeline/dictionaries/clean_mmd.py) |
-| grammar TSV | hand-built | published: [`pipeline/dictionaries/burmese_grammar_dictionary.tsv`](pipeline/dictionaries/burmese_grammar_dictionary.tsv) |
+| grammar TSV | hand-built | grammatical classes used by the [CRF trainers](pipeline/crf/); provisioned with the reader resources |
 | myPOS corpus | third-party | not redistributed |
 
 ## Sentence-boundary CRFs
@@ -22,14 +22,14 @@ Four generations exist. The published trainers are in [`pipeline/crf/`](pipeline
 two superseded generations are in
 [`experiments/sentence-final-particle-crf/`](experiments/sentence-final-particle-crf/).
 
-| Generation | Status | Why it was replaced |
+| Trainer | Development role | Design contribution |
 |---|---|---|
 | `train_sentence_boundary_crf.py` | Superseded | baseline; no cue features |
 | `train_chronicle_sentence_crf.py` | Maintained | chronicle-only; still the clearest statement of the feature design |
 | `train_sentence_crf_pooled_strip_punct.py` | Maintained | adds the pooled training mix |
-| `..._final_particle_crf_pooled_v3.py` | Superseded | learned an end-of-sequence shortcut on standalone `သည်` |
-| `..._final_particle_crf_pooled_v4_thi.py` | Superseded | partial fix |
-| `..._final_particle_crf_pooled_v6_thi_merge.py` | **Current** | fuses sentence-final standalone `သည်` into the previous token, removing the shortcut |
+| `..._final_particle_crf_pooled_v3.py` | Superseded | identified a positional cue in standalone sentence-final `သည်` |
+| `..._final_particle_crf_pooled_v4_thi.py` | Superseded | adds features for the standalone `သည်` case |
+| `..._final_particle_crf_pooled_v6_thi_merge.py` | **Current** | normalizes final standalone `သည်` with the preceding token to address the positional cue |
 | `train_ocr_structure_boundary_crf.py` | Maintained | separate problem: page structure, non-lexical features |
 
 ## Tests
@@ -38,7 +38,5 @@ two superseded generations are in
 (`test_bktree.py`, `test_lmbrain_bktree.py`) and a POS smoke test. The BK-tree tests
 cover the edit-distance search that the root README names as an engineering highlight.
 
-Two test files from the development workspace are **not** published because they import
-modules that no longer exist (`test_newserver.py` imports `newserver`;
-`research/config.py` imports `segmenter`). They were left behind by the rename to
-`app.py`.
+The published tests focus on retained interfaces; development checks for the retired
+`newserver` and `segmenter` modules remain outside this release.

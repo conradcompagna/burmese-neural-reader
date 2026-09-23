@@ -1,9 +1,8 @@
 # Components
 
-Algorithm modules that the deployed server absorbed into `app.py`. They are kept here
-in their standalone form because each is readable on its own, where the corresponding
-section of a 372 KB file is not. See [`docs/architecture/modules.md`](../../docs/architecture/modules.md)
-for how they map onto the deployed file.
+Standalone development records make individual segmentation and visualization
+algorithms easy to explore. The [module guide](../../docs/architecture/modules.md)
+connects them to the application architecture.
 
 | File | What it does |
 |---|---|
@@ -16,6 +15,5 @@ for how they map onto the deployed file.
 
 These are reference copies. The runtime does not import them.
 
-The spaced-repetition engine is not reproduced here: the standalone copy in the
-development workspace has drifted from the maintained implementation, which is
-section 02 of `app.py`. See [`docs/architecture/modules.md`](../../docs/architecture/modules.md).
+The maintained spaced-repetition implementation is documented in the
+[module guide](../../docs/architecture/modules.md).

@@ -27,7 +27,9 @@ The repository root is the deployed application.
 | Grammar and pronunciation | [dict_pos_override.py](dict_pos_override.py), [ud_overlay.py](ud_overlay.py), [burmese_transliteration.py](burmese_transliteration.py) |
 | Reading interface | [static/reader.js](static/reader.js), [templates/reader.html](templates/reader.html) |
 
-`app.py` is one 372 KB module by design. [**docs/architecture/modules.md**](docs/architecture/modules.md) maps it: eighteen backend sections and a ten-part reader template, with line counts and a suggested reading order. Start there rather than at the top of the file.
+The [module guide](docs/architecture/modules.md) maps the backend and reader
+interface by responsibility, with entrypoints for lexical search, neural analysis,
+annotations, document handling, and rendering.
 
 The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowledge-graph) reuses this reader's lexical stack through an explicit local adapter.
 
@@ -35,7 +37,8 @@ The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowle
 
 ## How it was built
 
-None of this runs in production. It is the offline infrastructure that produced the models, dictionaries and corpora the reader loads.
+The research record connects corpus preparation, language-specific feature design,
+model training, and lexical engineering to the reading application.
 
 **[`research/`](research/)** — start at [research/README.md](research/README.md).
 
@@ -46,8 +49,12 @@ None of this runs in production. It is the offline infrastructure that produced 
 | [`research/pipeline/`](research/pipeline/) | Corpus construction, CRF training, spaCy configurations, dictionary building. |
 | [`research/evaluation/`](research/evaluation/) | Tests, scoring harnesses, and the annotation viewers used to judge output by hand. |
 | [`research/components/`](research/components/) | Algorithm modules in standalone form. |
-| [`research/experiments/`](research/experiments/) | Superseded CRF generations and the original userscript, each with an `OUTCOME.md`. |
+| [`research/experiments/`](research/experiments/) | The development of sentence-boundary features and the transition from a userscript to a full reading application. |
 
-Almost every hard problem in this project is a boundary problem, because Burmese is written without spaces between words and chronicle prose carries no sentence-final punctuation. The clearest example is in the CRF series: a model that scored well by learning that a standalone sentence-final `သည်` sits at the end of its training sequence, and the change that removed the shortcut. That is written up in [research/experiments/sentence-final-particle-crf/OUTCOME.md](research/experiments/sentence-final-particle-crf/OUTCOME.md).
+A central design challenge is recovering word and sentence boundaries in continuous
+Burmese text. The [CRF development case study](research/experiments/sentence-final-particle-crf/OUTCOME.md)
+shows how I translated that linguistic problem into corpus construction, grammatical
+features, and token-normalization rules designed for running chronicle prose.
 
-See [publication contents](docs/PUBLICATION.md) for what is excluded and why.
+See [publication contents](docs/PUBLICATION.md) for the source release and separately
+provisioned language resources.

@@ -1,44 +1,38 @@
-# Research and build infrastructure
+# Burmese NLP: from linguistic data to a reading application
 
-Everything here is **offline work**. None of it runs in production. It is the record of
-how the models, dictionaries and corpora the reader loads were built and evaluated.
+This directory records corpus preparation, model training, lexical engineering, and
+the tools used to inspect their outputs. The work addresses a connected set of
+language-specific problems: word segmentation, sentence boundaries, OCR structure,
+and alignment between neural analysis and the text a reader sees.
 
-The deployed application is at the repository root. If you only want to see what the
-service does, stop at the root [README](../README.md).
+## Where to start
 
-## Layout
+1. **Corpus and model construction:** the [build chains](pipeline/README.md) connect
+   CoNLL-U, constituency data, and DocBins to spaCy and CRF training configurations.
+2. **Boundary feature design:** the [sentence-boundary case study](experiments/sentence-final-particle-crf/OUTCOME.md)
+   follows the treatment of Burmese final particles across trainer generations.
+3. **Inspection and evaluation:** the [evaluation guide](evaluation/README.md) covers
+   lexical regression tests, scoring harnesses, and interactive annotation viewers.
+
+The [application overview](../README.md) and [architecture](../docs/ARCHITECTURE.md)
+connect this research to the deployed reading interface.
+
+## Supporting records
 
 | Directory | Contents |
 |---|---|
-| [`pipeline/`](pipeline/) | Code that produced something the runtime loads. See [pipeline/README.md](pipeline/README.md) for the build chains. |
-| [`evaluation/`](evaluation/) | Tests, scoring harnesses, and the annotation viewers used to inspect model output by hand. |
-| [`components/`](components/) | Algorithm modules that the runtime absorbed into `app.py`, kept separately because they are readable on their own. |
-| [`experiments/`](experiments/) | Work that did not ship, each with an `OUTCOME.md`. |
-| [`notes/`](notes/) | Implementation notes. |
+| [pipeline/](pipeline/) | Corpus converters, CRF trainers, spaCy configurations, and dictionary builders |
+| [evaluation/](evaluation/) | Tests, scoring tools, and viewers for inspecting model output |
+| [components/](components/) | Standalone records of segmentation and visualization algorithms |
+| [experiments/](experiments/) | Feature-design iterations and the reader's userscript origins |
+| [notes/](notes/) | Implementation notes for lexical retrieval and related components |
 
-[`STATUS.md`](STATUS.md) states which models the deployed reader loads and which build
-chain produced each one.
+[STATUS.md](STATUS.md) connects model and dictionary artifacts to their build records.
 
-## Why this project is mostly about boundaries
+## Language resources and environments
 
-Burmese is written without spaces between words, and chronicle prose has no
-sentence-final punctuation of the kind a tokenizer can key on. Almost every hard
-problem here is a boundary problem:
-
-- **Word boundaries** — solved three ways at once and reconciled: dictionary-driven
-  dynamic programming, a neural BILU tagger over grapheme clusters, and language-model
-  scoring over the candidates.
-- **Sentence boundaries** — a sequence of CRFs, described in
-  [pipeline/README.md](pipeline/README.md#2-sentence-boundary-crfs). The recurring
-  design problem is preventing the model from learning a shortcut.
-- **Page and paragraph boundaries in OCR** — a deliberately non-lexical CRF that reads
-  line shape rather than words.
-
-## What is deliberately not here
-
-Model weights, dictionary TSVs, and training corpora. The myPOS, myNER and myUDTree
-datasets, the Burmese UD treebank and the Judson and chronicle texts are third-party
-resources under their own terms and are not redistributed. Scripts name their inputs.
-
-Two scripts in `pipeline/corpus/` import `newserver`, the name the server module had
-when they were written. The module is now `app.py`. They are published unmodified.
+Model weights, full dictionaries, and third-party training corpora are provisioned
+separately; [publication contents](../docs/PUBLICATION.md) records the resource scope.
+Historical corpus scripts retain their original input conventions. In particular,
+`build_chronicle_ngrams.py` and `retokenize_conll_for_app.py` use the earlier
+`newserver` interface and require adaptation when reused with the current application.
