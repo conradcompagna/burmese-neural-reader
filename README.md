@@ -17,6 +17,28 @@ configurations, lexical algorithms, and evaluation tools. The Flask backend is
 organized by feature under `burmese_reader/`; ES modules under `frontend/` provide
 the reading interface.
 
+```mermaid
+flowchart TB
+    Text["Document text"] --> Normalize["Myanmar normalization"]
+    Normalize --> NER["Stanza NER pre-pass<br/>Preliminary spans and entities"]
+    NER --> DP["Custom dictionary DP<br/>Unigram / bigram scoring"]
+    Lexicon["Prepare dictionaries<br/>and word-count tables"]
+    Model["Prepare dependency corpora<br/>Train selected spaCy model"]
+    DP --> Remap["Merge unknowns<br/>and remap entities"]
+    Remap --> Syntax["spaCy parse<br/>Dictionary POS and grammar"]
+    Syntax --> Reader["Aligned definitions,<br/>pronunciation and dependencies"]
+    Remap --> Fuzzy["Decomposition and<br/>fuzzy suggestions"]
+    Fuzzy --> Reader
+    Lexicon --> DP
+    Model --> Syntax
+```
+
+**The custom DP segmenter determines the final word boundaries.** Stanza's NER
+pre-pass supplies preliminary spans and entities; contiguous regions are then
+resegmented using dictionary and unigram/bigram evidence. The separately initialized
+Stanza tokenizer-only path is disabled. See the
+[construction story](docs/BUILD_PROCESS.md) and [runtime sequence](docs/ARCHITECTURE.md).
+
 ### Engineering highlights
 
 - **Language-specific lexical search:** layered dictionaries, dynamic-programming segmentation, language-model scoring, and BK-tree fuzzy matching over edit distance.
@@ -51,12 +73,18 @@ model training, and lexical engineering to the reading application.
 
 | | |
 |---|---|
+| [**From resources to the deployed reader**](docs/BUILD_PROCESS.md) | Lexical engineering, statistical segmentation, selected model training and a reconstruction checklist. |
 | [**Build chains**](research/pipeline/README.md) | Word segmentation, the sentence-boundary CRFs, the UD pipeline, and the dictionaries — how each was made. Start here. |
-| [**What the reader loads**](research/STATUS.md) | Every loaded artefact mapped to the code that produced it, and the four CRF generations with their status. |
+| [**What the reader loads**](research/STATUS.md) | Selected model and lexical identities, their construction records, and the status of retained CRF experiments. |
 | [`research/pipeline/`](research/pipeline/) | Corpus construction, CRF training, spaCy configurations, dictionary building. |
 | [`research/evaluation/`](research/evaluation/) | Tests, scoring harnesses, and the annotation viewers used to judge output by hand. |
 | [`research/components/`](research/components/) | Algorithm modules in standalone form. |
 | [`research/experiments/`](research/experiments/) | The development of sentence-boundary features and the transition from a userscript to a full reading application. |
+
+**Selected parser results:** the deployed checkpoint records **96.92% POS accuracy,
+92.39% UAS and 89.41% LAS** on its development evaluation; the retained split
+contains 4,104 training and 216 development documents. See the
+[evaluation and checkpoint record](research/EVIDENCE.md).
 
 A central design challenge is recovering word and sentence boundaries in continuous
 Burmese text. The [CRF development case study](research/experiments/sentence-final-particle-crf/OUTCOME.md)

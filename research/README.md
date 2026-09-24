@@ -1,5 +1,8 @@
 # Burmese NLP: from linguistic data to a reading application
 
+Start with the [construction story and reconstruction checklist](../docs/BUILD_PROCESS.md)
+for the selected artifacts and the process connecting them to the application.
+
 This directory records corpus preparation, model training, lexical engineering, and
 the tools used to inspect their outputs. The work addresses a connected set of
 language-specific problems: word segmentation, sentence boundaries, OCR structure,

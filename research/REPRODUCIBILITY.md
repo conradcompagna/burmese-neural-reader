@@ -22,17 +22,17 @@ Python/library versions, the command, input SHA-256s, split IDs, and output SHA-
 alongside the model. This captures the training environment separately from the
 application requirements and complements the original historical metadata.
 
-For spaCy, use the published joint config with native path overrides after obtaining
+For spaCy, use the selected POS/dependency config with native path overrides after obtaining
 authorized DocBins and the configured initialization resources:
 
 ```sh
-python -m spacy train research/pipeline/spacy/deployed_pipeline/joint_ud_morph_parser_ner_filled.cfg --paths.train /path/to/train.spacy --paths.dev /path/to/dev.spacy --output /path/to/run
+python -m spacy train research/pipeline/spacy/deployed_pipeline/joint_ud_morph_parser_no_ner.cfg --paths.train /path/to/train_95.spacy --paths.dev /path/to/dev_5.spacy --paths.vectors /path/to/vector-model --output /path/to/run
 ```
 
 Inspect all `[paths]` and initialization entries first; the historical config retains
 original workstation paths as evidence. Use a separate edited copy or CLI overrides
-for additional resources. The public 95/5 count manifest does not identify the exact
-members of the split. See the [evidence index](EVIDENCE.md) for corpus, seed, and evaluation context.
+for additional resources. The [selected artifact record](pipeline/spacy/deployed_pipeline/selected_checkpoint.json)
+records retained DocBin hashes alongside split counts, model identities and saved scores. See the [evidence index](EVIDENCE.md) for corpus, seed, and evaluation context.
 
 The old `newserver` consumers (`build_chronicle_ngrams.py` and
 `retokenize_conll_for_app.py`) are archival and need a deliberate port before use.

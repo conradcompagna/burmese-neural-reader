@@ -13,6 +13,11 @@ The application requires separately provisioned resources:
 - The custom spaCy pipeline under `model-best/`.
 - Stanza's Burmese resources under `stanza_resources/`.
 
+The [selected resource map](../research/STATUS.md) identifies the POS/dependency
+checkpoint and Stanza NER packages; the [artifact record](../research/pipeline/spacy/deployed_pipeline/selected_checkpoint.json)
+provides their hashes and runtime versions. The [construction checklist](BUILD_PROCESS.md#reconstruction-checklist)
+connects these inputs to preparation, training and application integration.
+
 `BURMESE_DATA_ROOT` specifies the dictionary and spaCy resource root. `STANZA_RESOURCES_DIR` specifies Stanza's resource directory. See `.env.example` for configuration names; export those values into the process environment before running Gunicorn. This application's WSGI entrypoint does not automatically load `.env`.
 
 From the repository root on Linux, after providing resources:

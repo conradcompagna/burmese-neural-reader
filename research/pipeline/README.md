@@ -1,21 +1,23 @@
 # Build chains
 
-Historical build chains and their recorded outcomes; see the [evidence index](../EVIDENCE.md)
-for public artifacts, split/seed records and verification limits.
+These build chains explain the selected resources and the experiments behind them;
+start with the [construction story](../../docs/BUILD_PROCESS.md),
+[selected resource map](../STATUS.md) and [evidence index](../EVIDENCE.md).
 
-The runtime loads, from `DATA_ROOT`: a spaCy UD model (`model-best`), a standalone NER
-model, a Stanza NER pipeline and tokenizer, four dictionary TSVs, and the myPOS corpus.
-The following build chains document their preparation; resource provisioning is
-covered in the [setup guide](../../docs/SETUP.md).
+The runtime loads the selected spaCy POS/dependency model (`model-best`), Stanza
+resources for its NER pre-pass, layered dictionaries and myWord unigram/bigram
+tables. The standalone spaCy NER and tokenizer-only Stanza initializers are disabled.
+Resource provisioning is covered in the [setup guide](../../docs/SETUP.md).
 
 ---
 
 ## 1. Word segmentation
 
-The current reader combines Stanza tokenization, dictionary dynamic programming,
-and unknown-token merging, with optional language-model tables for candidate
-scoring. The BILU work below records an earlier research path for learning
-boundaries at the grapheme-cluster level.
+The current reader uses custom dictionary dynamic programming with unigram/bigram
+scoring to determine final words, followed by unknown-token merging. The Stanza
+NER pre-pass supplies preliminary spans; contiguous regions are resegmented and
+entities are remapped onto the resulting words. The BILU work below records an
+earlier research path for learning boundaries at the grapheme-cluster level.
 
 ### 1a. The BILU boundary tagger
 
@@ -42,8 +44,9 @@ Inspect a trained tagger with `evaluation/viewers/bilu_query_app.py` or
 
 ### 1b. Dictionary dynamic programming and LM scoring
 
-The DP runs directly over the dictionary inventory; the language model that scores
-candidate segmentations is built from chronicle n-grams:
+The DP runs over the dictionary inventory and scores candidates with the selected
+myWord unigram/bigram tables. The following chronicle n-gram builder records an
+alternative count-construction path:
 
 ```
 chronicle text
@@ -132,8 +135,12 @@ Score with `evaluation/eval_model_on_jsonl.py`; compare generations with
 
 ## 3. The UD parsing pipeline
 
-The deployed `model-best` is a joint spaCy pipeline: tok2vec, tagger, morphologiser,
-parser and NER trained together.
+The verified deployed `model-best` contains **tok2vec, morphologizer and parser**.
+The matching no-NER configuration supplies POS/dependency analysis; the application
+uses Stanza for NER separately. The [selected artifact record](spacy/deployed_pipeline/selected_checkpoint.json)
+contains checkpoint hashes, the 95/5 split and saved development metrics.
+The corpus and pretraining work below documents the broader preparation toolkit;
+the selected configuration points to `train_95.spacy` and `dev_5.spacy`.
 
 ```
 Burmese UD treebank (my_burmese-ud-{train,dev,test}.conllu)
@@ -154,8 +161,8 @@ myUDTree v1.0, myNER 7-tag, alt bank
   ├─ spacy/deployed_pipeline/pretrain_vec.cfg  vector-based pretraining
   ├─ spacy/deployed_pipeline/pretrain_log.jsonl  the pretraining loss trace
   │
-  └─ spacy/deployed_pipeline/joint_ud_morph_parser_ner_filled.cfg   → model-best
-     spacy/deployed_pipeline/joint_ud_morph_parser_no_ner.cfg       ablation without NER
+  └─ spacy/deployed_pipeline/joint_ud_morph_parser_no_ner.cfg       → selected model-best
+     spacy/deployed_pipeline/joint_ud_morph_parser_ner_filled.cfg   joint NER experiment
      spacy/deployed_pipeline/nerconfig.cfg                          NER-only variant
      spacy/deployed_pipeline/spacy_docbins_manifest_95_5.json       the 95/5 split manifest
 ```
@@ -164,7 +171,7 @@ Other configs: `spacy/config_senter.cfg` (sentence segmenter), `config_phrases.c
 `phrase_tagger.cfg` (phrase tagging), `spancat_model_last_config.cfg` (a span
 categoriser over capitalised/structural spans).
 
-Stanza supplies a second NER opinion; `evaluation/stanza_test.py` is the harness.
+Stanza supplies the selected application's NER; `evaluation/stanza_test.py` is the harness.
 
 ---
 

@@ -1,5 +1,8 @@
 # Repository contents
 
+Start with the [construction story and reconstruction checklist](BUILD_PROCESS.md)
+for the selected artifacts and the process connecting them to the application.
+
 ## Included
 
 **Runtime.** The Flask application and feature services in `burmese_reader/`,
@@ -20,7 +23,8 @@ language-specific model features.
 | Model weights (`model-best`, the BILU tagger, NER, CRF `.crfsuite` files) | Large binaries derived from third-party corpora. The configurations and trainers that produce them are published. |
 | Dictionary TSVs (Wiktionary, MMD, Pali) and the myPOS corpus | Third-party lexical resources under their own terms. The converters and cleaners are published, and the original grammar dictionary supplies language-specific CRF features. |
 | Training corpora (Burmese UD treebank, myNER 7-tag, myUDTree, alt bank, chronicle text, Judson) | Third-party datasets. Scripts name their inputs. |
-| Chronicle n-gram tables | Derived from the chronicle text; the builder is published. |
+| myWord unigram/bigram tables | The selected runtime counts are identified by size and SHA-256 in the [artifact record](../research/pipeline/spacy/deployed_pipeline/selected_checkpoint.json). |
+| Chronicle n-gram tables | A separate development resource derived from chronicle text; the builder is published. |
 | `reading_srs_state.json` | Personal review history. |
 | Vendored Stanza source | Upstream; install from its own distribution. |
 
