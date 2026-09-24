@@ -1,6 +1,6 @@
 # Burmese NLP: from linguistic data to a reading application
 
-Start with the [construction story and reconstruction checklist](../docs/BUILD_PROCESS.md)
+Start with the [construction story and supporting evidence](../docs/BUILD_PROCESS.md)
 for the selected artifacts and the process connecting them to the application.
 
 This directory records corpus preparation, model training, lexical engineering, and
@@ -17,7 +17,7 @@ and alignment between neural analysis and the text a reader sees.
 3. **Inspection and evaluation:** the [evaluation guide](evaluation/README.md) covers
    lexical regression tests, scoring harnesses, and interactive annotation viewers.
 
-The [application overview](../README.md) and [architecture](../docs/ARCHITECTURE.md)
+The [application overview](../README.md) and [architecture](../docs/BUILD_PROCESS.md#runtime-architecture)
 connect this research to the deployed reading interface.
 
 ## Supporting records
@@ -32,14 +32,11 @@ connect this research to the deployed reading interface.
 
 [STATUS.md](STATUS.md) connects model and dictionary artifacts to their build records.
 
-## Language resources and environments
+## Corpus and model records
 
-Model weights, full dictionaries, and third-party training corpora are provisioned
-separately; [publication contents](../docs/PUBLICATION.md) records the resource scope.
-Historical corpus scripts retain their original input conventions. In particular,
-`build_chronicle_ngrams.py` and `retokenize_conll_for_app.py` use the earlier
-`newserver` interface and require adaptation when reused with the current application.
+The [selected resource map](STATUS.md) distinguishes the parser and lexical
+resources used by the reader from retained BILU, NER and CRF experiments.
 
 The [evidence index](EVIDENCE.md) connects each research path to its data, training
-configuration, and evaluation record. The [reproduction guide](REPRODUCIBILITY.md)
-provides public checks and commands for preparing new runs.
+configuration, and evaluation record. The [training procedure](REPRODUCIBILITY.md)
+explains the selected parser configuration and the sequence-modeling work.

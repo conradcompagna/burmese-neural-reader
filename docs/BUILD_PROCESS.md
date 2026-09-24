@@ -5,7 +5,7 @@ word segmentation and grammatical analysis. The final word boundaries come from
 my dictionary-aware dynamic-programming segmenter, using unigram and bigram
 information; neural models add entity and syntactic analysis around that segmentation.
 
-Start with the [runtime map](ARCHITECTURE.md), the [selected resources](../research/STATUS.md)
+Start with the [runtime map](BUILD_PROCESS.md#runtime-architecture), the [selected resources](../research/STATUS.md)
 and the [saved model evaluation](../research/EVIDENCE.md). A
 [compact artifact record](../research/pipeline/spacy/deployed_pipeline/selected_checkpoint.json)
 identifies the deployed checkpoint, Stanza resources, count tables and retained
@@ -85,9 +85,8 @@ development scores for an independent test evaluation.
 
 The retained training configuration and deployed configuration differ in their
 vector initialization path and equivalent numeric formatting. The
-[reproduction command](../research/REPRODUCIBILITY.md) explicitly supplies corpus
-and vector paths, so the published configuration can be used outside the original
-development layout.
+[training record](../research/REPRODUCIBILITY.md) explains the corpus, vector and
+training settings alongside the selected checkpoint identity.
 
 ## 4. Integrate models around the final segments
 
@@ -125,9 +124,8 @@ trained OCR recognizer in the reader.
 
 Document extraction and browser modules preserve the connection between source
 text, lookup spans, definitions, pronunciation and dependency views. The
-[module map](architecture/modules.md) links those responsibilities, and the
-[public fixtures](DEVELOPMENT.md) exercise lexical search, corpus conversion and
-browser behavior without private models.
+[module map](architecture/modules.md) links those responsibilities to their
+implementations.
 
 ## Development branches that explain the design
 
@@ -138,18 +136,45 @@ explains how Burmese grammatical knowledge became features and training-data
 transformations. These branches demonstrate iteration; they are not extra models
 silently inserted into the selected reader lookup.
 
-## Reconstruction checklist
 
-| Step | Public evidence and procedure | Required external material |
+## Runtime architecture
+
+### The request sequence
+
+1. [lookup.py](../burmese_reader/lookup.py) normalizes selected text and coordinates the default full lookup.
+2. [ner.py](../burmese_reader/ner.py) runs the combined Stanza NER pre-pass and caches its document; the separate tokenizer-only initializer is disabled.
+3. [pipeline.py](../burmese_reader/pipeline.py) joins contiguous preliminary regions and invokes [segmentation.py](../burmese_reader/segmentation.py) across each complete region, including inside NER spans.
+4. The custom segmenter scores dictionary candidates with unigram/bigram evidence, then the pipeline merges consecutive unknown segments and remaps entities onto the final words.
+5. [ud.py](../burmese_reader/ud.py) and [ud_overlay.py](../ud_overlay.py) construct parser input from those words, collapse entity spans where configured, apply dictionary POS constraints and map dependency results back to reader segments.
+6. Definitions, grammar, pronunciation and fuzzy candidates are assembled for the browser; lightweight and exact-lookup modes select smaller portions of this path.
+
+The selected spaCy model contains tok2vec, morphologizer and parser; Stanza provides
+NER separately. See the [artifact map](../research/STATUS.md) and [saved evaluation](../research/EVIDENCE.md).
+
+### Application and browser boundaries
+
+[application.py](../burmese_reader/application.py) composes the application and
+initializes resources explicitly. `wsgi.py` uses that startup path; `app.py` is
+the small facade for command-line and research adapters. Feature state belongs
+to the active Flask application, with a shared runtime for command-line use.
+
+[lmbrain.py](../lmbrain.py) supplies statistical scoring and spelling suggestions;
+[burmese_transliteration.py](../burmese_transliteration.py) handles pronunciation.
+The [module map](architecture/modules.md) links document import, PDF geometry,
+lexical search and annotation responsibilities.
+
+[templates/reader.html](../templates/reader.html) and the modules under
+`frontend/reader/` provide the interface. `npm run build` produces the browser
+bundle; the [browser map](../frontend/README.md) explains feature ownership.
+
+
+## Evidence by stage
+
+| Stage | Engineering work | Record |
 |---|---|---|
-| Explore the application | [Fixture demo](SETUP.md), [architecture](ARCHITECTURE.md), [tests](../tests/) | None for synthetic fixture checks. |
-| Rebuild lexical resources | Dictionary converters, grammar/LM integration and scoring source | Authorized lexical sources, grammar TSV and the selected myWord count tables. |
-| Prepare training data | Corpus conversion/alignment tools, 95/5 manifest and retained-file hashes | Source corpora or the corresponding authorized DocBins. |
-| Train the selected parser | No-NER configuration and [spaCy command](../research/REPRODUCIBILITY.md) | Training/development DocBins and the vector initialization resource. |
-| Provision inference | Selected artifact record, spaCy checkpoint contract and Stanza resource names | `model-best`, Stanza models and their compatible runtime packages. |
-| Connect to the reader | Module map, lookup/UD alignment, document and browser code | Dictionaries/count tables under the configured data root. |
-| Evaluate | Saved selected-model scores, corpus/lexical tests and research evaluators | Use each evaluator's declared split; record new input/output hashes for new runs. |
-
-Weights, vectors, dictionaries and full corpora remain separately provisioned.
-The public material records the mechanisms, selected configuration, measured results
-and asset identities needed to follow the construction process.
+| Lexical preparation | Layered definitions, grammar classes and statistical word counts | [Dictionary builders](../research/pipeline/dictionaries/), [resource map](../research/STATUS.md), [lexicon assembly](../burmese_reader/lexicon.py). |
+| Word boundaries | Grapheme candidates, dictionary-aware DP, unigram/bigram costs and unknown merging | [Segmentation](../burmese_reader/segmentation.py), [LM scoring](../lmbrain.py), [pipeline](../burmese_reader/pipeline.py). |
+| Parser training | Corpus conversion, dependency preparation and selected tok2vec/POS/parser configuration | [Corpus tools](../research/pipeline/corpus/), [training record](../research/REPRODUCIBILITY.md), [split and checkpoint metadata](../research/pipeline/spacy/deployed_pipeline/selected_checkpoint.json). |
+| Neural integration | Entity remapping, parser alignment and dictionary POS constraints | [NER](../burmese_reader/ner.py), [UD overlay](../ud_overlay.py), [POS rules](../dict_pos_override.py). |
+| Reader interaction | Source-document spans, definitions, grammar, pronunciation and dependency views | [Module map](architecture/modules.md), [browser source](../frontend/README.md). |
+| Iteration and evaluation | Selected parser results and boundary-model feature development | [Evidence index](../research/EVIDENCE.md), [CRF case study](../research/experiments/sentence-final-particle-crf/OUTCOME.md). |

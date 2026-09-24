@@ -1,9 +1,7 @@
 # Browser source
 
-Run `npm ci && npm run build` before starting the application. Node 22+ is needed
-for development/building; deployed browser assets have no Node runtime dependency.
-`entries.json` maps maintained ES module/CSS entrypoints to the existing public
-URLs. Generated bundles and source maps are ignored by Git.
+`entries.json` maps ES module/CSS entrypoints to the public assets consumed by
+the reader template. The deployed bundles have no Node runtime dependency.
 
 `reader/index.mjs` initializes the interface through explicit feature imports.
 Each feature uses named functions and shared state modules. The compiled classic
@@ -23,17 +21,3 @@ script exposes the template API, including `lookupAndDisplay`,
 The userscript experiment lives under `research/experiments/userscript-era/source/`;
 its build preserves the metadata banner required by userscript managers. The
 standalone research tree viewer has its own entrypoint and output in `entries.json`.
-
-## Validation
-
-`npm test` checks Unicode classification, dependency chunk membership,
-CoNLL-U mappings and userscript metadata. `npm run test:browser` uses the real
-Flask template against `tools/fixture_server.py`, with an injected tokenizer/parser
-and synthetic dictionary in a temporary data directory. It covers lookup, hover,
-side-panel lookup, text import, standalone tree rendering and archived userscript
-wrapping with mocked transport. Install Chromium once with
-`npx playwright install chromium` (CI uses `--with-deps`).
-
-Backend and browser fixtures validate the application contracts independently of
-model assets. Neural evaluation and training evidence are documented in the
-[research guide](../research/EVIDENCE.md).

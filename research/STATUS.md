@@ -4,7 +4,7 @@ The reader's final word boundaries come from dictionary-aware DP with unigram an
 bigram scoring. Stanza supplies an NER pre-pass and preliminary spans; contiguous
 regions are resegmented, unknowns merged and entities remapped before grammatical
 analysis. See the [construction guide](../docs/BUILD_PROCESS.md) and
-[runtime sequence](../docs/ARCHITECTURE.md).
+[runtime sequence](../docs/BUILD_PROCESS.md#runtime-architecture).
 
 ## Selected resources
 

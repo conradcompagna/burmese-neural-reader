@@ -4,11 +4,13 @@
 
 I built this reader to make Burmese texts easier to investigate at the level of words, grammatical structure, and source passages. The project combines language-specific lexical engineering with neural analysis for a low-resource language.
 
-[Live reader](https://burmeseneuralreader.com/reader) · [Setup](docs/SETUP.md) · [Architecture](docs/ARCHITECTURE.md) · [Portfolio](https://github.com/conradcompagna)
+I prepared dependency corpora and trained the spaCy parser, assembled layered
+dictionaries and grammatical rules, and built a custom word segmenter using
+unigram and bigram evidence. The application integrates that work with named-entity
+recognition, fuzzy lexical search, OCR-text handling and an interactive document reader.
 
-![Reader interface in the local fixture demo](docs/images/reader-fixture.png)
-
----
+This development record connects the reader to its original corpus tools, model
+configurations, lexical algorithms and saved evaluation artifacts.
 
 ## Application
 
@@ -37,13 +39,19 @@ flowchart TB
 pre-pass supplies preliminary spans and entities; contiguous regions are then
 resegmented using dictionary and unigram/bigram evidence. The separately initialized
 Stanza tokenizer-only path is disabled. See the
-[construction story](docs/BUILD_PROCESS.md) and [runtime sequence](docs/ARCHITECTURE.md).
+[construction story](docs/BUILD_PROCESS.md) and [runtime sequence](docs/BUILD_PROCESS.md#runtime-architecture).
 
 ### Engineering highlights
 
 - **Language-specific lexical search:** layered dictionaries, dynamic-programming segmentation, language-model scoring, and BK-tree fuzzy matching over edit distance.
 - **Neural analysis in context:** a custom spaCy parsing pipeline and Stanza named-entity recognition integrated with dictionary segmentation and document spans.
 - **Interactive close reading:** document import, hover definitions, dependency visualization and pronunciation/transliteration; annotation and review services remain in the code but their public write/review routes are disabled.
+
+### Scope
+
+The project focuses on Burmese: continuous-script word boundaries, grammatical
+function words, neural syntax, pronunciation and the irregular text produced by
+OCR. Its lexical stack also supports the Konbaung chronicle reader.
 
 ### Explore the runtime
 
@@ -57,8 +65,7 @@ Stanza tokenizer-only path is disabled. See the
 
 The [module guide](docs/architecture/modules.md) maps the backend and reader
 interface by responsibility, with entrypoints for lexical search, neural analysis,
-annotations, document handling, and rendering. CI checks module sizes, backend
-contracts, and browser behavior using public fixtures.
+annotations, document handling, and rendering.
 
 The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowledge-graph) reuses this reader's lexical stack through an explicit local adapter.
 
@@ -73,7 +80,7 @@ model training, and lexical engineering to the reading application.
 
 | | |
 |---|---|
-| [**From resources to the deployed reader**](docs/BUILD_PROCESS.md) | Lexical engineering, statistical segmentation, selected model training and a reconstruction checklist. |
+| [**From resources to the deployed reader**](docs/BUILD_PROCESS.md) | Lexical engineering, statistical segmentation, selected model training and evidence by stage. |
 | [**Build chains**](research/pipeline/README.md) | Word segmentation, the sentence-boundary CRFs, the UD pipeline, and the dictionaries — how each was made. Start here. |
 | [**What the reader loads**](research/STATUS.md) | Selected model and lexical identities, their construction records, and the status of retained CRF experiments. |
 | [`research/pipeline/`](research/pipeline/) | Corpus construction, CRF training, spaCy configurations, dictionary building. |
@@ -90,14 +97,3 @@ A central design challenge is recovering word and sentence boundaries in continu
 Burmese text. The [CRF development case study](research/experiments/sentence-final-particle-crf/OUTCOME.md)
 shows how I translated that linguistic problem into corpus construction, grammatical
 features, and token-normalization rules designed for running chronicle prose.
-
-See [publication contents](docs/PUBLICATION.md) for the source release and separately
-provisioned language resources.
-
-## Development and validation
-
-[Development commands](docs/DEVELOPMENT.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
-
-Try the [local fixture demo](docs/SETUP.md), then follow the
-[research evidence index](research/EVIDENCE.md) from build decisions to recorded
-results and the [reproduction guide](research/REPRODUCIBILITY.md) for checks and new runs.

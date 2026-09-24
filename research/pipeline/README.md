@@ -7,7 +7,8 @@ start with the [construction story](../../docs/BUILD_PROCESS.md),
 The runtime loads the selected spaCy POS/dependency model (`model-best`), Stanza
 resources for its NER pre-pass, layered dictionaries and myWord unigram/bigram
 tables. The standalone spaCy NER and tokenizer-only Stanza initializers are disabled.
-Resource provisioning is covered in the [setup guide](../../docs/SETUP.md).
+The [construction guide](../../docs/BUILD_PROCESS.md) connects these resources to
+their preparation and application roles.
 
 ---
 
