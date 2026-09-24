@@ -1,5 +1,13 @@
 # Evaluation
 
+## Selected grammatical-analysis model
+
+The [trained spaCy model](../SELECTED_MODEL.md) records corpus construction,
+joint tok2vec/POS/parser training and checkpoint selection. Re-evaluation on all
+216 retained development documents reproduces the six saved POS, attachment and
+sentence-boundary scores exactly; the [score record](results/selected-spacy-training.json)
+includes full-precision results, per-relation scores and split identities.
+
 ## Tests
 
 `tests/test_bktree.py`, `tests/test_lmbrain_bktree.py` — the BK-tree fuzzy search over

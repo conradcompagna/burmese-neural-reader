@@ -1,0 +1,51 @@
+{
+  "checked_on": "2026-09-24",
+  "scope": "All selected trained model components reachable from the deployed Burmese Neural Reader WSGI application, checked through source loading paths and deployed artifact fingerprints",
+  "custom_neural_model": {
+    "artifact": "model-best",
+    "components": {
+      "tok2vec": "Joint shared learned encoder, evaluated through the downstream POS and dependency/sentence tasks; no separate standalone accuracy metric",
+      "morphologizer": "14 universal POS labels only; saved POS accuracy reproduced exactly",
+      "parser": "Dependency and sentence-boundary predictions; saved UAS, LAS, sentence precision/recall/F1 and per-relation results retained"
+    },
+    "development_documents": 216,
+    "development_sentences": 2160,
+    "development_tokens": 27716,
+    "metrics_scale": "fractions 0-1",
+    "scores": {
+      "pos_acc": 0.9691874729398181,
+      "dep_uas": 0.923907177549919,
+      "dep_las": 0.8941256421018969,
+      "sents_p": 0.9149126735333631,
+      "sents_r": 0.9458333333333333,
+      "sents_f": 0.930116093785568
+    },
+    "all_saved_scores_reproduced_exactly": true,
+    "released_weight_files_unchanged": true,
+    "sanitized_release_validation_record": "burmese-sanitized-validation.json"
+  },
+  "stock_stanza_components": [
+    {"artifact": "my/tokenize/alt.pt", "resource_md5": "c46c056fe2e5951e2cd07c3968481459", "role": "Internal spans for Stanza NER; final reader words are selected by dictionary/unigram/bigram segmentation"},
+    {"artifact": "my/ner/ucsy.pt", "resource_md5": "2bdf088dc51f48922878fd0d3b6d8513", "role": "Stock named-entity recognition"},
+    {"artifact": "my/pretrain/ucsy.pt", "resource_md5": "f3768134211f24fadcfc23334b30f8bc", "role": "Stock NER word embeddings"},
+    {"artifact": "my/forward_charlm/oscar.pt", "resource_md5": "4257cf7920e22e0b6dc86d217455becb", "role": "Stock forward character language model"},
+    {"artifact": "my/backward_charlm/oscar.pt", "resource_md5": "e8af9844996d4c4ede386afd43ff7904", "role": "Stock backward character language model"}
+  ],
+  "additional_selected_assets": "The reader's dictionary, myWord unigram/bigram frequency resources and lexical POS priors support segmentation and OCR-damage handling; they are not additional separately trained neural or CRF classifiers.",
+  "not_selected": [
+    "Local BILU neural boundary experiments",
+    "Local OCR/sentence-boundary CRF experiments",
+    "Standalone spaCy NER",
+    "Retained Stanza POS/constituency alternatives"
+  ],
+  "production_recheck": {
+    "method": "Read-only AST traversal of local imports reachable from wsgi.py; text scan for model loads, CRF/BILU and serialization APIs; known optional artifact existence checks",
+    "reachable_local_source_files": 6,
+    "main_source_sha256": "6e8c615a325309daa5205eb79452f82800f19b13c4f971ac3468261e5f8c207d",
+    "crf_or_bilu_references_in_reachable_sources": false,
+    "optional_bilu_crf_standalonener_artifact_paths_exist": false,
+    "diagnostic_override": "Existing diagnostic routes allow a caller-specified spaCy model path; this is not a separately selected application checkpoint.",
+    "evidence_record": "burmese-live-runtime-inventory.json"
+  },
+  "coverage_verdict": "All selected personally trained neural components are covered by the joint spaCy model's retained and exactly reproduced development results; no selected custom CRF/BILU model is missing from this inventory."
+}

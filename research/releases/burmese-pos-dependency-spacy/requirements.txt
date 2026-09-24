@@ -1,0 +1,2 @@
+spacy==3.8.11
+huggingface-hub>=0.36,<1

@@ -1,0 +1,119 @@
+{
+  "author": "Conrad Compagna",
+  "model_id": "burmese-pos-dependency-spacy",
+  "format": "spaCy 3.8.11 native directory",
+  "components": [
+    "tok2vec",
+    "morphologizer",
+    "parser"
+  ],
+  "metadata_changes": "Author, description, model name/version, release terms and portable corpus/vector path placeholders; learned weights and vocabulary unchanged.",
+  "deployment_identity_checked": "2026-09-23",
+  "files": [
+    {
+      "path": "model/config.cfg",
+      "bytes": 3463,
+      "sha256": "12c2f22c92ac86dd6777f4ce98ca7f3a62b05583001c5e7f468adac64deee815",
+      "source_sha256": "faaefd85adf5305fabb6dfc10e02e08a224d2651eaec57d1d4fd287eb7f6149d",
+      "unchanged": false
+    },
+    {
+      "path": "model/meta.json",
+      "bytes": 3093,
+      "sha256": "738c214a7857d2237420c9c277a5eb80897b748d7ee551a800104675773b2301",
+      "source_sha256": "0395764139015847546d46a892b7cda6bd8e37071254554645633d1c49b04aa4",
+      "unchanged": false
+    },
+    {
+      "path": "model/morphologizer/cfg",
+      "bytes": 709,
+      "sha256": "3ee213f7a685c38747fd2dc414b6c159a5e15ebc0c93b5de4a18647dc984c0c1",
+      "source_sha256": "3ee213f7a685c38747fd2dc414b6c159a5e15ebc0c93b5de4a18647dc984c0c1",
+      "unchanged": true
+    },
+    {
+      "path": "model/morphologizer/model",
+      "bytes": 7657,
+      "sha256": "ddb801a6ee473e3defa3749241576f86da19c09e9323bf3f312bcf097459634a",
+      "source_sha256": "ddb801a6ee473e3defa3749241576f86da19c09e9323bf3f312bcf097459634a",
+      "unchanged": true
+    },
+    {
+      "path": "model/parser/cfg",
+      "bytes": 237,
+      "sha256": "e5a89d6eb4a017452db0e9c97e2441dbcd7070a117bd79c924e63a20e0dce606",
+      "source_sha256": "e5a89d6eb4a017452db0e9c97e2441dbcd7070a117bd79c924e63a20e0dce606",
+      "unchanged": true
+    },
+    {
+      "path": "model/parser/model",
+      "bytes": 1137521,
+      "sha256": "bb19e47f565e5207261286de4b1c410c5e7e05399cc1e255994dec8d1baf8c75",
+      "source_sha256": "bb19e47f565e5207261286de4b1c410c5e7e05399cc1e255994dec8d1baf8c75",
+      "unchanged": true
+    },
+    {
+      "path": "model/parser/moves",
+      "bytes": 360,
+      "sha256": "c37280a5c9c54dfd8a354b89a120e54d7a96069f7af8cf61098e08d71893c768",
+      "source_sha256": "c37280a5c9c54dfd8a354b89a120e54d7a96069f7af8cf61098e08d71893c768",
+      "unchanged": true
+    },
+    {
+      "path": "model/tok2vec/cfg",
+      "bytes": 2,
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "source_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "unchanged": true
+    },
+    {
+      "path": "model/tok2vec/model",
+      "bytes": 43866168,
+      "sha256": "a9d79fe4e6d8c0cf66afa9212317d99f8e922f0346b45fd42ee74749dd225cf1",
+      "source_sha256": "a9d79fe4e6d8c0cf66afa9212317d99f8e922f0346b45fd42ee74749dd225cf1",
+      "unchanged": true
+    },
+    {
+      "path": "model/tokenizer",
+      "bytes": 37695,
+      "sha256": "0b22cd2a783cd6b384c4f370d068c47df6e13f28b9dd84ed1e4ca886bc960d51",
+      "source_sha256": "0b22cd2a783cd6b384c4f370d068c47df6e13f28b9dd84ed1e4ca886bc960d51",
+      "unchanged": true
+    },
+    {
+      "path": "model/vocab/key2row",
+      "bytes": 4540989,
+      "sha256": "b3384c5e5abe396bde867e24029db2c3c931ecd685d5301a372ca3e3ab6c6ed3",
+      "source_sha256": "b3384c5e5abe396bde867e24029db2c3c931ecd685d5301a372ca3e3ab6c6ed3",
+      "unchanged": true
+    },
+    {
+      "path": "model/vocab/lookups.bin",
+      "bytes": 1,
+      "sha256": "76be8b528d0075f7aae98d6fa57a6d3c83ae480a8469e668d7b0af968995ac71",
+      "source_sha256": "76be8b528d0075f7aae98d6fa57a6d3c83ae480a8469e668d7b0af968995ac71",
+      "unchanged": true
+    },
+    {
+      "path": "model/vocab/strings.json",
+      "bytes": 13875167,
+      "sha256": "9780c13e28f2cb314ccdffe7b7eb0af697dc03c0f360bfee4728470550d8e7fc",
+      "source_sha256": "9780c13e28f2cb314ccdffe7b7eb0af697dc03c0f360bfee4728470550d8e7fc",
+      "unchanged": true
+    },
+    {
+      "path": "model/vocab/vectors",
+      "bytes": 240000128,
+      "sha256": "37104220a2c2dc5857c895747e7e269fea8571c353ac1c616db27846d0ec0413",
+      "source_sha256": "37104220a2c2dc5857c895747e7e269fea8571c353ac1c616db27846d0ec0413",
+      "unchanged": true
+    },
+    {
+      "path": "model/vocab/vectors.cfg",
+      "bytes": 25,
+      "sha256": "3e73f507454ab6c2a0907a3c015942fe687ebf19e29a79a9b348c5995ab5480c",
+      "source_sha256": "3e73f507454ab6c2a0907a3c015942fe687ebf19e29a79a9b348c5995ab5480c",
+      "unchanged": true
+    }
+  ]
+}

@@ -71,6 +71,17 @@ The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowle
 
 ---
 
+## Released Burmese model
+
+The [Burmese POS and dependency model](research/releases/burmese-pos-dependency-spacy/README.md)
+contains the trained tok2vec encoder, POS morphologizer and dependency parser used
+by the reader. Its model card connects myUDTree corpus preparation, joint training,
+checkpoint selection and CPU inference to the downloadable weights.
+
+Re-evaluation on the retained development set reproduces the saved **96.92% POS
+accuracy, 92.39% UAS and 89.41% LAS**. The [training record](research/SELECTED_MODEL.md)
+gives the full metrics and source identities.
+
 ## How it was built
 
 The research record connects corpus preparation, language-specific feature design,
@@ -83,6 +94,7 @@ model training, and lexical engineering to the reading application.
 | [**From resources to the deployed reader**](docs/BUILD_PROCESS.md) | Lexical engineering, statistical segmentation, selected model training and evidence by stage. |
 | [**Build chains**](research/pipeline/README.md) | Word segmentation, the sentence-boundary CRFs, the UD pipeline, and the dictionaries — how each was made. Start here. |
 | [**What the reader loads**](research/STATUS.md) | Selected model and lexical identities, their construction records, and the status of retained CRF experiments. |
+| [**The trained Burmese model**](research/SELECTED_MODEL.md) | Corpus construction, shared tok2vec/POS/parser architecture, and development scores reproduced on the retained evaluation set. |
 | [`research/pipeline/`](research/pipeline/) | Corpus construction, CRF training, spaCy configurations, dictionary building. |
 | [`research/evaluation/`](research/evaluation/) | Tests, scoring harnesses, and the annotation viewers used to judge output by hand. |
 | [`research/components/`](research/components/) | Algorithm modules in standalone form. |
