@@ -9,8 +9,8 @@ dictionaries and grammatical rules, and built a custom word segmenter using
 unigram and bigram evidence. The application integrates that work with named-entity
 recognition, fuzzy lexical search, OCR-text handling and an interactive document reader.
 
-This development record connects the reader to its original corpus tools, model
-configurations, lexical algorithms and saved evaluation artifacts.
+The corpus tools, model configurations, lexical algorithms and evaluation results
+below document the work I put into the reader.
 
 ## Application
 
