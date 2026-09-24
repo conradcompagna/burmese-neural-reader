@@ -13,4 +13,4 @@ own terms. Research word-breaking components include Rabbit-derived code under
 spaCy, Stanza, myPOS/myNER/myUDTree, Wiktionary/Kaikki and dictionary sources are
 distinct external resources, not original model/data licenses granted by this repo.
 The reader template references Met Museum imagery remotely; it is not redistributed
-as a claimed original asset. The README screenshot is a local synthetic fixture.
+as a claimed original asset.

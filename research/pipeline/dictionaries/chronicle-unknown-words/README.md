@@ -1,16 +1,11 @@
 # Chronicle unknown-word inventory
 
-The original 3,702 word/count records are stored in consecutive frequency-rank
-shards, preserving their original insertion order and spelling. The manifest
-records each shard's checksum and the original JSON checksum and byte length.
+The chronicle n-gram build produced an inventory of 3,702 word/count records.
+Frequency-ranked shards preserve the original ordering and spelling, making the
+lexical material inspectable alongside its construction code.
 
-From the repository root:
-
-```sh
-python research/artifacts.py research/pipeline/dictionaries/chronicle-unknown-words/manifest.json
-python research/artifacts.py research/pipeline/dictionaries/chronicle-unknown-words/manifest.json --output /tmp/chronicle-unknown-words.json
-```
-
-The corpus builder still produces the original single-file interchange format
-in its output directory. This directory is the published, reviewable inventory;
-generated full inventories should stay outside maintained source.
+The [manifest](manifest.json) records each shard's checksum and the original JSON
+checksum and byte length. The [artifact utility](../../../artifacts.py) verifies
+the shards and can reconstruct the original interchange format; the
+[corpus builder](../../corpus/build_chronicle_ngrams.py) records how the inventory
+was produced from normalized chronicle text.

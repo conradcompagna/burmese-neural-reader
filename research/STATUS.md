@@ -49,13 +49,9 @@ two superseded generations are in
 | `..._final_particle_crf_pooled_v6_thi_merge.py` | **Current** | normalizes final standalone `သည်` with the preceding token to address the positional cue |
 | `train_ocr_structure_boundary_crf.py` | Maintained | separate problem: page structure, non-lexical features |
 
-## Tests
+## Lexical and model evidence
 
-[`evaluation/tests/`](evaluation/tests/) holds the BK-tree fuzzy-search tests
-(`test_bktree.py`, `test_lmbrain_bktree.py`), which delegate to the maintained
-fixture suite in [`../tests/`](../tests/). The retired POS diagnostic is documented
-under [`experiments/legacy-pos/`](experiments/legacy-pos/). The BK-tree tests
-cover the edit-distance search that the root README names as an engineering highlight.
-
-The published tests focus on retained interfaces; development checks for the retired
-`newserver` and `segmenter` modules remain outside this release.
+The [BK-tree implementation guide](notes/BK_TREE_IMPLEMENTATION.md) explains
+edit-distance retrieval and contextual ranking. The [evaluation index](evaluation/README.md)
+connects the scoring tools and annotation viewers to the model-development work;
+the [evidence index](EVIDENCE.md) identifies the selected parser's saved results.

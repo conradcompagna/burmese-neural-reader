@@ -40,8 +40,9 @@ myPOS v3 (word-segmented corpus)  +  myAlt (constituency trees)
   └─ spacy/bilu/check_tok2vec_init.py         confirms pretrained weights were loaded
 ```
 
-Inspect a trained tagger with `evaluation/viewers/bilu_query_app.py` or
-`evaluation/viewers/query_bilu_tagger.py`.
+The BILU inspection tools display grapheme-cluster labels for individual strings:
+[`bilu_query_app.py`](../evaluation/viewers/bilu_query_app.py) and
+[`query_bilu_tagger.py`](../evaluation/viewers/query_bilu_tagger.py).
 
 ### 1b. Dictionary dynamic programming and LM scoring
 
@@ -112,7 +113,8 @@ Myanmar islands, orthographic-cluster counts for short-line paragraph ends, and
 line-shape features (digit and punctuation density, low Myanmar ratio) that identify
 headers, titles and footnotes. Trains v1/v2/v3 and selects a best.
 
-Predict with `evaluation/predict_ocr_structure_boundary.py`.
+[`predict_ocr_structure_boundary.py`](../evaluation/predict_ocr_structure_boundary.py)
+applies the OCR boundary model to document text.
 
 ### Corpus preparation for all of the above
 
@@ -128,9 +130,10 @@ corpus/select_every_nth_jsonl.py             subsampling
 ```
 
 Input format throughout is JSONL with `tokens`, `pos` and `sent_end_after`.
-Score with `evaluation/eval_model_on_jsonl.py`; compare generations with
-`evaluation/compare_segmentation_and_sentence_chunkers.py`; inspect by hand with
-`evaluation/viewers/crf_sentence_app.py` and `boundary_app.py`.
+The [scoring script](../evaluation/eval_model_on_jsonl.py) evaluates JSONL sequences,
+the [comparison tool](../evaluation/compare_segmentation_and_sentence_chunkers.py)
+compares strategies on the same text, and the
+[annotation viewers](../evaluation/README.md#viewers) expose individual boundary decisions.
 
 ---
 

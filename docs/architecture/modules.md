@@ -33,7 +33,7 @@ model/dictionary handles and mutable caches belong to an app.
 The published default keeps debug routes blocked. Several historical diagnostic
 views also return `debug_disabled` inside their handlers; changing the outer flag
 does not turn them into supported production features. Their code is retained for
-research inspection; template fixtures check rendering contracts.
+research inspection.
 
 The earlier BILU model, retired POS tagger and sentence-boundary experiments are
 under `research/`. They do not replace the maintained Stanza/DP path.

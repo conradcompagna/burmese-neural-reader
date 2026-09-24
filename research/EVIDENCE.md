@@ -11,20 +11,18 @@ shows how the maintained runtime fits together.
 | Sentence-boundary CRF v6 | [Trainer](pipeline/crf/train_sentence_final_particle_crf_pooled_v6_thi_merge.py) | Chronicle/myUDTree/alt pooled 50/25/25 by sequence count; seed 42 default; explicit train/dev paths and capped `သည်` merge augmentation | [Feature-design case study](experiments/sentence-final-particle-crf/OUTCOME.md); trainer-generated dev evaluations and metadata; [held-out evaluator](evaluation/eval_model_on_jsonl.py) |
 | Dependency post-pass | Reference-alignment correction workflow; report retains thresholds and reference-map counts | Rules inferred from reference alignments | [Run report](evaluation/dep_v3.postpass_v1.report.json): 679,592 tokens inspected, 43,570 UPOS and 45,774 dependency-label changes |
 | BILU word boundaries | [Configuration](pipeline/spacy/bilu/bilu.cfg) and [corpus builder](pipeline/corpus/build_tokenizer_bilu_from_mypos_myalt.py) | Grapheme-level labels from myPOS/myAlt resources | Earlier segmentation research, alongside the selected dictionary/LM DP segmentation path |
-| Lexical search and corpus alignment | [BK-tree checks](../tests/test_lexical_search.py) and [conversion checks](../tests/test_corpus_conversion.py) | Public examples and unique lexical vocabularies | Brute-force search agreement, Unicode/POS alignment, sentence-preserving windows, and malformed-label rejection |
 
 ## Interpreting the record
 
-The selected checkpoint record contains deployed-file hashes, the retained DocBin
-file hashes and saved development scores; weights and corpus contents are supplied
-separately. The historical checkpoint names those split files without embedding their
-input hashes. The four scores above describe its development evaluation.
-The CRF case study documents the motivation and implementation of the feature
-changes; a controlled held-out comparison is the next step for quantifying their
-effect. The published post-pass report measures agreement with the same reference
-that informed its corrections, rather than unseen-data parser accuracy; its builder
-is outside this source release.
+The selected checkpoint record brings together deployed-file hashes, retained
+DocBin file hashes and saved development scores. The historical checkpoint names
+its split files; the retained split manifest supplies their separate identity record.
+The four scores above describe the selected parser's development evaluation.
 
-For new CRF experiments, keep evaluation examples separate from training and record
-any overlap introduced through `--extra_marked_train`. The [reproduction guide](REPRODUCIBILITY.md)
-provides the relevant commands and run-record fields.
+The CRF case study records the linguistic motivation, corpus construction and
+implementation of the feature changes. The post-pass report records alignment with
+the reference used to construct its corrections; its counts describe that correction
+workflow rather than accuracy on unseen data.
+
+The [training record](REPRODUCIBILITY.md) connects the selected parser configuration,
+sequence-modeling experiments and evaluation methods.
