@@ -37,9 +37,7 @@ flowchart TB
 
 **The custom DP segmenter determines the final word boundaries.** Stanza's NER
 pre-pass supplies preliminary spans and entities; contiguous regions are then
-resegmented using dictionary and unigram/bigram evidence. The separately initialized
-Stanza tokenizer-only path is disabled. See the
-[construction story](docs/BUILD_PROCESS.md) and [runtime sequence](docs/BUILD_PROCESS.md#runtime-architecture).
+resegmented using dictionary and unigram/bigram evidence.
 
 ### Engineering highlights
 
@@ -63,9 +61,7 @@ OCR. Its lexical stack also supports the Konbaung chronicle reader.
 | Grammar and pronunciation | [dict_pos_override.py](dict_pos_override.py), [ud_overlay.py](ud_overlay.py), [burmese_transliteration.py](burmese_transliteration.py) |
 | Reading interface | [browser source](frontend/README.md), [templates/reader.html](templates/reader.html) |
 
-The [module guide](docs/architecture/modules.md) maps the backend and reader
-interface by responsibility, with entrypoints for lexical search, neural analysis,
-annotations, document handling, and rendering.
+The [module guide](burmese_reader/README.md) maps the backend by responsibility.
 
 The [Konbaung Knowledge Graph](https://github.com/conradcompagna/konbaung-knowledge-graph) reuses this reader's lexical stack through an explicit local adapter.
 
@@ -79,8 +75,8 @@ by the reader. Its model card connects myUDTree corpus preparation, joint traini
 checkpoint selection and CPU inference to the downloadable weights.
 
 Re-evaluation on the retained development set reproduces the saved **96.92% POS
-accuracy, 92.39% UAS and 89.41% LAS**. The [training record](research/SELECTED_MODEL.md)
-gives the full metrics and source identities.
+accuracy, 92.39% UAS and 89.41% LAS**. The model card gives the full metrics and
+source identities.
 
 ## How it was built
 
@@ -91,21 +87,14 @@ model training, and lexical engineering to the reading application.
 
 | | |
 |---|---|
-| [**From resources to the deployed reader**](docs/BUILD_PROCESS.md) | Lexical engineering, statistical segmentation, selected model training and evidence by stage. |
 | [**Build chains**](research/pipeline/README.md) | Word segmentation, the sentence-boundary CRFs, the UD pipeline, and the dictionaries — how each was made. Start here. |
-| [**What the reader loads**](research/STATUS.md) | Selected model and lexical identities, their construction records, and the status of retained CRF experiments. |
-| [**The trained Burmese model**](research/SELECTED_MODEL.md) | Corpus construction, shared tok2vec/POS/parser architecture, and development scores reproduced on the retained evaluation set. |
+| [**The trained Burmese model**](research/releases/burmese-pos-dependency-spacy/README.md) | Corpus construction, shared tok2vec/POS/parser architecture, and development scores reproduced on the retained evaluation set. |
 | [`research/pipeline/`](research/pipeline/) | Corpus construction, CRF training, spaCy configurations, dictionary building. |
 | [`research/evaluation/`](research/evaluation/) | Tests, scoring harnesses, and the annotation viewers used to judge output by hand. |
 | [`research/components/`](research/components/) | Algorithm modules in standalone form. |
 | [`research/experiments/`](research/experiments/) | The development of sentence-boundary features and the transition from a userscript to a full reading application. |
 
-**Selected parser results:** the deployed checkpoint records **96.92% POS accuracy,
-92.39% UAS and 89.41% LAS** on its development evaluation; the retained split
-contains 4,104 training and 216 development documents. See the
-[evaluation and checkpoint record](research/EVIDENCE.md).
-
 A central design challenge is recovering word and sentence boundaries in continuous
-Burmese text. The [CRF development case study](research/experiments/sentence-final-particle-crf/OUTCOME.md)
+Burmese text. The [CRF development case study](research/experiments/sentence-final-particle-crf/)
 shows how I translated that linguistic problem into corpus construction, grammatical
 features, and token-normalization rules designed for running chronicle prose.

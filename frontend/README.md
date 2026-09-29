@@ -1,12 +1,12 @@
 # Browser source
 
-`entries.json` maps ES module/CSS entrypoints to the public assets consumed by
-the reader template. The deployed bundles have no Node runtime dependency.
+Source for the reader's browser code, as ES modules. `npm run build`
+(`tools/build_frontend.mjs`) compiles the entry points listed in `entries.json` into
+the `static/` files loaded by the reader template; those build outputs are not tracked.
 
-`reader/index.mjs` initializes the interface through explicit feature imports.
-Each feature uses named functions and shared state modules. The compiled classic
-script exposes the template API, including `lookupAndDisplay`,
-`getSyntheticLookupText`, and `latestData`.
+`reader/index.mjs` initializes the interface. The compiled script exposes the functions
+the template calls, including `lookupAndDisplay`, `getSyntheticLookupText` and
+`latestData`.
 
 | Feature | Modules to start with |
 |---|---|
@@ -19,5 +19,4 @@ script exposes the template API, including `lookupAndDisplay`,
 | Styles | [reader.css](styles/reader.css) imports semantic stylesheets in explicit cascade order |
 
 The userscript experiment lives under `research/experiments/userscript-era/source/`;
-its build preserves the metadata banner required by userscript managers. The
-standalone research tree viewer has its own entrypoint and output in `entries.json`.
+its build keeps the metadata header that userscript managers require.

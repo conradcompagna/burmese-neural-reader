@@ -1,11 +1,9 @@
-# Development case studies
+# Experiments
 
-These records connect language-specific design choices to the evolution of the reader.
-
-| Case study | Focus |
+| Folder | Contents |
 |---|---|
-| [Sentence-boundary CRFs](sentence-final-particle-crf/OUTCOME.md) | Grammatical features, sequence construction, and final-particle normalization |
-| [Userscript origins](userscript-era/OUTCOME.md) | Developing local segmentation and progressive entry rendering before integrating neural analysis into the web application |
+| [sentence-final-particle-crf/](sentence-final-particle-crf/) | Development of the sentence-boundary CRF features for chronicle prose |
+| [userscript-era/](userscript-era/) | The browser userscript that preceded the reader application |
+| [legacy-pos/](legacy-pos/) | A retired POS-bigram diagnostic script |
 
-The [build chains](../pipeline/README.md) connect the research tools to corpus and
-model preparation.
+Maintained training code is in [`../pipeline/`](../pipeline/).

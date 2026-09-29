@@ -1,11 +1,9 @@
-# Chronicle unknown-word inventory
+# Chronicle unknown words
 
-The chronicle n-gram build produced an inventory of 3,702 word/count records.
-Frequency-ranked shards preserve the original ordering and spelling, making the
-lexical material inspectable alongside its construction code.
+3,702 words from the Konbaung chronicle text that are not in the reader's dictionaries,
+with their frequencies, ordered by frequency. They were produced by
+[`build_chronicle_ngrams.py`](../../corpus/build_chronicle_ngrams.py) from the normalized
+chronicle text.
 
-The [manifest](manifest.json) records each shard's checksum and the original JSON
-checksum and byte length. The [artifact utility](../../../artifacts.py) verifies
-the shards and can reconstruct the original interchange format; the
-[corpus builder](../../corpus/build_chronicle_ngrams.py) records how the inventory
-was produced from normalized chronicle text.
+The list is stored as shards; [`manifest.json`](manifest.json) records their checksums,
+and [`artifacts.py`](../../../artifacts.py) reassembles the original JSON file.
