@@ -1,0 +1,60 @@
+{
+  "tested_on": "2026-09-24",
+  "python": "3.12.10",
+  "spacy": "3.8.11",
+  "pipeline": [
+    "tok2vec",
+    "morphologizer",
+    "parser"
+  ],
+  "documents": 216,
+  "checkpoint_metadata_sanitized": true,
+  "unchanged_nonmetadata_files": [
+    "morphologizer/cfg",
+    "morphologizer/model",
+    "parser/cfg",
+    "parser/model",
+    "parser/moves",
+    "tok2vec/cfg",
+    "tok2vec/model",
+    "tokenizer",
+    "vocab/key2row",
+    "vocab/lookups.bin",
+    "vocab/strings.json",
+    "vocab/vectors",
+    "vocab/vectors.cfg"
+  ],
+  "development_scores": {
+    "pos_acc": {
+      "saved": 0.9691874729398181,
+      "reproduced": 0.9691874729398181,
+      "equal": true
+    },
+    "dep_uas": {
+      "saved": 0.923907177549919,
+      "reproduced": 0.923907177549919,
+      "equal": true
+    },
+    "dep_las": {
+      "saved": 0.8941256421018969,
+      "reproduced": 0.8941256421018969,
+      "equal": true
+    },
+    "sents_p": {
+      "saved": 0.9149126735333631,
+      "reproduced": 0.9149126735333631,
+      "equal": true
+    },
+    "sents_r": {
+      "saved": 0.9458333333333333,
+      "reproduced": 0.9458333333333333,
+      "equal": true
+    },
+    "sents_f": {
+      "saved": 0.930116093785568,
+      "reproduced": 0.930116093785568,
+      "equal": true
+    }
+  },
+  "scope": "Complete retained development-set re-evaluation of sanitized publication copy; not a new test split."
+}

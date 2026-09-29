@@ -1,0 +1,371 @@
+{
+  "overlay": {
+    "ok": true,
+    "tokens": [
+      {
+        "i": 0,
+        "head": 2,
+        "upos": "NOUN",
+        "dep": "obj"
+      },
+      {
+        "i": 1,
+        "head": 2,
+        "upos": "PART",
+        "dep": "case"
+      },
+      {
+        "i": 2,
+        "head": 2,
+        "upos": "VERB",
+        "dep": "ROOT"
+      },
+      {
+        "i": 3,
+        "head": 2,
+        "upos": "ADJ",
+        "dep": "acl"
+      },
+      {
+        "i": 4,
+        "head": 3,
+        "upos": "NOUN",
+        "dep": "nsubj"
+      }
+    ],
+    "edges": [
+      {
+        "from": 2,
+        "to": 0,
+        "dep": "obj"
+      },
+      {
+        "from": 2,
+        "to": 1,
+        "dep": "case"
+      },
+      {
+        "from": 2,
+        "to": 3,
+        "dep": "acl"
+      },
+      {
+        "from": 3,
+        "to": 4,
+        "dep": "nsubj"
+      }
+    ],
+    "roots": [
+      2
+    ]
+  },
+  "expected": {
+    "chunks": [
+      {
+        "headSeg": 2,
+        "members": [
+          2,
+          1,
+          0
+        ],
+        "depth": 0,
+        "pos": "ROOT",
+        "isRootPhrase": true
+      },
+      {
+        "headSeg": 3,
+        "members": [
+          3,
+          4
+        ],
+        "depth": 1,
+        "pos": "ADJ",
+        "extraMembers": []
+      }
+    ],
+    "tokenToChunks": [
+      [
+        0,
+        [
+          {
+            "chunk": {
+              "headSeg": 2,
+              "members": [
+                2,
+                1,
+                0
+              ],
+              "depth": 0,
+              "pos": "ROOT",
+              "isRootPhrase": true
+            },
+            "depth": 0
+          }
+        ]
+      ],
+      [
+        1,
+        [
+          {
+            "chunk": {
+              "headSeg": 2,
+              "members": [
+                2,
+                1,
+                0
+              ],
+              "depth": 0,
+              "pos": "ROOT",
+              "isRootPhrase": true
+            },
+            "depth": 0
+          }
+        ]
+      ],
+      [
+        2,
+        [
+          {
+            "chunk": {
+              "headSeg": 2,
+              "members": [
+                2,
+                1,
+                0
+              ],
+              "depth": 0,
+              "pos": "ROOT",
+              "isRootPhrase": true
+            },
+            "depth": 0
+          }
+        ]
+      ],
+      [
+        3,
+        [
+          {
+            "chunk": {
+              "headSeg": 3,
+              "members": [
+                3,
+                4
+              ],
+              "depth": 1,
+              "pos": "ADJ",
+              "extraMembers": []
+            },
+            "depth": 1
+          }
+        ]
+      ],
+      [
+        4,
+        [
+          {
+            "chunk": {
+              "headSeg": 3,
+              "members": [
+                3,
+                4
+              ],
+              "depth": 1,
+              "pos": "ADJ",
+              "extraMembers": []
+            },
+            "depth": 1
+          }
+        ]
+      ]
+    ],
+    "canonicalChunk": [
+      [
+        0,
+        {
+          "headSeg": 2,
+          "members": [
+            2,
+            1,
+            0
+          ],
+          "depth": 0,
+          "pos": "ROOT",
+          "isRootPhrase": true
+        }
+      ],
+      [
+        1,
+        {
+          "headSeg": 2,
+          "members": [
+            2,
+            1,
+            0
+          ],
+          "depth": 0,
+          "pos": "ROOT",
+          "isRootPhrase": true
+        }
+      ],
+      [
+        2,
+        {
+          "headSeg": 2,
+          "members": [
+            2,
+            1,
+            0
+          ],
+          "depth": 0,
+          "pos": "ROOT",
+          "isRootPhrase": true
+        }
+      ],
+      [
+        3,
+        {
+          "headSeg": 3,
+          "members": [
+            3,
+            4
+          ],
+          "depth": 1,
+          "pos": "ADJ",
+          "extraMembers": []
+        }
+      ],
+      [
+        4,
+        {
+          "headSeg": 3,
+          "members": [
+            3,
+            4
+          ],
+          "depth": 1,
+          "pos": "ADJ",
+          "extraMembers": []
+        }
+      ]
+    ],
+    "children": [
+      [
+        0,
+        []
+      ],
+      [
+        1,
+        []
+      ],
+      [
+        2,
+        [
+          0,
+          1,
+          3
+        ]
+      ],
+      [
+        3,
+        [
+          4
+        ]
+      ],
+      [
+        4,
+        []
+      ]
+    ],
+    "tokenMap": [
+      [
+        0,
+        {
+          "i": 0,
+          "head": 2,
+          "upos": "NOUN",
+          "dep": "obj"
+        }
+      ],
+      [
+        1,
+        {
+          "i": 1,
+          "head": 2,
+          "upos": "PART",
+          "dep": "case"
+        }
+      ],
+      [
+        2,
+        {
+          "i": 2,
+          "head": 2,
+          "upos": "VERB",
+          "dep": "ROOT"
+        }
+      ],
+      [
+        3,
+        {
+          "i": 3,
+          "head": 2,
+          "upos": "ADJ",
+          "dep": "acl"
+        }
+      ],
+      [
+        4,
+        {
+          "i": 4,
+          "head": 3,
+          "upos": "NOUN",
+          "dep": "nsubj"
+        }
+      ]
+    ],
+    "depthOf": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "clauseGroup": [
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        4,
+        1
+      ]
+    ]
+  }
+}

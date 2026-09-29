@@ -1,0 +1,116 @@
+{
+  "source_inventory": [
+    {
+      "file": "wsgi.py",
+      "sha256": "4379c143f2235c46b8fdb046594e037526b9eab82e92d276ac6f8977f6bc195c",
+      "local_imports": [
+        "newserverPDF21split.py"
+      ],
+      "model_load_source": []
+    },
+    {
+      "file": "newserverPDF21split.py",
+      "sha256": "6e8c615a325309daa5205eb79452f82800f19b13c4f971ac3468261e5f8c207d",
+      "local_imports": [
+        "burmese_transliteration.py",
+        "lmbrain.py",
+        "ud_overlay.py"
+      ],
+      "model_load_source": [
+        {
+          "line": 473,
+          "text": "UD_MODEL_PATH = DATA_ROOT / \"model-best\""
+        },
+        {
+          "line": 475,
+          "text": "STANDALONE_NER_MODEL_PATH = Path("
+        },
+        {
+          "line": 477,
+          "text": "\"STANDALONE_NER_MODEL_PATH\","
+        },
+        {
+          "line": 502,
+          "text": "UD_PARSER = UDParser(str(UD_MODEL_PATH))"
+        },
+        {
+          "line": 503,
+          "text": "print(f\"[INFO] UD parser loaded from {UD_MODEL_PATH}\")"
+        },
+        {
+          "line": 634,
+          "text": "STANZA_NER = stanza.Pipeline("
+        },
+        {
+          "line": 636,
+          "text": "processors=\"tokenize,ner\","
+        },
+        {
+          "line": 7443,
+          "text": "cache[model_override] = spacy.load(model_override)"
+        },
+        {
+          "line": 7665,
+          "text": "cache[model_override] = spacy.load(model_override)"
+        },
+        {
+          "line": 8064,
+          "text": "cache[model_override] = spacy.load(model_override)"
+        }
+      ]
+    },
+    {
+      "file": "burmese_transliteration.py",
+      "sha256": "6c33663ee0255aef92f0150a14e857458084743762e576f1021172e1174ade85",
+      "local_imports": [],
+      "model_load_source": []
+    },
+    {
+      "file": "ud_overlay.py",
+      "sha256": "d7b3ecfb392c94b2fd691e3fc41855eeeab100f8589f3145185e507f9710f6ab",
+      "local_imports": [
+        "dict_pos_override.py"
+      ],
+      "model_load_source": [
+        {
+          "line": 228,
+          "text": "def __init__(self, model_path: str):"
+        },
+        {
+          "line": 237,
+          "text": "self.model_path = model_path"
+        },
+        {
+          "line": 238,
+          "text": "self.nlp = spacy.load(model_path)"
+        },
+        {
+          "line": 637,
+          "text": "model_path: str,"
+        },
+        {
+          "line": 645,
+          "text": "parser = UDParser(model_path)"
+        }
+      ]
+    },
+    {
+      "file": "dict_pos_override.py",
+      "sha256": "37784b2840b3f08da5c1f6b504efd0d1ca903239d5fbdf11e98066135139f4e4",
+      "local_imports": [],
+      "model_load_source": []
+    },
+    {
+      "file": "lmbrain.py",
+      "sha256": "20ea71dcae377df4b2022811766a7d87f6bdc228372cf5e4db0e51a3ebb463cd",
+      "local_imports": [],
+      "model_load_source": []
+    }
+  ],
+  "optional_artifact_locations": {
+    "burmese_boundary_bilu_v2/model-best": false,
+    "corpus/boundary_crf.pkl": false,
+    "corpus/burmese_sentence_finalparticle_v3_forcezhaa.crfsuite": false,
+    "standalonener/model-best": false
+  }
+}

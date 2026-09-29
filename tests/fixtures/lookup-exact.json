@@ -1,0 +1,153 @@
+{
+  "display_text": "စာ",
+  "grammar_overlay": {
+    "tokens": []
+  },
+  "lm_overlay": {
+    "edges": [],
+    "phrases": [],
+    "tokens": []
+  },
+  "ok": true,
+  "pos_overlay": {
+    "tokens": []
+  },
+  "pos_overlay_spacy": {},
+  "q": "စာ",
+  "results": [
+    {
+      "dict_fill": [],
+      "dict_fill_has_known": true,
+      "dict_fill_has_unknown": false,
+      "dict_fill_mode": "exact",
+      "g2p": {
+        "overall_roman": "sa",
+        "syllables": [
+          {
+            "base": {
+              "ch": "စ",
+              "label": "consonant",
+              "roman": "s"
+            },
+            "coda_roman": "",
+            "components": [
+              {
+                "ch": "စ",
+                "label": "sa",
+                "roman": "s"
+              },
+              {
+                "ch": "ာ",
+                "label": "a",
+                "roman": "a"
+              }
+            ],
+            "finals": [],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [],
+            "medials": [],
+            "onset_roman": "s",
+            "orth": "စာ",
+            "roman": "sa",
+            "tone": "low",
+            "vowel_roman": "a",
+            "vowels": [
+              {
+                "ch": "ာ",
+                "label": "vowel sign",
+                "roman": ""
+              }
+            ]
+          }
+        ]
+      },
+      "head": "စာ",
+      "meta_pos": "",
+      "pos": "n",
+      "roman": "",
+      "senses": [
+        "custom text"
+      ],
+      "source": "USER"
+    }
+  ],
+  "results_by_seg": [
+    {
+      "dict_fill": [],
+      "dict_fill_has_known": true,
+      "dict_fill_has_unknown": false,
+      "dict_fill_mode": "exact",
+      "g2p": {
+        "overall_roman": "sa",
+        "syllables": [
+          {
+            "base": {
+              "ch": "စ",
+              "label": "consonant",
+              "roman": "s"
+            },
+            "coda_roman": "",
+            "components": [
+              {
+                "ch": "စ",
+                "label": "sa",
+                "roman": "s"
+              },
+              {
+                "ch": "ာ",
+                "label": "a",
+                "roman": "a"
+              }
+            ],
+            "finals": [],
+            "is_burmese": true,
+            "is_minor": false,
+            "marks": [],
+            "medials": [],
+            "onset_roman": "s",
+            "orth": "စာ",
+            "roman": "sa",
+            "tone": "low",
+            "vowel_roman": "a",
+            "vowels": [
+              {
+                "ch": "ာ",
+                "label": "vowel sign",
+                "roman": ""
+              }
+            ]
+          }
+        ]
+      },
+      "head": "စာ",
+      "meta_pos": "",
+      "pos": "n",
+      "roman": "",
+      "senses": [
+        "custom text"
+      ],
+      "source": "USER"
+    }
+  ],
+  "segment_offsets": [
+    [
+      0,
+      2
+    ]
+  ],
+  "segments": [
+    "စာ"
+  ],
+  "ud_overlay": {
+    "doc2seg": [],
+    "edges": [],
+    "error": "exact_only",
+    "ok": false,
+    "roots": [],
+    "seg2doc": [
+      -1
+    ],
+    "tokens": []
+  }
+}

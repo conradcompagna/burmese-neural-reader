@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "kind": "json-records",
+  "original": "chronicle-unknown-words.json",
+  "original_sha256": "daa5f3c2f6f8a0d2891bb0348485b020158725856b29c2b0b3523af029987f54",
+  "original_bytes": 89438,
+  "entries": [
+    {
+      "path": "ranks-0001-1000.json",
+      "sha256": "65c4d9e3da549b22a06eeeabba7ba9f6485a4a9b3f816404c2bd3f57b8e642b7",
+      "bytes": 21990,
+      "first_rank": 1,
+      "records": 1000
+    },
+    {
+      "path": "ranks-1001-2000.json",
+      "sha256": "7116098c0669ec12e521bdbc04f23274b00c002914cb3ace06ee7e7a7e669554",
+      "bytes": 24681,
+      "first_rank": 1001,
+      "records": 1000
+    },
+    {
+      "path": "ranks-2001-3000.json",
+      "sha256": "c06ca86bbf5b6098e856cc8bb7528f9a36a8f55059bb5f1c23dc1bf8f396fa43",
+      "bytes": 25776,
+      "first_rank": 2001,
+      "records": 1000
+    },
+    {
+      "path": "ranks-3001-3702.json",
+      "sha256": "fdd5fb00c8d532e0cbd19a64c2e223623550b11946442c4fba5bdbd67ee331d4",
+      "bytes": 17001,
+      "first_rank": 3001,
+      "records": 702
+    }
+  ]
+}

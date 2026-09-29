@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-09-23",
+  "checkpoint": "model-best",
+  "pipeline": [
+    "tok2vec",
+    "morphologizer",
+    "parser"
+  ],
+  "configuration": "joint_ud_morph_parser_no_ner.cfg",
+  "configuration_relationship": "Matches the deployed configuration apart from equivalent numeric formatting and the vector initialization path; override input/vector paths when rebuilding.",
+  "training": {"seed": 0, "train_documents": 4104, "development_documents": 216, "total_documents": 4320, "dropout": 0.1, "max_steps": 100000, "eval_frequency": 1000},
+  "evaluation": {"kind": "saved development evaluation from deployed checkpoint meta.json", "pos_acc": 0.9691874729398181, "dep_uas": 0.923907177549919, "dep_las": 0.8941256421018969, "sents_f": 0.930116093785568},
+  "vectors": {"width": 300, "vectors": 200000, "keys": 335230, "name": "xx_pipeline.vectors", "mode": "default"},
+  "retained_split_files": [
+    {"name": "train_95.spacy", "documents": 4104, "bytes": 4601869, "sha256": "d5aed379a7ac1c3f3c1d0d677089fbefc862d93b516be96b8ec1ad2921a82505"},
+    {"name": "dev_5.spacy", "documents": 216, "bytes": 251539, "sha256": "c81b9600765400a7197ec8a72c4878f59fafbf4cce58e6983919bd297dc54710"}
+  ],
+  "split_identity_scope": "Fingerprints of the retained files referenced by the deployed configuration, measured on the verification date; the historical trainer did not embed input-file hashes in the checkpoint.",
+  "runtime_versions": {"numpy": "2.2.6", "spacy": "3.8.11", "thinc": "8.3.10", "torch": "2.6.0+cpu", "stanza": "1.11.0", "pyoxigraph": "0.5.9", "gunicorn": "22.0.0"},
+  "ner": {"framework": "Stanza", "package": "ucsy", "tokenizer_in_ner_prepass": "alt", "character_language_models": "oscar", "final_word_segmentation": "dictionary DP with unigram/bigram scoring"},
+  "artifacts": [
+    {"artifact": "model-best/config.cfg", "bytes": 3639, "sha256": "faaefd85adf5305fabb6dfc10e02e08a224d2651eaec57d1d4fd287eb7f6149d"},
+    {"artifact": "model-best/meta.json", "bytes": 2815, "sha256": "0395764139015847546d46a892b7cda6bd8e37071254554645633d1c49b04aa4"},
+    {"artifact": "model-best/morphologizer/cfg", "bytes": 709, "sha256": "3ee213f7a685c38747fd2dc414b6c159a5e15ebc0c93b5de4a18647dc984c0c1"},
+    {"artifact": "model-best/morphologizer/model", "bytes": 7657, "sha256": "ddb801a6ee473e3defa3749241576f86da19c09e9323bf3f312bcf097459634a"},
+    {"artifact": "model-best/parser/cfg", "bytes": 237, "sha256": "e5a89d6eb4a017452db0e9c97e2441dbcd7070a117bd79c924e63a20e0dce606"},
+    {"artifact": "model-best/parser/model", "bytes": 1137521, "sha256": "bb19e47f565e5207261286de4b1c410c5e7e05399cc1e255994dec8d1baf8c75"},
+    {"artifact": "model-best/parser/moves", "bytes": 360, "sha256": "c37280a5c9c54dfd8a354b89a120e54d7a96069f7af8cf61098e08d71893c768"},
+    {"artifact": "model-best/tok2vec/cfg", "bytes": 2, "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"},
+    {"artifact": "model-best/tok2vec/model", "bytes": 43866168, "sha256": "a9d79fe4e6d8c0cf66afa9212317d99f8e922f0346b45fd42ee74749dd225cf1"},
+    {"artifact": "model-best/tokenizer", "bytes": 37695, "sha256": "0b22cd2a783cd6b384c4f370d068c47df6e13f28b9dd84ed1e4ca886bc960d51"},
+    {"artifact": "model-best/vocab/key2row", "bytes": 4540989, "sha256": "b3384c5e5abe396bde867e24029db2c3c931ecd685d5301a372ca3e3ab6c6ed3"},
+    {"artifact": "model-best/vocab/lookups.bin", "bytes": 1, "sha256": "76be8b528d0075f7aae98d6fa57a6d3c83ae480a8469e668d7b0af968995ac71"},
+    {"artifact": "model-best/vocab/strings.json", "bytes": 13875167, "sha256": "9780c13e28f2cb314ccdffe7b7eb0af697dc03c0f360bfee4728470550d8e7fc"},
+    {"artifact": "model-best/vocab/vectors", "bytes": 240000128, "sha256": "37104220a2c2dc5857c895747e7e269fea8571c353ac1c616db27846d0ec0413"},
+    {"artifact": "model-best/vocab/vectors.cfg", "bytes": 25, "sha256": "3e73f507454ab6c2a0907a3c015942fe687ebf19e29a79a9b348c5995ab5480c"},
+    {"artifact": "myWord-main/bigram-word.txt", "bytes": 50364869, "sha256": "2d0a3f3500f1d7950522682e8b3d376ee91880328af3318b857f986ec4e225ca"},
+    {"artifact": "myWord-main/unigram-word.txt", "bytes": 3423802, "sha256": "924e7ce189c161d8ab67e25085e6c7c38b0cccff50eadbfb756f3bcf118a2e8b"},
+    {"artifact": "stanza_resources/my/backward_charlm/oscar.pt", "bytes": 19701012, "sha256": "296ba45e3327f7ea8b9d37994c1dd38c2a32cd0d27b7b473fac8610d160a1de8"},
+    {"artifact": "stanza_resources/my/forward_charlm/oscar.pt", "bytes": 19701011, "sha256": "857c49ac362fc9fcde59891379e36da862fd9a3fdc1c0a9134559cc45d7d600d"},
+    {"artifact": "stanza_resources/my/ner/ucsy.pt", "bytes": 73571011, "sha256": "bbaf834dc6285386eefa4d9ba399e3ac116a90048523fdf5c51f975488bc8020"},
+    {"artifact": "stanza_resources/my/pretrain/ucsy.pt", "bytes": 166728662, "sha256": "47868b971ff27adcf07e4664e82bab44b5edc8472f970ae2e9bbd5c46619e09b"},
+    {"artifact": "stanza_resources/my/tokenize/alt.pt", "bytes": 642065, "sha256": "cb7dfe4794e95ea837a6b18e8b50b5125afb60410991432f79c05ab9d85d3d20"},
+    {"artifact": "stanza_resources/resources.json", "bytes": 439068, "sha256": "e334b4e200aeaa5c1903223de2f3be066f69d3a50a33c70aa1691407628de1ef"}
+  ],
+  "availability": "Weights, vectors, count tables and DocBins are separately provisioned; no artifact contents are included."
+}

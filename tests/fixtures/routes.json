@@ -1,0 +1,312 @@
+[
+  {
+    "rule": "/static/<path:filename>",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "static"
+  },
+  {
+    "rule": "/debug/memory",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_memory"
+  },
+  {
+    "rule": "/debug/memory_ui",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_memory_ui"
+  },
+  {
+    "rule": "/lookup",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "lookup"
+  },
+  {
+    "rule": "/lookup_dp_only",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "lookup_dp_only"
+  },
+  {
+    "rule": "/api/fuzzy_smart",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_fuzzy_smart"
+  },
+  {
+    "rule": "/api/user_dict/add",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_add_user_dict_entry"
+  },
+  {
+    "rule": "/api/text_override/add",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_add_text_override"
+  },
+  {
+    "rule": "/api/custom_entries/list",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "api_list_custom_entries"
+  },
+  {
+    "rule": "/api/user_dict/update",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_update_user_dict_entry"
+  },
+  {
+    "rule": "/api/user_dict/delete",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_delete_user_dict_entry"
+  },
+  {
+    "rule": "/api/text_override/update",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_update_text_override"
+  },
+  {
+    "rule": "/api/text_override/delete",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_delete_text_override"
+  },
+  {
+    "rule": "/segment",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "segment_only"
+  },
+  {
+    "rule": "/api/close_pdf",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_close_pdf"
+  },
+  {
+    "rule": "/api/serve_pdf/<cache_id>",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "api_serve_pdf"
+  },
+  {
+    "rule": "/api/pdf_page_text",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_pdf_page_text"
+  },
+  {
+    "rule": "/api/extract_text",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_extract_text"
+  },
+  {
+    "rule": "/api/extract_text_from_text",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_extract_text_from_text"
+  },
+  {
+    "rule": "/api/extract_text_simple",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_extract_text_simple"
+  },
+  {
+    "rule": "/api/extract_text_simple_from_text",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_extract_text_simple_from_text"
+  },
+  {
+    "rule": "/api/docx_to_pdf",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_docx_to_pdf"
+  },
+  {
+    "rule": "/api/render_pdf_pages",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_render_pdf_pages"
+  },
+  {
+    "rule": "/debug_ud_parser",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "debug_ud_parser"
+  },
+  {
+    "rule": "/debug_ud_parser_ui",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_ud_parser_ui"
+  },
+  {
+    "rule": "/debug/parser",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_parser_route"
+  },
+  {
+    "rule": "/debug/displacy",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_displacy_route"
+  },
+  {
+    "rule": "/segment_text",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "segment_text"
+  },
+  {
+    "rule": "/segment_debug",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "segment_debug"
+  },
+  {
+    "rule": "/debug/dict_check",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_dict_check"
+  },
+  {
+    "rule": "/subsegments",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "subsegments"
+  },
+  {
+    "rule": "/debug/pos",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_pos"
+  },
+  {
+    "rule": "/debug/spell",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "endpoint": "debug_spell"
+  },
+  {
+    "rule": "/debug/unknowns_summary",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "debug_unknowns_summary"
+  },
+  {
+    "rule": "/annotation",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "endpoint": "annotation_endpoint"
+  },
+  {
+    "rule": "/api/reading_srs/next_card",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "api_reading_srs_next_card"
+  },
+  {
+    "rule": "/api/reading_srs/grade",
+    "methods": [
+      "POST"
+    ],
+    "endpoint": "api_reading_srs_grade"
+  },
+  {
+    "rule": "/ping",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "ping"
+  },
+  {
+    "rule": "/whitespace_boundaries.js",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "whitespace_boundaries_js"
+  },
+  {
+    "rule": "/myudtree.conllu",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "myudtree_conllu"
+  },
+  {
+    "rule": "/myudtree.meta",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "myudtree_meta"
+  },
+  {
+    "rule": "/myudtree.sentence",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "myudtree_sentence"
+  },
+  {
+    "rule": "/",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "index"
+  },
+  {
+    "rule": "/reader",
+    "methods": [
+      "GET"
+    ],
+    "endpoint": "reader_page"
+  }
+]

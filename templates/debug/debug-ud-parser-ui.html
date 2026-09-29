@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="utf-8">
+  <title>UD Parser Debug</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 16px; line-height: 1.5; }
+    textarea { width: 100%; height: 140px; font-size: 16px; }
+    pre { background: #f4f4f4; padding: 12px; white-space: pre-wrap; }
+    .controls { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h2>UD Parser Debug</h2>
+  <label for="inputText">Input text:</label><br>
+  <textarea id="inputText" placeholder="Enter Burmese text..."></textarea>
+  <div class="controls">
+    <label><input type="checkbox" id="rawMode"> Parse raw (bypass segmentation)</label>
+  </div>
+  <div class="controls">
+    <label><input type="checkbox" id="stanzaSeg"> Use Stanza tokenizer</label>
+  </div>
+  <div class="controls">
+    <label for="modelPath">spaCy model (optional name/path):</label><br>
+    <input id="modelPath" style="width:100%; font-size:16px;" placeholder="e.g. model-best or en_core_web_sm"/>
+  </div>
+  <button id="runBtn">Run parser</button>
+  <div id="status"></div>
+  <h3>Result</h3>
+  <pre id="result"></pre>
+  <h3>Sentence Segmentation</h3>
+  <pre id="sentences"></pre>
+  <script>
+    const btn = document.getElementById('runBtn');
+    const result = document.getElementById('result');
+    const sentEl = document.getElementById('sentences');
+    const status = document.getElementById('status');
+    btn.onclick = async () => {
+      const text = document.getElementById('inputText').value;
+      const raw = document.getElementById('rawMode').checked;
+      const stanzaSegmenter = document.getElementById('stanzaSeg').checked;
+      const model = document.getElementById('modelPath').value;
+      status.textContent = 'Running...';
+      result.textContent = '';
+      sentEl.textContent = '';
+      try {
+        const resp = await fetch('/debug_ud_parser', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, raw, model, stanza_segmenter: stanzaSegmenter })
+        });
+        const data = await resp.json();
+        status.textContent = 'HTTP ' + resp.status;
+        result.textContent = JSON.stringify(data, null, 2);
+        if (data && data.sentences && Array.isArray(data.sentences)) {
+          sentEl.textContent = data.sentences.map(s => `${s.i + 1}. [${s.start},${s.end}) ${s.text}`).join("\n\n");
+        } else {
+          sentEl.textContent = '(no sentence boundaries returned)';
+        }
+      } catch (e) {
+        status.textContent = 'Error: ' + e;
+      }
+    };
+    </script>
+</body>
+</html>

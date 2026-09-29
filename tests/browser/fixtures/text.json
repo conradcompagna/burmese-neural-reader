@@ -1,0 +1,110 @@
+[
+  {
+    "text": "စာ",
+    "isMyanmar": [
+      true,
+      true
+    ],
+    "combining": [
+      false,
+      true
+    ],
+    "base": true,
+    "dotted": false
+  },
+  {
+    "text": "က္က",
+    "isMyanmar": [
+      true,
+      true,
+      true
+    ],
+    "combining": [
+      false,
+      true,
+      false
+    ],
+    "base": true,
+    "dotted": false
+  },
+  {
+    "text": "်",
+    "isMyanmar": [
+      true
+    ],
+    "combining": [
+      true
+    ],
+    "base": false,
+    "dotted": true
+  },
+  {
+    "text": "x",
+    "isMyanmar": [
+      false
+    ],
+    "combining": [
+      false
+    ],
+    "base": false,
+    "dotted": false
+  },
+  {
+    "text": "ꩠ",
+    "isMyanmar": [
+      true
+    ],
+    "combining": [
+      false
+    ],
+    "base": false,
+    "dotted": false
+  },
+  {
+    "text": "စာ​",
+    "isMyanmar": [
+      true,
+      true,
+      false
+    ],
+    "combining": [
+      false,
+      true,
+      false
+    ],
+    "base": true,
+    "dotted": false
+  },
+  {
+    "text": "ေကာင်း",
+    "isMyanmar": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "combining": [
+      true,
+      false,
+      true,
+      false,
+      true,
+      true
+    ],
+    "base": true,
+    "dotted": false
+  },
+  {
+    "text": "။",
+    "isMyanmar": [
+      true
+    ],
+    "combining": [
+      false
+    ],
+    "base": false,
+    "dotted": false
+  }
+]

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>UD Tree Viewer</title>
+<style>
+  body { font-family: sans-serif; margin: 10px; }
+  #controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+  #viewport {
+    border: 1px solid #aaa;
+    width: 100%;
+    height: 85vh;
+    overflow: auto;
+    background: #fff;
+  }
+  #sentence {
+    font-size: 14px;
+    margin: 6px 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  canvas { display: block; }
+  .tooltip {
+    position: absolute;
+    background: #222;
+    color: #fff;
+    padding: 4px 6px;
+    font-size: 12px;
+    border-radius: 3px;
+    pointer-events: none;
+    display: none;
+  }
+  input[type="number"] { width: 90px; }
+</style>
+</head>
+<body>
+
+<div id="controls">
+  <button id="prevBtn">Prev</button>
+  <button id="nextBtn">Next</button>
+  <span>Sentence #</span>
+  <input id="treeNum" type="number" min="1" />
+  <button id="loadBtn">Load</button>
+  <span id="info"></span>
+</div>
+
+<div id="sentence"></div>
+
+<div id="viewport">
+  <canvas id="canvas"></canvas>
+</div>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const FILE = "myUDTree_ver1.0.conllu.pred";
+
+const viewport = document.getElementById("viewport");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const tooltip = document.getElementById("tooltip");
+const info = document.getElementById("info");
+const sentLine = document.getElementById("sentence");
+
+const treeNumEl = document.getElementById("treeNum");
+const loadBtn = document.getElementById("loadBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+let trees = [];
+let curIdx = 1;
+
+const CFG = {
+  LEFT: 40,
+  TOP: 30,
+  GAP: 34,           // extra room between tokens
+  LABEL_Y: 18,       // label offset under node
+  NODE_R: 4,
+  Y_STEP: 90,        // vertical spacing per depth
+  EDGE_LIFT: 0.18,   // arc height factor vs horizontal distance
+  EDGE_MIN_LIFT: 24
+};
+
+async function loadConllu(){
+  const txt = await fetch(FILE).then(r => r.text());
+  trees = txt.trim().split(/\n\s*\n/).map(block =>
+    block.split("\n")
+      .filter(l => /^\d+\t/.test(l))               // ignore comments, multiword tokens, empty nodes
+      .map(l => {
+        const f = l.split("\t");
+        return { id:+f[0], form:f[1], upos:f[3], head:+f[6], deprel:f[7] };
+      })
+  );
+  info.textContent = `(${trees.length} sentences)`;
+  treeNumEl.max = trees.length;
+}
+
+function buildDepths(nodes){
+  const byId = new Map(nodes.map(n => [n.id, n]));
+  const memo = new Map();
+
+  function depth(id){
+    if(id === 0) return 0;
+    if(memo.has(id)) return memo.get(id);
+    const n = byId.get(id);
+    const d = 1 + depth(n.head);
+    memo.set(id, d);
+    return d;
+  }
+
+  let maxD = 0;
+  nodes.forEach(n => { maxD = Math.max(maxD, depth(n.id)); });
+  return { depth, maxD, byId };
+}
+
+// “Readable” layout: x positions follow real token text widths in left-to-right order
+function layoutTokens(nodes, depthFn, maxD){
+  ctx.font = "14px sans-serif";
+
+  let xCursor = CFG.LEFT;
+  for (const t of nodes){
+    const w = ctx.measureText(t.form).width;
+    t.w = w;
+    t.x = xCursor + w/2;
+    t.y = CFG.TOP + depthFn(t.id) * CFG.Y_STEP;
+    xCursor += w + CFG.GAP;
+  }
+
+  const neededW = xCursor + CFG.LEFT;
+  const neededH = CFG.TOP + (maxD * CFG.Y_STEP) + 80;
+
+  canvas.width  = Math.max(viewport.clientWidth, neededW);
+  canvas.height = Math.max(viewport.clientHeight, neededH);
+}
+
+function quadEdge(x1,y1,x2,y2){
+  const dx = Math.abs(x2 - x1);
+  const lift = Math.max(CFG.EDGE_MIN_LIFT, dx * CFG.EDGE_LIFT);
+  const cx = (x1 + x2) / 2;
+  const cy = Math.min(y1, y2) - lift;
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.quadraticCurveTo(cx,cy,x2,y2);
+  ctx.stroke();
+}
+
+function drawTree(idx){
+  if(idx < 1 || idx > trees.length) return;
+  curIdx = idx;
+
+  const nodes = trees[idx-1];
+  const { depth, maxD, byId } = buildDepths(nodes);
+
+  layoutTokens(nodes, depth, maxD);
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // sentence line
+  sentLine.textContent = nodes.map(t => t.form).join(" ");
+
+  // edges
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = "#555";
+  for (const t of nodes){
+    if(t.head > 0){
+      const h = byId.get(t.head);
+      quadEdge(h.x, h.y, t.x, t.y);
+    }
+  }
+
+  // nodes + labels
+  ctx.fillStyle = "#000";
+  ctx.font = "14px sans-serif";
+  for (const t of nodes){
+    ctx.beginPath();
+    ctx.arc(t.x, t.y, CFG.NODE_R, 0, Math.PI*2);
+    ctx.fill();
+
+    const labelX = t.x - (t.w/2);
+    const labelY = t.y + CFG.LABEL_Y;
+    ctx.fillText(t.form, labelX, labelY);
+  }
+
+  // hover
+  canvas.onmousemove = (e) => {
+    const r = canvas.getBoundingClientRect();
+    const mx = e.clientX - r.left + viewport.scrollLeft;
+    const my = e.clientY - r.top + viewport.scrollTop;
+
+    let hit = null;
+    for (const t of nodes){
+      const d2 = (mx - t.x)**2 + (my - t.y)**2;
+      if(d2 < 64){ hit = t; break; }
+    }
+
+    if(hit){
+      tooltip.style.display = "block";
+      tooltip.style.left = (e.pageX + 10) + "px";
+      tooltip.style.top  = (e.pageY + 10) + "px";
+      tooltip.textContent = `${hit.form}  |  ${hit.upos}  |  ${hit.deprel}  |  head=${hit.head}`;
+    } else {
+      tooltip.style.display = "none";
+    }
+  };
+
+  treeNumEl.value = String(curIdx);
+
+  // keep current token area in view (nice when jumping)
+  viewport.scrollLeft = 0;
+  viewport.scrollTop = 0;
+}
+
+async function go(n){
+  if(!trees.length) await loadConllu();
+  drawTree(n);
+}
+
+loadBtn.onclick = () => go(+treeNumEl.value || 1);
+prevBtn.onclick = () => go(Math.max(1, curIdx - 1));
+nextBtn.onclick = () => go(Math.min(trees.length, curIdx + 1));
+
+treeNumEl.addEventListener("keydown", (e) => {
+  if(e.key === "Enter") go(+treeNumEl.value || 1);
+});
+
+// auto-load first tree
+go(1);
+</script>
+
+</body>
+</html>

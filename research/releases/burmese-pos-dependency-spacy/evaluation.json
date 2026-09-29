@@ -1,0 +1,150 @@
+{
+  "pipeline": [
+    "tok2vec",
+    "morphologizer",
+    "parser"
+  ],
+  "model_origin": "Conrad Compagna custom training on myUDTree v1.0 annotations",
+  "source": {
+    "path": "source/myUDTree_ver1.0.conllu.pred.jsonl",
+    "sha256": "a1a5086d4e4e7618922127215807503e6e1877b2b408d2b998c3dff49df89d88",
+    "sentences": 43196,
+    "tokens": 564507,
+    "consecutive_groups_of_10": 4320,
+    "matched_selected_documents": 4320
+  },
+  "partitions": {
+    "selected_train": {
+      "file": "corpus/train_95.spacy",
+      "sha256": "d5aed379a7ac1c3f3c1d0d677089fbefc862d93b516be96b8ec1ad2921a82505",
+      "documents": 4104,
+      "tokens": 536791,
+      "sentence_boundaries": 41036,
+      "document_sentence_counts": {
+        "10": 4103,
+        "6": 1
+      }
+    },
+    "selected_dev": {
+      "file": "corpus/dev_5.spacy",
+      "sha256": "c81b9600765400a7197ec8a72c4878f59fafbf4cce58e6983919bd297dc54710",
+      "documents": 216,
+      "tokens": 27716,
+      "sentence_boundaries": 2160,
+      "document_sentence_counts": {
+        "10": 216
+      }
+    }
+  },
+  "annotation_identity": {
+    "documents_checked": 4320,
+    "documents_matching_source_tokens_POS_dependencies_boundaries": 4320
+  },
+  "saved_development_metrics": {
+    "pos_acc": 0.9691874729398181,
+    "morph_acc": 0.0,
+    "morph_per_feat": 0.0,
+    "dep_uas": 0.923907177549919,
+    "dep_las": 0.8941256421018969,
+    "dep_las_per_type": {
+      "compound": {
+        "p": 0.8145882352941176,
+        "r": 0.8138222849083215,
+        "f": 0.8142050799623707
+      },
+      "obl": {
+        "p": 0.8534354392682408,
+        "r": 0.8622394154309048,
+        "f": 0.857814838571734
+      },
+      "case": {
+        "p": 0.956580900544285,
+        "r": 0.9505838967424708,
+        "f": 0.9535729699734878
+      },
+      "advmod": {
+        "p": 0.8057553956834532,
+        "r": 0.7887323943661971,
+        "f": 0.797153024911032
+      },
+      "acl": {
+        "p": 0.8391472868217055,
+        "r": 0.8045336306205871,
+        "f": 0.8214760007588693
+      },
+      "mark": {
+        "p": 0.9117308798159862,
+        "r": 0.9326470588235294,
+        "f": 0.9220703692933993
+      },
+      "root": {
+        "p": 0.9256605463502016,
+        "r": 0.9569444444444445,
+        "f": 0.941042567721375
+      },
+      "amod": {
+        "p": 0.845945945945946,
+        "r": 0.8413978494623656,
+        "f": 0.8436657681940701
+      },
+      "nummod": {
+        "p": 0.8413284132841329,
+        "r": 0.8460111317254174,
+        "f": 0.8436632747456059
+      },
+      "nmod": {
+        "p": 0.6811594202898551,
+        "r": 0.5465116279069767,
+        "f": 0.6064516129032258
+      }
+    },
+    "sents_p": 0.9149126735333631,
+    "sents_r": 0.9458333333333333,
+    "sents_f": 0.930116093785568,
+    "tok2vec_loss": 56340.324038690655,
+    "morphologizer_loss": 22737.99054479599,
+    "parser_loss": 156748.46875
+  },
+  "development_reevaluation": {
+    "performed": "2026-09-24",
+    "spacy": "3.8.11",
+    "documents": 216,
+    "elapsed_seconds": 6.834078899933957,
+    "current_scores": {
+      "pos_acc": 0.9691874729398181,
+      "dep_uas": 0.923907177549919,
+      "dep_las": 0.8941256421018969,
+      "sents_p": 0.9149126735333631,
+      "sents_r": 0.9458333333333333,
+      "sents_f": 0.930116093785568
+    },
+    "saved_scores": {
+      "pos_acc": 0.9691874729398181,
+      "dep_uas": 0.923907177549919,
+      "dep_las": 0.8941256421018969,
+      "sents_p": 0.9149126735333631,
+      "sents_r": 0.9458333333333333,
+      "sents_f": 0.930116093785568
+    },
+    "difference": {
+      "pos_acc": 0.0,
+      "dep_uas": 0.0,
+      "dep_las": 0.0,
+      "sents_p": 0.0,
+      "sents_r": 0.0,
+      "sents_f": 0.0
+    },
+    "scope": "Same retained development DocBin; this is a verification of saved evaluation, not a new test split."
+  },
+  "vectors": {
+    "source": "fastText cc.my.300 Common Crawl/Wikipedia",
+    "license": "CC BY-SA 3.0",
+    "source_sha256": "7810d202899d3ca3e1256eaf7901f18f2eea1c02197f86ae2baa2d22e803987f",
+    "rows": 200000,
+    "dimensions": 300,
+    "source_rows_verified_identical": 200000
+  },
+  "other_runtime_neural_components": {
+    "Stanza tokenize/NER": "upstream ALT/UCSY models; final application segmentation is dictionary DP plus unigram/bigram scoring"
+  }
+}

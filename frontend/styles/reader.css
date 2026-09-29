@@ -1,0 +1,13 @@
+/* Preserve the original cascade order. */
+@import './base.css';
+@import './navigation.css';
+@import './hero.css';
+@import './controls.css';
+@import './pdf.css';
+@import './documents.css';
+@import './dependencies.css';
+@import './dictionary.css';
+@import './pronunciation.css';
+@import './popups.css';
+@import './flashcards.css';
+@import './legend.css';

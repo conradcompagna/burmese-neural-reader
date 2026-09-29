@@ -1,0 +1,76 @@
+{
+  "text": "# text = စာဖတ်\n1\tစာ\tစာ\tNOUN\t_\t_\t2\tobj\t_\t_\n2\tဖတ်\tဖတ်\tVERB\t_\t_\t0\troot\t_\t_\n\n1\tစာ\tစာ\tNOUN\t_\t_\t0\troot\t_\t_\n",
+  "expected": {
+    "segments": [
+      "စာ",
+      "ဖတ်",
+      "စာ"
+    ],
+    "udOverlay": {
+      "ok": true,
+      "tokens": [
+        {
+          "i": 0,
+          "doc_i": 0,
+          "text": "စာ",
+          "upos": "NOUN",
+          "tag": "",
+          "dep": "obj",
+          "head": 1
+        },
+        {
+          "i": 1,
+          "doc_i": 1,
+          "text": "ဖတ်",
+          "upos": "VERB",
+          "tag": "",
+          "dep": "root",
+          "head": 1
+        },
+        {
+          "i": 2,
+          "doc_i": 2,
+          "text": "စာ",
+          "upos": "NOUN",
+          "tag": "",
+          "dep": "root",
+          "head": 2
+        }
+      ],
+      "edges": [
+        {
+          "from": 1,
+          "to": 0,
+          "dep": "obj",
+          "upos": "NOUN"
+        }
+      ],
+      "roots": [
+        1,
+        2
+      ],
+      "ents": [],
+      "doc2seg": [
+        0,
+        1,
+        2
+      ],
+      "seg2doc": [
+        0,
+        1,
+        2
+      ],
+      "sentences": [
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    "originalText": "စာဖတ်စာ"
+  }
+}

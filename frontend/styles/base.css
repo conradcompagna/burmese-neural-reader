@@ -1,0 +1,39 @@
+:root {
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+}
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  background: #f3f4f6;
+  color: #111827;
+  display: flex;
+  min-height: 100vh;
+  padding-top: 36px;
+}
+/* Ensure consistent font across UI elements (excluding textarea for Burmese text) */
+button,
+input,
+select,
+label,
+span,
+div,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+}
